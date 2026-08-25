@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@layer base {
+  /* Percentage heights need an unbroken chain to resolve against.
+     Without this, `h-full` on any descendant collapses to zero. */
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    overflow: hidden; /* the canvas owns the viewport, so no scrollbars */
+  }
+}
