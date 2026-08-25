@@ -1,0 +1,52 @@
+{
+  "slug": "moving-average",
+  "title": "Moving Average",
+  "difficulty": 3,
+  "function": "moving_average",
+  "signature": "def moving_average(nums, k):",
+  "statement": "Return the average of every window of `k` consecutive numbers, left to right.\n\n- The result has `len(nums) - k + 1` entries.\n- If `k` is larger than the list, or `k` is zero or negative, return an empty list.\n- Results are floats. **Small floating-point differences are accepted** \u2014 a running\n  sum and a fresh sum per window will not agree to the last bit, and both are correct.\n\n```\nmoving_average([1, 2, 3, 4], 2)     ->  [1.5, 2.5, 3.5]\nmoving_average([1, 2, 3], 3)        ->  [2.0]\nmoving_average([1, 2], 5)           ->  []\n```",
+  "starter": "def moving_average(nums, k):\n    # your code here\n    pass\n",
+  "unordered": false,
+  "sampleCases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3,
+          4
+        ],
+        2
+      ],
+      "expected": [
+        1.5,
+        2.5,
+        3.5
+      ]
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        3
+      ],
+      "expected": [
+        2.0
+      ]
+    },
+    {
+      "args": [
+        [
+          1,
+          2
+        ],
+        5
+      ],
+      "expected": []
+    }
+  ],
+  "hiddenCaseCount": 15
+}

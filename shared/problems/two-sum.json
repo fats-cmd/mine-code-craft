@@ -1,0 +1,53 @@
+{
+  "slug": "two-sum",
+  "title": "Two Sum",
+  "difficulty": 1,
+  "function": "two_sum",
+  "signature": "def two_sum(nums, target):",
+  "statement": "Given a list of integers and a target, find the two numbers that add up to the\ntarget and return **their indices** in ascending order.\n\n- At most one pair sums to the target, so there is never a tie to break.\n- If no pair sums to the target, return an empty list.\n- The same element cannot be used twice.\n\n```\ntwo_sum([2, 7, 11, 15], 9)  ->  [0, 1]\ntwo_sum([3, 2, 4], 6)       ->  [1, 2]\ntwo_sum([1, 2, 3], 100)     ->  []\n```",
+  "starter": "def two_sum(nums, target):\n    # your code here\n    pass\n",
+  "unordered": false,
+  "sampleCases": [
+    {
+      "args": [
+        [
+          2,
+          7,
+          11,
+          15
+        ],
+        9
+      ],
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "args": [
+        [
+          3,
+          2,
+          4
+        ],
+        6
+      ],
+      "expected": [
+        1,
+        2
+      ]
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        100
+      ],
+      "expected": []
+    }
+  ],
+  "hiddenCaseCount": 10
+}

@@ -1,0 +1,37 @@
+{
+  "slug": "balanced-brackets",
+  "title": "Balanced Brackets",
+  "difficulty": 1,
+  "function": "is_balanced",
+  "signature": "def is_balanced(s):",
+  "statement": "Return `True` if every bracket in the string is closed by the matching kind, in the\nright order, and `False` otherwise.\n\n- The three pairs are `()`, `[]` and `{}`.\n- **Any character that is not a bracket is ignored**, so `\"a(b)c\"` is balanced.\n- The empty string is balanced.\n\n```\nis_balanced(\"([]{})\")   ->  True\nis_balanced(\"([)]\")     ->  False\nis_balanced(\"(\")        ->  False\nis_balanced(\"f(x[0])\")  ->  True\n```",
+  "starter": "def is_balanced(s):\n    # your code here\n    pass\n",
+  "unordered": false,
+  "sampleCases": [
+    {
+      "args": [
+        "([]{})"
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        "([)]"
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        "("
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        "f(x[0])"
+      ],
+      "expected": true
+    }
+  ],
+  "hiddenCaseCount": 12
+}

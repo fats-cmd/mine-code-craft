@@ -1,0 +1,232 @@
+{
+  "slug": "group-anagrams",
+  "unordered": true,
+  "hiddenCases": [
+    {
+      "args": [
+        [
+          ""
+        ]
+      ],
+      "expected": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "",
+          ""
+        ]
+      ],
+      "expected": [
+        [
+          "",
+          ""
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "ab",
+          "ba"
+        ]
+      ],
+      "expected": [
+        [
+          "ab",
+          "ba"
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "Ab",
+          "ba"
+        ]
+      ],
+      "expected": [
+        [
+          "Ab"
+        ],
+        [
+          "ba"
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "abc",
+          "cba",
+          "bac",
+          "xyz"
+        ]
+      ],
+      "expected": [
+        [
+          "abc",
+          "bac",
+          "cba"
+        ],
+        [
+          "xyz"
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "dog",
+          "god",
+          "cat",
+          "act",
+          "tac"
+        ]
+      ],
+      "expected": [
+        [
+          "dog",
+          "god"
+        ],
+        [
+          "act",
+          "cat",
+          "tac"
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "listen",
+          "silent",
+          "enlist",
+          "google"
+        ]
+      ],
+      "expected": [
+        [
+          "enlist",
+          "listen",
+          "silent"
+        ],
+        [
+          "google"
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "aa",
+          "aa",
+          "aa"
+        ]
+      ],
+      "expected": [
+        [
+          "aa",
+          "aa",
+          "aa"
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "one",
+          "two",
+          "three",
+          "four"
+        ]
+      ],
+      "expected": [
+        [
+          "one"
+        ],
+        [
+          "two"
+        ],
+        [
+          "three"
+        ],
+        [
+          "four"
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "aab",
+          "aba",
+          "baa",
+          "abb",
+          "bab",
+          "bba"
+        ]
+      ],
+      "expected": [
+        [
+          "aab",
+          "aba",
+          "baa"
+        ],
+        [
+          "abb",
+          "bab",
+          "bba"
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "x",
+          "y",
+          "z",
+          "x",
+          "y",
+          "z"
+        ]
+      ],
+      "expected": [
+        [
+          "x",
+          "x"
+        ],
+        [
+          "y",
+          "y"
+        ],
+        [
+          "z",
+          "z"
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "stressed",
+          "desserts",
+          "dessert"
+        ]
+      ],
+      "expected": [
+        [
+          "desserts",
+          "stressed"
+        ],
+        [
+          "dessert"
+        ]
+      ]
+    }
+  ]
+}

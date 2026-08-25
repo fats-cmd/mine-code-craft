@@ -1,0 +1,37 @@
+{
+  "slug": "run-length-encode",
+  "title": "Run-Length Encode",
+  "difficulty": 2,
+  "function": "encode",
+  "signature": "def encode(s):",
+  "statement": "Compress a string by replacing each run of identical characters with the character\nfollowed by the length of the run.\n\n- **Every run gets a count, including runs of length 1** \u2014 `\"abc\"` becomes `\"a1b1c1\"`,\n  not `\"abc\"`.\n- Runs of length 10 or more use the full number: ten `a`s become `\"a10\"`.\n- The empty string encodes to the empty string.\n- Characters are case-sensitive: `\"aA\"` is two runs.\n\n```\nencode(\"aaabbc\")  ->  \"a3b2c1\"\nencode(\"abc\")     ->  \"a1b1c1\"\nencode(\"\")        ->  \"\"\nencode(\"aA\")      ->  \"a1A1\"\n```",
+  "starter": "def encode(s):\n    # your code here\n    pass\n",
+  "unordered": false,
+  "sampleCases": [
+    {
+      "args": [
+        "aaabbc"
+      ],
+      "expected": "a3b2c1"
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "expected": "a1b1c1"
+    },
+    {
+      "args": [
+        ""
+      ],
+      "expected": ""
+    },
+    {
+      "args": [
+        "aA"
+      ],
+      "expected": "a1A1"
+    }
+  ],
+  "hiddenCaseCount": 12
+}

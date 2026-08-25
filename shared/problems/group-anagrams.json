@@ -1,0 +1,57 @@
+{
+  "slug": "group-anagrams",
+  "title": "Group Anagrams",
+  "difficulty": 4,
+  "function": "group_anagrams",
+  "signature": "def group_anagrams(words):",
+  "statement": "Group the words that are anagrams of each other. Return a list of groups.\n\n- Two words are anagrams if they use exactly the same letters the same number of times.\n- **Each group must be sorted alphabetically**, so a group is always written the same way.\n- The **order of the groups does not matter** \u2014 return them however they fall out.\n- Comparison is case-sensitive: `\"Ab\"` and `\"ba\"` are not anagrams.\n- Duplicate words stay duplicated inside their group.\n\n```\ngroup_anagrams([\"eat\", \"tea\", \"tan\", \"ate\", \"nat\", \"bat\"])\n  ->  [[\"ate\", \"eat\", \"tea\"], [\"nat\", \"tan\"], [\"bat\"]]      (in any group order)\n\ngroup_anagrams([])       ->  []\ngroup_anagrams([\"a\"])    ->  [[\"a\"]]\n```",
+  "starter": "def group_anagrams(words):\n    # your code here\n    pass\n",
+  "unordered": true,
+  "sampleCases": [
+    {
+      "args": [
+        [
+          "eat",
+          "tea",
+          "tan",
+          "ate",
+          "nat",
+          "bat"
+        ]
+      ],
+      "expected": [
+        [
+          "ate",
+          "eat",
+          "tea"
+        ],
+        [
+          "nat",
+          "tan"
+        ],
+        [
+          "bat"
+        ]
+      ]
+    },
+    {
+      "args": [
+        []
+      ],
+      "expected": []
+    },
+    {
+      "args": [
+        [
+          "a"
+        ]
+      ],
+      "expected": [
+        [
+          "a"
+        ]
+      ]
+    }
+  ],
+  "hiddenCaseCount": 12
+}

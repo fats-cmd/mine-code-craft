@@ -1,0 +1,90 @@
+{
+  "slug": "longest-unique-substring",
+  "unordered": false,
+  "hiddenCases": [
+    {
+      "args": [
+        "a"
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        "aa"
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        "ab"
+      ],
+      "expected": 2
+    },
+    {
+      "args": [
+        "abcdefghij"
+      ],
+      "expected": 10
+    },
+    {
+      "args": [
+        "abba"
+      ],
+      "expected": 2
+    },
+    {
+      "args": [
+        "tmmzuxt"
+      ],
+      "expected": 5
+    },
+    {
+      "args": [
+        "dvdf"
+      ],
+      "expected": 3
+    },
+    {
+      "args": [
+        "aAbBcC"
+      ],
+      "expected": 6
+    },
+    {
+      "args": [
+        "a b c a b"
+      ],
+      "expected": 3
+    },
+    {
+      "args": [
+        "!@#!@#"
+      ],
+      "expected": 3
+    },
+    {
+      "args": [
+        "0123456789012"
+      ],
+      "expected": 10
+    },
+    {
+      "args": [
+        "abcdeafghij"
+      ],
+      "expected": 10
+    },
+    {
+      "args": [
+        "thequickbrownfox"
+      ],
+      "expected": 14
+    },
+    {
+      "args": [
+        "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"
+      ],
+      "expected": 1
+    }
+  ]
+}

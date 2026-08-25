@@ -1,0 +1,78 @@
+{
+  "slug": "balanced-brackets",
+  "unordered": false,
+  "hiddenCases": [
+    {
+      "args": [
+        ""
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        ")"
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        "]("
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        "(("
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        "))"
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        "{[()]}"
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        "{[(])}"
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        "no brackets at all"
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        "(((((((((())))))))))"
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        "(]"
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        "a(b[c{d}e]f)g"
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        "([{}])(]"
+      ],
+      "expected": false
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "slug": "word-frequency",
+  "title": "Word Frequency",
+  "difficulty": 2,
+  "function": "word_frequency",
+  "signature": "def word_frequency(text):",
+  "statement": "Count how many times each word appears in the text, and return a dictionary mapping\nword to count.\n\n- A **word is a maximal run of ASCII letters** (`a`\u2013`z`, `A`\u2013`Z`). Everything else \u2014\n  digits, spaces, punctuation, apostrophes \u2014 is a separator. So `\"don't\"` is the two\n  words `don` and `t`, and `\"h2o\"` is `h` and `o`.\n- Counting is **case-insensitive**, and keys in the result are **lowercase**.\n- Text with no letters gives an empty dictionary.\n\n```\nword_frequency(\"the cat the\")   ->  {\"the\": 2, \"cat\": 1}\nword_frequency(\"Hi, hi. HI!\")   ->  {\"hi\": 3}\nword_frequency(\"123 456\")       ->  {}\n```\n\nThe order of keys in your dictionary does not matter.",
+  "starter": "def word_frequency(text):\n    # your code here\n    pass\n",
+  "unordered": false,
+  "sampleCases": [
+    {
+      "args": [
+        "the cat the"
+      ],
+      "expected": {
+        "the": 2,
+        "cat": 1
+      }
+    },
+    {
+      "args": [
+        "Hi, hi. HI!"
+      ],
+      "expected": {
+        "hi": 3
+      }
+    },
+    {
+      "args": [
+        "123 456"
+      ],
+      "expected": {}
+    }
+  ],
+  "hiddenCaseCount": 12
+}

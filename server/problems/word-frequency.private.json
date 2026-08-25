@@ -1,0 +1,118 @@
+{
+  "slug": "word-frequency",
+  "unordered": false,
+  "hiddenCases": [
+    {
+      "args": [
+        ""
+      ],
+      "expected": {}
+    },
+    {
+      "args": [
+        "a"
+      ],
+      "expected": {
+        "a": 1
+      }
+    },
+    {
+      "args": [
+        "a a a a a"
+      ],
+      "expected": {
+        "a": 5
+      }
+    },
+    {
+      "args": [
+        "one two three"
+      ],
+      "expected": {
+        "one": 1,
+        "two": 1,
+        "three": 1
+      }
+    },
+    {
+      "args": [
+        "don't stop"
+      ],
+      "expected": {
+        "don": 1,
+        "t": 1,
+        "stop": 1
+      }
+    },
+    {
+      "args": [
+        "h2o and c2h5oh"
+      ],
+      "expected": {
+        "h": 2,
+        "o": 1,
+        "and": 1,
+        "c": 1,
+        "oh": 1
+      }
+    },
+    {
+      "args": [
+        "   spaced   out   "
+      ],
+      "expected": {
+        "spaced": 1,
+        "out": 1
+      }
+    },
+    {
+      "args": [
+        "Mixed CASE mixed case MIXED"
+      ],
+      "expected": {
+        "mixed": 3,
+        "case": 2
+      }
+    },
+    {
+      "args": [
+        "punctuation!!! everywhere??? really..."
+      ],
+      "expected": {
+        "punctuation": 1,
+        "everywhere": 1,
+        "really": 1
+      }
+    },
+    {
+      "args": [
+        "aaa bbb aaa ccc bbb aaa"
+      ],
+      "expected": {
+        "aaa": 3,
+        "bbb": 2,
+        "ccc": 1
+      }
+    },
+    {
+      "args": [
+        "The rain in SPAIN stays mainly in the plain"
+      ],
+      "expected": {
+        "the": 2,
+        "rain": 1,
+        "in": 2,
+        "spain": 1,
+        "stays": 1,
+        "mainly": 1,
+        "plain": 1
+      }
+    },
+    {
+      "args": [
+        "!@#$%^&*()"
+      ],
+      "expected": {}
+    }
+  ]
+}

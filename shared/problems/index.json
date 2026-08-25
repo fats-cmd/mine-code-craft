@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "balanced-brackets",
+    "title": "Balanced Brackets",
+    "difficulty": 1,
+    "unordered": false
+  },
+  {
+    "slug": "two-sum",
+    "title": "Two Sum",
+    "difficulty": 1,
+    "unordered": false
+  },
+  {
+    "slug": "run-length-encode",
+    "title": "Run-Length Encode",
+    "difficulty": 2,
+    "unordered": false
+  },
+  {
+    "slug": "word-frequency",
+    "title": "Word Frequency",
+    "difficulty": 2,
+    "unordered": false
+  },
+  {
+    "slug": "moving-average",
+    "title": "Moving Average",
+    "difficulty": 3,
+    "unordered": false
+  },
+  {
+    "slug": "rotate-matrix",
+    "title": "Rotate Matrix",
+    "difficulty": 3,
+    "unordered": false
+  },
+  {
+    "slug": "group-anagrams",
+    "title": "Group Anagrams",
+    "difficulty": 4,
+    "unordered": true
+  },
+  {
+    "slug": "longest-unique-substring",
+    "title": "Longest Unique Substring",
+    "difficulty": 4,
+    "unordered": false
+  }
+]

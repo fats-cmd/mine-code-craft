@@ -1,0 +1,67 @@
+{
+  "slug": "rotate-matrix",
+  "title": "Rotate Matrix",
+  "difficulty": 3,
+  "function": "rotate",
+  "signature": "def rotate(matrix):",
+  "statement": "Rotate a 2-D list 90 degrees **clockwise** and return the result as a new list of lists.\n\n- The matrix does **not** have to be square. An `m \u00d7 n` matrix rotates into an `n \u00d7 m`\n  one: the first row becomes the last column.\n- All rows have the same length.\n- An empty matrix (`[]`) rotates to `[]`.\n\n```\nrotate([[1, 2],\n        [3, 4]])        ->  [[3, 1],\n                             [4, 2]]\n\nrotate([[1, 2, 3],\n        [4, 5, 6]])     ->  [[4, 1],\n                             [5, 2],\n                             [6, 3]]\n```",
+  "starter": "def rotate(matrix):\n    # your code here\n    pass\n",
+  "unordered": false,
+  "sampleCases": [
+    {
+      "args": [
+        [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      ],
+      "expected": [
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          2
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            4,
+            5,
+            6
+          ]
+        ]
+      ],
+      "expected": [
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          6,
+          3
+        ]
+      ]
+    }
+  ],
+  "hiddenCaseCount": 11
+}

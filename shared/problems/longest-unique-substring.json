@@ -1,0 +1,37 @@
+{
+  "slug": "longest-unique-substring",
+  "title": "Longest Unique Substring",
+  "difficulty": 4,
+  "function": "longest_unique",
+  "signature": "def longest_unique(s):",
+  "statement": "Return the **length** of the longest substring of `s` that contains no repeated\ncharacter.\n\n- A substring is contiguous. `\"abcabc\"` has no unique substring longer than 3.\n- Characters are compared exactly: case matters, spaces count as characters.\n- The empty string gives `0`.\n\nReturn the length, not the substring itself.\n\n```\nlongest_unique(\"abcabcbb\")  ->  3     (\"abc\")\nlongest_unique(\"bbbbb\")     ->  1     (\"b\")\nlongest_unique(\"pwwkew\")    ->  3     (\"wke\")\nlongest_unique(\"\")          ->  0\n```",
+  "starter": "def longest_unique(s):\n    # your code here\n    pass\n",
+  "unordered": false,
+  "sampleCases": [
+    {
+      "args": [
+        "abcabcbb"
+      ],
+      "expected": 3
+    },
+    {
+      "args": [
+        "bbbbb"
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        "pwwkew"
+      ],
+      "expected": 3
+    },
+    {
+      "args": [
+        ""
+      ],
+      "expected": 0
+    }
+  ],
+  "hiddenCaseCount": 14
+}
