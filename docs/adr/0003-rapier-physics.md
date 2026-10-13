@@ -6,7 +6,7 @@
 The Base is built by hand in R3F code (not a voxel grid), so grid-lookup collision no longer fits. The repo currently uses `@react-three/cannon`, which has little maintenance and no character controller.
 
 ## Decision
-Use `@react-three/rapier`: fixed rigid bodies for world geometry, and Rapier's kinematic character controller for the local avatar. Clamp frame `dt` to 1/30 s.
+Use `@react-three/rapier`: fixed rigid bodies for world geometry, and Rapier's kinematic character controller for the local avatar. Clamp frame `dt` to 0.1 s (see `packages/shared/src/movement.ts`).
 
 ## Consequences
 - Slopes, steps and wall-sliding come built in.

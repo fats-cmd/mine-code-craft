@@ -6,12 +6,12 @@ Milestones in build order. Each one ends in something you can **see working in t
 
 ---
 
-### M0 — Foundation
-- Commit the missing `world_components/Player.tsx` (the build is currently broken without it).
+### M0 — Foundation ✅
+- The first-person cannon `Player.tsx` + `useKeyboard` are replaced by the Rapier `apps/client/src/avatar/Player.tsx` and drei `KeyboardControls`.
 - npm workspaces: `apps/client` (move `Interactive_plane/`), `apps/server`, `packages/shared`, `content/`.
-- Swap `@react-three/cannon` for `@react-three/rapier`. Static colliders on your Base meshes. Kinematic character controller, WASD + mouse-look, third-person camera, clamped `dt`.
+- Swap `@react-three/cannon` for `@react-three/rapier`. Static colliders on your Base meshes. Kinematic character controller, WASD + mouse-look, third-person camera, `dt` clamped to 0.1 s.
 - Repin `react`/`react-dom` to `~19.2.x` (R3F's peer range stops before 19.3).
-- Vitest in `packages/shared`. CI runs lint, typecheck and tests on every PR.
+- Vitest in `packages/shared`. CI runs lint, typecheck and tests on every PR (workflow parked at `docs/setup/ci.yml` until moved into `.github/workflows/`).
 - Ignore `__pycache__/` and untrack the committed `.pyc` files.
 
 **Done when:** you walk around your Base, slide along walls, climb steps, and tabbing away for 10 s then back doesn't drop you through the floor.

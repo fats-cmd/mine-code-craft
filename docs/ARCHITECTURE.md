@@ -83,7 +83,7 @@ The typed Colyseus client uses `import type { server } from "apps/server/..."`. 
 
 - **You build it by hand in R3F code**: meshes, lights and props under `apps/client/src/world/`.
 - **Physics: Rapier** (`@react-three/rapier`), replacing `@react-three/cannon` ([ADR-0003](adr/0003-rapier-physics.md)). Static world meshes get `RigidBody type="fixed"` with cuboid/trimesh colliders. The local avatar uses Rapier's **kinematic character controller** (slopes, steps, sliding along walls).
-- **Clamp frame `dt`** (`Math.min(dt, 1/30)`) before moving the avatar. During a battle the Canvas is backgrounded, and a throttled tab can return a multi-second `dt` that tunnels through the floor. This advice carries over from the old research notes and still applies.
+- **Clamp frame `dt` to 0.1 s** before moving the avatar. During a battle the Canvas is backgrounded, and a throttled tab can return a multi-second `dt`. The character controller sweeps the capsule, so big steps don't tunnel, but gravity and position would still jump. Don't cap lower than ~0.1: a 1/30 cap made the game run at half speed at 15 fps.
 - **During a battle:** hide the Canvas with CSS and set `frameloop="never"`. **Never unmount it.** Unmounting destroys the WebGL context and re-uploads everything on return.
 - **Avatars:** flat-colour box/low-poly characters built from Cosmetic parts (head, body, colour, aura). The same code renders the local and remote avatars. Only the input source differs.
 - **Camera:** third-person follow. `PointerLockControls` is fine for mouse-look in the meantime.
