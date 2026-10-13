@@ -6,7 +6,8 @@ How the engineering skills should consume this repo's domain documentation when 
 
 ## Before exploring, read these
 
-- **`For-Claude/SPEC.md`**: the project's source of truth for architecture, data model, room schemas, and explicit non-goals. If a request contradicts it, say so rather than silently picking one.
+- **`docs/ARCHITECTURE.md`**: the project's source of truth for architecture, rooms, grading, data model and non-goals. If a request contradicts it, say so rather than silently picking one.
+- **`docs/ROADMAP.md`**: the milestone build order. Work one milestone at a time.
 - **`CONTEXT.md`** at the repo root: the domain glossary and narrative.
 - **`docs/adr/`**: read ADRs that touch the area you're about to work in.
 
