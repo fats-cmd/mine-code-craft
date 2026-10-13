@@ -66,6 +66,16 @@ export function dampAngle(current: number, target: number, lambda: number, dt: n
   return current + shortestAngleDelta(current, target) * t
 }
 
+/** Walking and running speed on the ground, units/s. The server's move check uses RUN_SPEED. */
+export const WALK_SPEED = 5
+export const RUN_SPEED = 9
+
+/** Climber capsule: a cylinder of 2*HALF_HEIGHT plus two hemispheres of RADIUS, 1.8 tall. */
+export const CAPSULE_RADIUS = 0.35
+export const CAPSULE_HALF_HEIGHT = 0.55
+/** Positions on the wire are the capsule centre; feet are this far below it. */
+export const CENTER_TO_FEET = CAPSULE_HALF_HEIGHT + CAPSULE_RADIUS
+
 /** The heading (rotation.y) a model facing +Z needs to face `dir`. */
 export function headingOf(dir: Vec2): number {
   return Math.atan2(dir.x, dir.z)

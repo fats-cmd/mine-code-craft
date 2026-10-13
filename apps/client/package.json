@@ -11,6 +11,7 @@
     "typecheck": "tsc -b"
   },
   "dependencies": {
+    "@colyseus/sdk": "^0.18.5",
     "@mcc/shared": "*",
     "@react-three/drei": "^10.7.8",
     "@react-three/fiber": "^9.7.0",

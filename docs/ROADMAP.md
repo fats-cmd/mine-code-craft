@@ -16,7 +16,7 @@ Milestones in build order. Each one ends in something you can **see working in t
 
 **Done when:** you walk around your Base, slide along walls, climb steps, and tabbing away for 10 s then back doesn't drop you through the floor.
 
-### M1 — The Base is multiplayer
+### M1 — The Base is multiplayer ✅
 - Scaffold the Colyseus server. `BaseRoom` with the `Climber` schema, `move` at 15 Hz, server speed/bounds checks.
 - Remote avatars with the 100 ms interpolation buffer (`packages/shared/interpolation`, unit tested).
 - Instancing: `maxClients` set low (e.g. 3) for testing, so you can watch a second instance open.

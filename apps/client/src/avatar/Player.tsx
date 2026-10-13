@@ -10,27 +10,33 @@ import {
 import { useEffect, useRef } from "react"
 import { Vector3, type Group } from "three"
 import {
+    CAPSULE_HALF_HEIGHT,
+    CAPSULE_RADIUS,
+    CENTER_TO_FEET,
+    MOVE_SEND_HZ,
+    Msg,
+    RUN_SPEED,
+    SPAWN,
+    WALK_SPEED,
     clampDt,
     dampAngle,
     headingOf,
     inputToDirection,
     stepVerticalVelocity,
+    type CorrectionMessage,
+    type MoveMessage,
+    type Vec3,
 } from "@mcc/shared"
 import AvatarModel from "./AvatarModel"
 import type { Control } from "./controls"
 import { useMouseLook } from "./useMouseLook"
+import { useBaseNet } from "../net/BaseNet"
 
-const WALK_SPEED = 5
-const RUN_SPEED = 9
 const TURN_RATE = 14
-
-// Capsule = cylinder of 2*HALF_HEIGHT plus two hemispheres of RADIUS: 1.8 tall.
-const RADIUS = 0.35
-const HALF_HEIGHT = 0.55
-const CENTER_TO_FEET = HALF_HEIGHT + RADIUS
-
-const SPAWN = { x: 0, y: CENTER_TO_FEET + 0.5, z: 4 }
 const FALL_LIMIT = -30
+// Below these the server isn't told about a move: standing still sends nothing.
+const SEND_EPSILON_POS = 0.01
+const SEND_EPSILON_ROT = 0.01
 // A small constant push into the floor keeps ground detection stable while idle.
 const GROUND_STICK = 2
 
@@ -42,6 +48,7 @@ export default function Player() {
     const { world } = useRapier()
     const [, getKeys] = useKeyboardControls<Control>()
     const look = useMouseLook()
+    const { room, self } = useBaseNet()
 
     const body = useRef<RapierRigidBody>(null)
     const collider = useRef<RapierCollider>(null)
@@ -50,6 +57,24 @@ export default function Player() {
     const vy = useRef(0)
     const grounded = useRef(false)
     const cameraTarget = useRef(new Vector3())
+    const sinceSend = useRef(0)
+    const lastSent = useRef<MoveMessage | null>(null)
+    const correction = useRef<Vec3 | null>(null)
+
+    // Joining puts you wherever the server spawned you.
+    const spawn = self?.spawn
+    useEffect(() => {
+        if (spawn) correction.current = spawn
+    }, [spawn])
+
+    // The server refused a move (too fast, out of bounds): go where it says.
+    useEffect(() => {
+        if (!room) return
+        lastSent.current = null
+        return room.onMessage(Msg.correction, (pos: CorrectionMessage) => {
+            correction.current = pos
+        })
+    }, [room])
 
     useEffect(() => {
         const c = world.createCharacterController(0.02)
@@ -90,14 +115,30 @@ export default function Player() {
 
         const p = rb.translation()
         let next = { x: p.x + moved.x, y: p.y + moved.y, z: p.z + moved.z }
-        if (next.y < FALL_LIMIT) {
+        if (correction.current) {
+            next = correction.current
+            correction.current = null
+            vy.current = 0
+        } else if (next.y < FALL_LIMIT) {
             next = { ...SPAWN }
             vy.current = 0
+            room?.send(Msg.respawn)
+            lastSent.current = { ...SPAWN, rotY: lastSent.current?.rotY ?? 0 }
         }
         rb.setNextKinematicTranslation(next)
 
         if (model.current && (dir.x !== 0 || dir.z !== 0)) {
             model.current.rotation.y = dampAngle(model.current.rotation.y, headingOf(dir), TURN_RATE, dt)
+        }
+
+        sinceSend.current += dt
+        if (room && sinceSend.current >= 1 / MOVE_SEND_HZ) {
+            sinceSend.current = 0
+            const move = { ...next, rotY: model.current?.rotation.y ?? 0 }
+            if (hasMoved(lastSent.current, move)) {
+                room.send(Msg.move, move)
+                lastSent.current = move
+            }
         }
 
         // Third-person orbit: sit behind the look direction, tilted by pitch.
@@ -120,10 +161,20 @@ export default function Player() {
             position={[SPAWN.x, SPAWN.y, SPAWN.z]}
             enabledRotations={[false, false, false]}
         >
-            <CapsuleCollider ref={collider} args={[HALF_HEIGHT, RADIUS]} />
+            <CapsuleCollider ref={collider} args={[CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS]} />
             <group position={[0, -CENTER_TO_FEET, 0]}>
-                <AvatarModel ref={model} />
+                <AvatarModel ref={model} color={self?.color} />
             </group>
         </RigidBody>
+    )
+}
+
+function hasMoved(prev: MoveMessage | null, next: MoveMessage): boolean {
+    if (!prev) return true
+    return (
+        Math.abs(prev.x - next.x) > SEND_EPSILON_POS ||
+        Math.abs(prev.y - next.y) > SEND_EPSILON_POS ||
+        Math.abs(prev.z - next.z) > SEND_EPSILON_POS ||
+        Math.abs(prev.rotY - next.rotY) > SEND_EPSILON_ROT
     )
 }
