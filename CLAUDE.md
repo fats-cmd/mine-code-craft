@@ -1,5 +1,7 @@
 # mine-codecraft
 
+A browser 3D game: Climbers meet in a shared Base, battle each other in CS challenges (Code, Fix, Predict, Quiz in Python/JS), and climb a Tower of Floors and Boss Floors. Read `CONTEXT.md` (glossary), `docs/ARCHITECTURE.md` and `docs/ROADMAP.md` before building anything. The old Voxel Arena docs in `docs/archive/` are superseded.
+
 ## Agent skills
 
 ### Issue tracker

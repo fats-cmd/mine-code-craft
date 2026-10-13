@@ -1,6 +1,8 @@
 # Reference implementations: interpolation, voxel collision, output grading
 
-Research notes for the three seams that carry real algorithmic risk in Voxel Coding Arena. Gathered 2026-08-21 from primary sources. Each claim is cited; where a source contradicts `For-Claude/SPEC.md`, that's called out.
+Research notes for the three seams that carry real algorithmic risk in Voxel Coding Arena. Gathered 2026-08-21 from primary sources. Each claim is cited; where a source contradicts the (now archived) `docs/archive/voxel-arena/SPEC.md`, that's called out.
+
+> **Status 2026-10-13:** §1 (interpolation) and §3 (grading) still apply, per `docs/ARCHITECTURE.md`. §2 (voxel collision) is **superseded** by [ADR-0003](../adr/0003-rapier-physics.md): the world is no longer a voxel grid. Its `dt`-clamp advice still holds.
 
 ---
 
