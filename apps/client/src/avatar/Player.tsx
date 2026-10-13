@@ -31,6 +31,10 @@ import AvatarModel from "./AvatarModel"
 import type { Control } from "./controls"
 import { useMouseLook } from "./useMouseLook"
 import { useBaseNet } from "../net/BaseNet"
+import SpeechBubble from "../chat/SpeechBubble"
+import { isTyping } from "../chat/typing"
+
+const NO_KEYS = { forward: false, back: false, left: false, right: false, jump: false, run: false }
 
 const TURN_RATE = 14
 const FALL_LIMIT = -30
@@ -48,7 +52,8 @@ export default function Player() {
     const { world } = useRapier()
     const [, getKeys] = useKeyboardControls<Control>()
     const look = useMouseLook()
-    const { room, self } = useBaseNet()
+    const { room, self, lastSaid } = useBaseNet()
+    const said = self ? lastSaid.get(self.id) : undefined
 
     const body = useRef<RapierRigidBody>(null)
     const collider = useRef<RapierCollider>(null)
@@ -99,7 +104,8 @@ export default function Player() {
         const ctrl = controller.current
         if (!dt || !rb || !col || !ctrl) return
 
-        const keys = getKeys()
+        // Typing "w" in chat must not walk you forward.
+        const keys = isTyping() ? NO_KEYS : getKeys()
         const dir = inputToDirection(keys, look.current.yaw)
         const speed = keys.run ? RUN_SPEED : WALK_SPEED
 
@@ -163,8 +169,9 @@ export default function Player() {
         >
             <CapsuleCollider ref={collider} args={[CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS]} />
             <group position={[0, -CENTER_TO_FEET, 0]}>
-                <AvatarModel ref={model} color={self?.color} />
+                <AvatarModel ref={model} look={self?.look} />
             </group>
+            {said && <SpeechBubble key={said.at} line={said} height={2.25 - CENTER_TO_FEET} />}
         </RigidBody>
     )
 }

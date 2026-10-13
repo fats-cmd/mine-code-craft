@@ -10,6 +10,8 @@ Use these words in code, issues, commits and docs. If you need a concept that is
 |---|---|---|
 | **Climber** | A signed-in player. Has a profile, avatar, Role, Rank and Level. | user (fine in auth code only), hero |
 | **Opponent** | The other Climber in a Duel. | enemy (reserved for the Legion) |
+| **Guest** | A Climber who hasn't signed in. Their name and Look live in their browser and are sent when joining. Everything works except anything that needs to be saved (Rank, XP). | anonymous |
+| **Look** | How a Climber's avatar appears: three colours (outfit, skin, accent) and three parts (hair, headwear, eyes). Cosmetics extend it later. | skin (means the skin colour only), outfit |
 
 ## Places
 

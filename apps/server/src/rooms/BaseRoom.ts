@@ -3,16 +3,20 @@ import {
   BASE_MAX_CLIENTS,
   Msg,
   PATCH_RATE_MS,
+  RateLimiter,
   SPAWN,
+  checkName,
+  cleanChat,
+  parseLook,
   parseMove,
   spawnPoint,
+  uniqueName,
   validateMove,
+  type ChatLine,
   type CorrectionMessage,
   type Vec3,
 } from '@mcc/shared'
-import { BaseState, Climber } from './BaseState.ts'
-
-const COLORS = ['#4f7cff', '#ff7a59', '#2fbf71', '#c45bff', '#ffc53d', '#19c3d6', '#ff5c8a', '#9aa63a']
+import { BaseState, Climber, LookState } from './BaseState.ts'
 
 /** One Base Instance: Climbers walking around the hub together. */
 export class BaseRoom extends Room<{ state: BaseState }> {
@@ -24,6 +28,7 @@ export class BaseRoom extends Room<{ state: BaseState }> {
 
   /** Last accepted position and when it was accepted, per session. */
   private lastMove = new Map<string, { pos: Vec3; at: number }>()
+  private chatLimit = new Map<string, RateLimiter>()
 
   messages = {
     [Msg.move]: (client: Client, raw: unknown) => {
@@ -52,16 +57,37 @@ export class BaseRoom extends Room<{ state: BaseState }> {
       Object.assign(climber, SPAWN)
       this.lastMove.set(client.sessionId, { pos: { ...SPAWN }, at: Date.now() })
     },
+
+    // Ephemeral: broadcast and forget. Over the rate limit is dropped silently.
+    [Msg.chat]: (client: Client, raw: unknown) => {
+      const climber = this.state.climbers.get(client.sessionId)
+      const text = cleanChat((raw as { text?: unknown } | null)?.text)
+      const limiter = this.chatLimit.get(client.sessionId)
+      if (!climber || !text || !limiter?.take(Date.now())) return
+      const line: ChatLine = { from: client.sessionId, name: climber.name, text, at: Date.now() }
+      this.broadcast(Msg.chat, line)
+    },
   }
 
-  onJoin(client: Client) {
+  /**
+   * Guests choose their own name and look in join options. Nothing is
+   * rejected: a bad name falls back to Climber-xxxx, a bad look field to its
+   * default. With sign-in, these come from the verified profile instead.
+   */
+  onJoin(client: Client, options?: unknown) {
+    const opts = (options ?? {}) as { name?: unknown; look?: unknown }
+    const checked = checkName(opts.name)
+    const wanted = checked.ok ? checked.name : `Climber-${client.sessionId.slice(0, 4)}`
+    const taken = [...this.state.climbers.values()].map((c) => c.name)
+
     const climber = new Climber()
-    climber.name = `Climber-${client.sessionId.slice(0, 4)}`
-    climber.color = COLORS[this.state.climbers.size % COLORS.length]
+    climber.name = uniqueName(wanted, taken)
+    climber.look = Object.assign(new LookState(), parseLook(opts.look))
     const spawn = spawnPoint(Math.random())
     Object.assign(climber, spawn)
     this.state.climbers.set(client.sessionId, climber)
     this.lastMove.set(client.sessionId, { pos: spawn, at: Date.now() })
+    this.chatLimit.set(client.sessionId, new RateLimiter(undefined, undefined, Date.now()))
     // The joiner's first full state is sent before the next patch stamps a time.
     this.state.serverTime = Date.now()
   }
@@ -69,6 +95,7 @@ export class BaseRoom extends Room<{ state: BaseState }> {
   onLeave(client: Client) {
     this.state.climbers.delete(client.sessionId)
     this.lastMove.delete(client.sessionId)
+    this.chatLimit.delete(client.sessionId)
   }
 
   onBeforePatch(state: BaseState) {

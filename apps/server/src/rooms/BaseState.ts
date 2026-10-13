@@ -1,8 +1,19 @@
 import { schema, t, type SchemaType } from '@colyseus/schema'
 
+// Mirrors `Look` in @mcc/shared; parseLook() has already validated every field.
+export const LookState = schema({
+  body: t.string(),
+  skin: t.string(),
+  accent: t.string(),
+  hair: t.string(),
+  headwear: t.string(),
+  visor: t.string(),
+}, 'Look')
+export type LookState = SchemaType<typeof LookState>
+
 export const Climber = schema({
   name: t.string(),
-  color: t.string(),
+  look: t.ref(LookState),
   // Capsule centre, world units.
   x: t.float32(),
   y: t.float32(),

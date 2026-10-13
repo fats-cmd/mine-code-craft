@@ -19,7 +19,7 @@ Open two browser tabs to see each other move. The client also runs on its own (`
 | `PORT` | server | `2567` |
 | `BASE_MAX_CLIENTS` | server | `50` (set it to `3` to watch new Base Instances open) |
 
-Click the canvas to capture the mouse. WASD moves, Shift runs, Space jumps, Esc releases the mouse. Add `?debug` to the URL to draw the physics colliders.
+Pick a name and look, then **Enter the Base**. Click the canvas to capture the mouse. WASD moves, Shift runs, Space jumps, Enter opens chat, Esc releases the mouse. Add `?debug` to the URL to draw the physics colliders.
 
 ## Layout
 

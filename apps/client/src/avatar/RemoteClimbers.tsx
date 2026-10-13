@@ -4,10 +4,12 @@ import { Html } from "@react-three/drei"
 import type { Group } from "three"
 import { CENTER_TO_FEET, RENDER_DELAY_MS } from "@mcc/shared"
 import AvatarModel from "./AvatarModel"
+import SpeechBubble from "../chat/SpeechBubble"
 import { useBaseNet, type RosterEntry } from "../net/BaseNet"
 
 function RemoteClimber({ entry }: { entry: RosterEntry }) {
-    const { buffers, clock } = useBaseNet()
+    const { buffers, clock, lastSaid } = useBaseNet()
+    const said = lastSaid.get(entry.id)
     const group = useRef<Group>(null)
 
     useFrame(() => {
@@ -22,8 +24,9 @@ function RemoteClimber({ entry }: { entry: RosterEntry }) {
     // Hidden until the first snapshot places it, so it never flashes at the origin.
     return (
         <group ref={group} visible={false}>
-            <AvatarModel color={entry.color} />
-            <Html position={[0, 2.15, 0]} center zIndexRange={[10, 0]}>
+            <AvatarModel look={entry.look} />
+            {said && <SpeechBubble key={said.at} line={said} height={2.6} />}
+            <Html position={[0, 2.2, 0]} center zIndexRange={[10, 0]}>
                 <div className="pointer-events-none whitespace-nowrap rounded bg-black/60 px-2 py-0.5 font-mono text-xs text-white">
                     {entry.name}
                 </div>

@@ -1,5 +1,6 @@
 // Everything the client and server must agree on about the Base room.
 
+import type { Look } from './identity.ts'
 import { CENTER_TO_FEET } from './movement.ts'
 
 export const BASE_ROOM = 'base'
@@ -51,6 +52,7 @@ export const Msg = {
   move: 'move',
   respawn: 'respawn',
   correction: 'correction',
+  chat: 'chat',
 } as const
 
 export type ClimberStatus = 'idle' | 'battling' | 'away'
@@ -58,7 +60,7 @@ export type ClimberStatus = 'idle' | 'battling' | 'away'
 /** What a Climber looks like in synced Base state, as seen from the client. */
 export interface ClimberView {
   name: string
-  color: string
+  look: Look
   x: number
   y: number
   z: number
