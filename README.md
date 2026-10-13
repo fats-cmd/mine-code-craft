@@ -8,8 +8,16 @@ Node 22+.
 
 ```sh
 npm install
-npm run dev        # client on http://localhost:5173
+npm run dev        # game server on :2567 and client on http://localhost:5173
 ```
+
+Open two browser tabs to see each other move. The client also runs on its own (`npm run dev:client`): without a server it shows "offline" and plays solo.
+
+| Variable | Where | Default |
+|---|---|---|
+| `VITE_SERVER_URL` | client | `http://localhost:2567` |
+| `PORT` | server | `2567` |
+| `BASE_MAX_CLIENTS` | server | `50` (set it to `3` to watch new Base Instances open) |
 
 Click the canvas to capture the mouse. WASD moves, Shift runs, Space jumps, Esc releases the mouse. Add `?debug` to the URL to draw the physics colliders.
 
@@ -18,6 +26,7 @@ Click the canvas to capture the mouse. WASD moves, Shift runs, Space jumps, Esc 
 | Path | What |
 |---|---|
 | `apps/client` | React + R3F + Rapier game client |
+| `apps/server` | Colyseus game server (`BaseRoom`) |
 | `packages/shared` | Pure TS shared by client and (later) server, unit tested |
 | `server/problems` | Duel problem sources and generator (`python3 server/problems/build_problems.py`) |
 | `shared/problems` | Generated public problem files |
