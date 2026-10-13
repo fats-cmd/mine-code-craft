@@ -7,13 +7,18 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev -w @mcc/client",
+    "dev": "concurrently -k -n server,client -c magenta,cyan \"npm run dev -w @mcc/server\" \"npm run dev -w @mcc/client\"",
     "build": "npm run build -w @mcc/client",
     "lint": "npm run lint --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present"
+    "test": "npm run test --workspaces --if-present",
+    "dev:client": "npm run dev -w @mcc/client",
+    "dev:server": "npm run dev -w @mcc/server"
   },
   "engines": {
     "node": ">=22"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
   }
 }

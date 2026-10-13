@@ -92,7 +92,15 @@ The typed Colyseus client uses `import type { server } from "apps/server/..."`. 
 
 ## 4. Networking (Colyseus)
 
-Versions verified 2026-08-21 (re-verify at install): `colyseus@0.17.x`, client **`@colyseus/sdk`** (the old `colyseus.js` package is dead), `@colyseus/schema@4.x`. Server tsconfig needs `experimentalDecorators: true` and `useDefineForClassFields: false`. The client API is `Callbacks.get(room).onAdd("players", …)`.
+**Versions (checked 2026-10-13): Colyseus 0.18.** 0.18 became the stable release after the August plan, which had pinned 0.17 because 0.18 had no stable client yet.
+
+- **Server:** `@colyseus/core` + `@colyseus/ws-transport`, not the `colyseus` meta-package. The meta-package pulls in `@colyseus/auth`, which has a vulnerable transitive dependency (`elliptic` via `grant`), and we don't use it since Supabase does auth.
+- **Client:** `@colyseus/sdk@0.18`. The old `colyseus.js` package is dead.
+- **Schema:** `@colyseus/schema@5`, using the decorator-free `schema({...}, 'Name')` builder with `t.*` field types. No `experimentalDecorators` config needed.
+- **Client API:**
+  - `Callbacks.get(room).onAdd("climbers", …)` for collection changes.
+  - `room.onStateChange` fires once per patch and is an emitter, not an unsubscribe function. Use `.once` / `.remove`.
+  - `joinOrCreate` resolves *before* the first state arrives.
 
 ### Rooms
 
@@ -109,26 +117,39 @@ Versions verified 2026-08-21 (re-verify at install): `colyseus@0.17.x`, client *
 
 ### BaseRoom state
 
+As built in M1 (`apps/server/src/rooms/BaseState.ts`). Later milestones add `role`, `floor` (highest cleared, for the nameplate), `look` (Cosmetic loadout) and an `anim` field.
+
 ```ts
-class Climber extends Schema {
-  @type("string") id; @type("string") name;
-  @type("number") x; @type("number") y; @type("number") z; @type("number") rotY;
-  @type("string") anim;       // idle | walk | run | jump
-  @type("string") status;     // idle | battling | away
-  @type("string") role;       // Debugger | Speedster | Architect | Scout
-  @type("uint16") floor;      // highest cleared Floor (nameplate)
-  @type("string") look;       // compact Cosmetic loadout id string
-}
-class BaseState extends Schema { @type({ map: Climber }) climbers = new MapSchema<Climber>(); }
+const Climber = schema({
+  name: t.string(), color: t.string(),
+  x: t.float32(), y: t.float32(), z: t.float32(),  // capsule centre
+  rotY: t.float32(),
+  status: t.string().default('idle'),              // idle | battling | away
+}, 'Climber')
+
+const BaseState = schema({
+  serverTime: t.float64().default(0),  // stamped in onBeforePatch and on join
+  climbers: t.map(Climber),
+}, 'BaseState')
 ```
 
-Messages: `move` (client → server, ~15 Hz, only when changed), `chat`, `challenge:send|accept|decline|cancel`.
+**Messages** (names and types in `packages/shared/src/protocol.ts`):
 
-**Movement is client-authoritative with server sanity checks.** The server rejects moves faster than max speed and clamps positions to the Base bounds. Server-side Rapier is not worth it for a social hub with no combat movement. Revisit only if the Base gains movement-based gameplay.
+| Message | Direction | Purpose |
+|---|---|---|
+| `move` | client → server | Sent at ≤ 15 Hz, only when the position or heading changed. |
+| `respawn` | client → server | The client fell off the world; the server moves it, so it isn't a teleport. |
+| `correction` | server → client | The last move was refused; snap back to this position. |
+
+M4 adds `chat` and `challenge:send|accept|decline|cancel`. Joiners spawn on a small ring around the spawn point (`spawnPoint()`), not stacked on one spot.
+
+**Movement is client-authoritative with server sanity checks** (`validateMove()` in `packages/shared`).
+- Horizontal speed is capped at 1.25× run speed plus a small slack, with elapsed time counted per move capped at 0.5 s.
+- Accepted positions are clamped to the Base bounds. Rejected ones get a `correction`. Server-side Rapier is not worth it for a social hub with no combat movement. Revisit only if the Base gains movement-based gameplay.
 
 ### Interpolation (remote avatars)
 
-Render remote avatars **100 ms in the past** (2× the 50 ms patch rate) and lerp between the two buffered snapshots that straddle `now − 100 ms`. Buffer snapshots by server time, not arrival order. Rotation lerps along the **shortest arc** across ±π. Discrete fields (`status`, `anim`, `look`) **snap** to the newer snapshot. When the buffer starves, **hold** the last position, never extrapolate. Full algorithm: [`research/interpolation-collision-grading.md`](./research/interpolation-collision-grading.md) §1. Lives in `packages/shared/interpolation` with unit tests.
+Render remote avatars **100 ms in the past** (2× the 50 ms patch rate) and lerp between the two buffered snapshots that straddle `now − 100 ms`. Buffer snapshots by server time, not arrival order: every patch carries `serverTime`, and `ClockSync` maps local time onto it using the lowest-latency recent sample. Rotation lerps along the **shortest arc** across ±π. Discrete fields (`status`, `anim`, `look`) **snap** to the newer snapshot. When the buffer starves, **hold** the last position, never extrapolate. Full algorithm: [`research/interpolation-collision-grading.md`](./research/interpolation-collision-grading.md) §1. Lives in `packages/shared/interpolation` with unit tests.
 
 ---
 
