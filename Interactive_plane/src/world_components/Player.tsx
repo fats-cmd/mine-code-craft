@@ -6,7 +6,7 @@ import { useKeyboard } from "../custom_hooks/hooks/useKeyboard";
 
 const SPEED = 4;
 const JUMP_FORCE = 4;
-const PLAYER_RADIUS = 0.5;
+const PLAYER_RADIUS = 1;
 // Vertical velocity below this counts as "not moving vertically", i.e. grounded.
 const GROUNDED_THRESHOLD = 0.05;
 
