@@ -117,11 +117,17 @@ The typed Colyseus client uses `import type { server } from "apps/server/..."`. 
 
 ### BaseRoom state
 
-As built in M1 (`apps/server/src/rooms/BaseState.ts`). Later milestones add `role`, `floor` (highest cleared, for the nameplate), `look` (Cosmetic loadout) and an `anim` field.
+As built in M1 and M2 (`apps/server/src/rooms/BaseState.ts`). Later milestones add `role`, `floor` (highest cleared, for the nameplate) and an `anim` field. Cosmetics (M6) extend `Look`.
 
 ```ts
+const Look = schema({
+  body: t.string(), skin: t.string(), accent: t.string(),  // #rrggbb
+  hair: t.string(), headwear: t.string(), visor: t.string(),  // part ids, see HAIR/HEADWEAR/VISOR
+}, 'Look')
+
 const Climber = schema({
-  name: t.string(), color: t.string(),
+  name: t.string(),          // unique within the instance: a clash becomes "Name#2"
+  look: t.ref(Look),
   x: t.float32(), y: t.float32(), z: t.float32(),  // capsule centre
   rotY: t.float32(),
   status: t.string().default('idle'),              // idle | battling | away
@@ -140,8 +146,22 @@ const BaseState = schema({
 | `move` | client → server | Sent at ≤ 15 Hz, only when the position or heading changed. |
 | `respawn` | client → server | The client fell off the world; the server moves it, so it isn't a teleport. |
 | `correction` | server → client | The last move was refused; snap back to this position. |
+| `chat` | client → server `{ text }`, then server → everyone as a `ChatLine` | World chat (M2). See **Chat** below. |
 
-M4 adds `chat` and `challenge:send|accept|decline|cancel`. Joiners spawn on a small ring around the spawn point (`spawnPoint()`), not stacked on one spot.
+M4 adds `challenge:send|accept|decline|cancel`. Joiners spawn on a small ring around the spawn point (`spawnPoint()`), not stacked on one spot.
+
+**Join options carry the guest identity** (M2): `joinOrCreate("base", { name, look })`. The server never rejects a join over them:
+- `checkName()`: 3–16 characters, letters, digits, spaces and `_ . -`. Reserved names like admin, server, mod and Zark are blocked, compared ignoring case and punctuation. A bad name falls back to `Climber-xxxx`.
+- `uniqueName()` numbers clashes (`Name#2`).
+- `parseLook()` replaces each invalid field with its default.
+
+When sign-in lands, only this step changes: name and look come from the verified profile, and join options shrink to `{ token }`.
+
+**Chat** is ephemeral: room messages only, never stored.
+- `cleanChat()` makes it one line, strips control characters and caps it at 200 characters. Messages that end up empty are dropped.
+- A token bucket allows a burst of 5, then one message per 1.5 s per Climber. The excess is dropped silently.
+- React renders the text, so it is always escaped. Never use `dangerouslySetInnerHTML` for chat.
+- On the client, the latest line shows as a speech bubble for 6 s. Joins and leaves appear as client-side notices.
 
 **Movement is client-authoritative with server sanity checks** (`validateMove()` in `packages/shared`).
 - Horizontal speed is capped at 1.25× run speed plus a small slack, with elapsed time counted per move capped at 0.5 s.
@@ -270,7 +290,9 @@ Boss Floors reuse the same grading and clock, so they are content plus presentat
 
 ## 8. Identity and data
 
-**Auth:** Supabase with **GitHub**, **Google** and **email + password**.
+**Guests first (M2, built):** players pick a name and look in the character creator. It is saved in `localStorage` and sent as join options, with the rules above. The game is fully playable this way.
+
+**Auth (deferred):** Supabase with **GitHub**, **Google** and **email + password**.
 - Supabase's built-in SMTP is limited to ~2 emails/hour, which is unusable for a public game. Before the public launch, connect a free-tier transactional provider (Resend, Brevo…) as custom SMTP. Until then, turn off email confirmation for local development.
 - The client passes `access_token` to every `joinOrCreate`. `onAuth` in each room verifies the JWT with Supabase's JWKS, so there is one source of session truth.
 

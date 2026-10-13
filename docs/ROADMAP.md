@@ -24,11 +24,19 @@ Milestones in build order. Each one ends in something you can **see working in t
 **Done when:** two tabs see each other move smoothly. A throttled tab degrades gracefully instead of teleporting. A fourth tab lands in a new instance.
 
 ### M2 — Identity
-- Supabase project and `supabase/migrations`. GitHub, Google and email sign-in. `profiles` + RLS.
-- Avatar creator (flat-colour presets plus colour pickers). Name tags in the Base. JWT verified in `onAuth`.
-- World chat (ephemeral, length-clamped, escaped on render).
 
-**Done when:** two different accounts see each other's names and looks, can chat, and a tampered token is rejected.
+**M2a: Guest identity ✅**
+- Character creator: name plus look (3 colours, and hair / headwear / eye parts), remembered in `localStorage`, with an "Edit character" button in the Base.
+- The server validates name and look from join options (reserved names, `Name#2` on clashes, lenient look parsing). Real names and looks show in the Base.
+- World chat: Enter to talk, a chat log, speech bubbles, join/leave notices. Ephemeral, cleaned, rate-limited, escaped on render. Typing doesn't move the avatar.
+
+**Done when:** two tabs see each other's chosen names and looks and can talk, and markup in chat shows as text.
+
+**M2b: Sign-in (deferred until the owner decides)**
+- Supabase project and `supabase/migrations`. GitHub, Google and email sign-in. `profiles` + RLS.
+- Name and look move from join options into the profile. JWT verified in `onAuth`.
+
+**Done when:** two different accounts see each other's names and looks, and a tampered token is rejected.
 
 ### M3 — Challenge engine (solo, dev route `/trial/:slug`)
 - Content pipeline. Migrate the 8 problems into `content/challenges/code/`. Add JS signatures and starters. Write the first ~20 Quiz questions.

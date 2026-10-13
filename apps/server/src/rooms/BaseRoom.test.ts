@@ -1,6 +1,18 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { Client, type Room } from '@colyseus/sdk'
-import { BASE_ROOM, Msg, SPAWN, SPAWN_RING_RADIUS, type ClimberView, type CorrectionMessage } from '@mcc/shared'
+import {
+  BASE_ROOM,
+  CHAT_BURST,
+  CHAT_MAX,
+  DEFAULT_LOOK,
+  Msg,
+  SPAWN,
+  SPAWN_RING_RADIUS,
+  type ChatLine,
+  type ClimberView,
+  type CorrectionMessage,
+  type JoinOptions,
+} from '@mcc/shared'
 import { createServer } from '../server.ts'
 
 // End to end over real WebSockets: the server as `npm run dev` runs it,
@@ -95,5 +107,96 @@ describe('BaseRoom', () => {
     const me = await until(a, (s) => s.climbers.get(a.sessionId))
     expect(me.x).toBe(startX)
     await a.leave()
+  })
+
+  describe('identity', () => {
+    const look = { body: '#112233', skin: '#445566', accent: '#778899', hair: 'mohawk', headwear: 'crown', visor: 'goggles' }
+    // Decoded schema instances carry internal keys, so compare the fields themselves.
+    const fields = (l: ClimberView['look']) => ({
+      body: l.body, skin: l.skin, accent: l.accent, hair: l.hair, headwear: l.headwear, visor: l.visor,
+    })
+    const join = (opts: Partial<JoinOptions> | Record<string, unknown>) => new Client(url).joinOrCreate(BASE_ROOM, opts)
+
+    it('others see the chosen name and look', async () => {
+      const a = await join({ name: 'Ronald', look })
+      const b = await join({ name: 'Ada', look: DEFAULT_LOOK })
+      const seen = await until(b, (s) => s.climbers.get(a.sessionId))
+      expect(seen.name).toBe('Ronald')
+      expect(fields(seen.look)).toEqual(look)
+      await a.leave()
+      await b.leave()
+    })
+
+    it('a clashing name gets numbered', async () => {
+      const a = await join({ name: 'Twin', look })
+      const b = await join({ name: 'twin', look })
+      const named = await until(b, (s) => s.climbers.get(b.sessionId))
+      expect(named.name).toBe('twin#2')
+      await a.leave()
+      await b.leave()
+    })
+
+    it('a bad name falls back, a bad look field falls back, the join still works', async () => {
+      const a = await join({ name: 'admin', look: { ...look, hair: 'afro', body: 'javascript:' } })
+      const me = await until(a, (s) => s.climbers.get(a.sessionId))
+      expect(me.name).toMatch(/^Climber-/)
+      expect(me.look.hair).toBe(DEFAULT_LOOK.hair)
+      expect(me.look.body).toBe(DEFAULT_LOOK.body)
+      expect(me.look.headwear).toBe('crown')
+      await a.leave()
+    })
+
+    it('no options at all still joins', async () => {
+      const a = await new Client(url).joinOrCreate(BASE_ROOM)
+      const me = await until(a, (s) => s.climbers.get(a.sessionId))
+      expect(me.name).toMatch(/^Climber-/)
+      expect(fields(me.look)).toEqual(DEFAULT_LOOK)
+      await a.leave()
+    })
+  })
+
+  describe('chat', () => {
+    function collect(room: Room): ChatLine[] {
+      const lines: ChatLine[] = []
+      room.onMessage(Msg.chat, (l: ChatLine) => lines.push(l))
+      return lines
+    }
+    const settle = (room: Room) => nextPatch(room).then(() => nextPatch(room)).then(() => nextPatch(room))
+
+    it('reaches everyone, with the sender name and cleaned text', async () => {
+      const a = await new Client(url).joinOrCreate(BASE_ROOM, { name: 'Talker' })
+      const b = await new Client(url).joinOrCreate(BASE_ROOM, { name: 'Listener' })
+      const heardByB = collect(b)
+      const heardByA = collect(a)
+      a.send(Msg.chat, { text: '  hello\n  there  ' })
+      await settle(b)
+      expect(heardByB).toHaveLength(1)
+      expect(heardByB[0]).toMatchObject({ from: a.sessionId, name: 'Talker', text: 'hello there' })
+      expect(heardByA).toHaveLength(1) // the sender sees their own line come back
+      await a.leave()
+      await b.leave()
+    })
+
+    it('drops empty and junk messages, truncates long ones', async () => {
+      const a = await new Client(url).joinOrCreate(BASE_ROOM, { name: 'Spammer' })
+      const heard = collect(a)
+      a.send(Msg.chat, { text: '   ' })
+      a.send(Msg.chat, null)
+      a.send(Msg.chat, { text: 42 })
+      a.send(Msg.chat, { text: 'x'.repeat(CHAT_MAX * 3) })
+      await settle(a)
+      expect(heard).toHaveLength(1)
+      expect(heard[0].text).toHaveLength(CHAT_MAX)
+      await a.leave()
+    })
+
+    it('rate-limits a flood to the burst size', async () => {
+      const a = await new Client(url).joinOrCreate(BASE_ROOM, { name: 'Flooder' })
+      const heard = collect(a)
+      for (let i = 0; i < CHAT_BURST + 10; i++) a.send(Msg.chat, { text: `msg ${i}` })
+      await settle(a)
+      expect(heard).toHaveLength(CHAT_BURST)
+      await a.leave()
+    })
   })
 })
