@@ -1,6 +1,6 @@
 import {useTexture} from '@react-three/drei'
 import {NearestFilter, RepeatWrapping, type Texture} from 'three'
-import dryGrass from "../../assets/textures_img/dry_grass.png"
+import dryGrass from "../assets/textures_img/dry_grass.png"
 
 
 // Module scope keeps the identity stable, so drei's layout effect runs it once.
