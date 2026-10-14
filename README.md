@@ -19,7 +19,9 @@ Open two browser tabs to see each other move. The client also runs on its own (`
 | `PORT` | server | `2567` |
 | `BASE_MAX_CLIENTS` | server | `50` (set it to `3` to watch new Base Instances open) |
 
-Pick a name and look, then **Enter the Base**. Click the canvas to capture the mouse. WASD moves, Shift runs, Space jumps, Enter opens chat, Esc or F releases the mouse. Add `?debug` to the URL for collider outlines, an FPS overlay and a live tweak panel. Add `?debug` to the URL to draw the physics colliders.
+Pick a name and look, then **Enter the Base**. Click the canvas to capture the mouse. WASD moves, Shift runs, Space jumps, **E** faces a henchman or the Examiners, Enter opens chat, Esc or F releases the mouse.
+
+You start on **Floor 1, the Testing Floor** (greybox): walk the Timeline, beat the henchmen and Babbage & Lovelace, then meet other players in the Testing Hall. Add `?debug` to the URL for collider outlines, an FPS overlay, your position, and a tweak panel with teleports to every room (expand **Floor 1** in it). Add `?debug` to the URL to draw the physics colliders.
 
 ## Layout
 

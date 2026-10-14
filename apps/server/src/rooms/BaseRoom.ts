@@ -6,6 +6,7 @@ import {
   RateLimiter,
   SPAWN,
   checkName,
+  clampToBase,
   cleanChat,
   parseLook,
   parseMove,
@@ -56,6 +57,18 @@ export class BaseRoom extends Room<{ state: BaseState }> {
       if (!climber) return
       Object.assign(climber, SPAWN)
       this.lastMove.set(client.sessionId, { pos: { ...SPAWN }, at: Date.now() })
+    },
+
+    // Dev tool (?debug teleports). Off unless the server was started with DEV_TELEPORT=1,
+    // which `npm run dev` does and production never should.
+    [Msg.teleport]: (client: Client, raw: unknown) => {
+      if (process.env.DEV_TELEPORT !== '1') return
+      const to = parseMove({ rotY: 0, ...(raw as object) })
+      const climber = this.state.climbers.get(client.sessionId)
+      if (!to || !climber) return
+      const pos = clampToBase(to)
+      Object.assign(climber, pos)
+      this.lastMove.set(client.sessionId, { pos, at: Date.now() })
     },
 
     // Ephemeral: broadcast and forget. Over the rate limit is dropped silently.

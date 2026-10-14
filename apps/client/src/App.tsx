@@ -1,11 +1,9 @@
 import { Suspense, useState } from "react"
 import { Canvas } from "@react-three/fiber"
-import { KeyboardControls, Sky, StatsGl } from "@react-three/drei"
+import { KeyboardControls, StatsGl } from "@react-three/drei"
 import { Physics } from "@react-three/rapier"
 import { Leva } from "leva"
 import type { JoinOptions } from "@mcc/shared"
-import Earth from "./world/Earth"
-import TestCourse from "./world/TestCourse"
 import Player from "./avatar/Player"
 import RemoteClimbers from "./avatar/RemoteClimbers"
 import { controlMap } from "./avatar/controls"
@@ -15,6 +13,10 @@ import ChatPanel from "./chat/ChatPanel"
 import CharacterCreator from "./identity/CharacterCreator"
 import { loadIdentity, saveIdentity } from "./identity/storage"
 import { DEV_TOOLS, useDevControls } from "./dev/devTools"
+import { FloorProvider } from "./floor/FloorProvider"
+import TestingFloor from "./floor/TestingFloor"
+import FloorHud from "./floor/FloorHud"
+import DevFloorControls, { DevPosition } from "./floor/DevFloorControls"
 
 export default function App() {
 	const [identity, setIdentity] = useState<JoinOptions>(loadIdentity)
@@ -40,17 +42,18 @@ function Base({ identity, onEditCharacter }: { identity: JoinOptions; onEditChar
 	const { physicsDebug, showPerf } = useDevControls()
 	return (
 		<BaseNetProvider join={identity}>
+		<FloorProvider>
 			<div className="relative w-full h-full">
 				<KeyboardControls map={controlMap}>
 					<Canvas shadows camera={{ position: [0, 4, 10], fov: 60 }}>
-						<ambientLight intensity={0.6} />
-						<directionalLight color={'red'} position={[5, 10, 5]} castShadow />
-						<Sky sunPosition={[100, 100, 20]} />
+						{/* Inside the Tower: no sky. Each room lights itself (see floor/layout.ts). */}
+						<color attach="background" args={["#0b0f14"]} />
+						<fog attach="fog" args={["#0b0f14", 30, 90]} />
+						<ambientLight intensity={0.35} />
 						{showPerf && <StatsGl className="dev-stats" />}
 						<Suspense fallback={null}>
 							<Physics debug={physicsDebug}>
-								<Earth />
-								<TestCourse />
+								<TestingFloor />
 								<Player />
 							</Physics>
 							{/* Remote avatars are drawn, not simulated: no physics bodies. */}
@@ -64,13 +67,17 @@ function Base({ identity, onEditCharacter }: { identity: JoinOptions; onEditChar
 				>
 					Edit character
 				</button>
+				<FloorHud />
 				<ChatPanel />
 				<div className="pointer-events-none absolute bottom-3 left-3 rounded bg-black/50 px-3 py-2 font-mono text-xs text-white">
 					click to look · WASD move · Shift run · Space jump · Enter chat · Esc or F release mouse
 				</div>
 				<StatusBadge />
 				<Leva hidden={!DEV_TOOLS} collapsed titleBar={{ title: "debug", position: { x: 0, y: 48 } }} />
+				{DEV_TOOLS && <DevFloorControls />}
+				{DEV_TOOLS && <DevPosition />}
 			</div>
+		</FloorProvider>
 		</BaseNetProvider>
 	);
 }

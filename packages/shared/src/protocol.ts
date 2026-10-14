@@ -2,6 +2,7 @@
 
 import type { Look } from './identity.ts'
 import { CENTER_TO_FEET } from './movement.ts'
+import { TESTING_FLOOR_BOUNDS } from './floors/testingFloor.ts'
 
 export const BASE_ROOM = 'base'
 /** Default Base Instance size. Override on the server with BASE_MAX_CLIENTS. */
@@ -14,15 +15,16 @@ export const RENDER_DELAY_MS = PATCH_RATE_MS * 2
 /** How often the client reports its own position, at most. */
 export const MOVE_SEND_HZ = 15
 
-/** Walkable square of the Base: |x| and |z| stay within this. */
-export const BASE_HALF_SIZE = 50
+/** Walkable extent of the Base, which is Floor 1 (the Testing Floor) for now. */
+export const BASE_BOUNDS = TESTING_FLOOR_BOUNDS
 export const Y_MIN = -35
 export const Y_MAX = 60
 
 /** Capsule-centre spawn point. */
 export const SPAWN = { x: 0, y: CENTER_TO_FEET + 0.5, z: 4 } as const
-/** Joiners are spread on a ring this wide around SPAWN instead of stacking inside each other. */
-export const SPAWN_RING_RADIUS = 2.5
+/** Joiners are spread on a ring this wide around SPAWN instead of stacking inside each other.
+ * Keep it under half the doorway width (2 m) so holding W from spawn walks you through the first door. */
+export const SPAWN_RING_RADIUS = 1.5
 
 /** Spawn position for a joiner, from a value in [0, 1) (the server passes Math.random()). */
 export function spawnPoint(u: number): { x: number; y: number; z: number } {
@@ -53,6 +55,8 @@ export const Msg = {
   respawn: 'respawn',
   correction: 'correction',
   chat: 'chat',
+  /** Dev only: the server honours it only when started with DEV_TELEPORT=1. */
+  teleport: 'teleport',
 } as const
 
 export type ClimberStatus = 'idle' | 'battling' | 'away'

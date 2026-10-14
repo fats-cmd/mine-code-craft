@@ -2,7 +2,7 @@
 // authoritative over its own avatar; the server only refuses the impossible.
 
 import { RUN_SPEED } from './movement.ts'
-import { BASE_HALF_SIZE, Y_MAX, Y_MIN, type Vec3 } from './protocol.ts'
+import { BASE_BOUNDS, Y_MAX, Y_MIN, type Vec3 } from './protocol.ts'
 
 /** Allowed horizontal speed, with headroom for jitter in message timing. */
 export const MAX_SPEED = RUN_SPEED * 1.25
@@ -30,6 +30,10 @@ export function validateMove(prev: Vec3, next: Vec3, elapsedS: number): MoveVerd
 }
 
 export function clampToBase(p: Vec3): Vec3 {
-  const c = (v: number, lim: number) => Math.min(lim, Math.max(-lim, v))
-  return { x: c(p.x, BASE_HALF_SIZE), y: Math.min(Y_MAX, Math.max(Y_MIN, p.y)), z: c(p.z, BASE_HALF_SIZE) }
+  const c = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v))
+  return {
+    x: c(p.x, BASE_BOUNDS.minX, BASE_BOUNDS.maxX),
+    y: c(p.y, Y_MIN, Y_MAX),
+    z: c(p.z, BASE_BOUNDS.minZ, BASE_BOUNDS.maxZ),
+  }
 }

@@ -199,4 +199,44 @@ describe('BaseRoom', () => {
       await a.leave()
     })
   })
+
+  describe('dev teleport', () => {
+    const far = { x: 0, y: SPAWN.y, z: -150 }
+
+    it('is ignored unless DEV_TELEPORT=1', async () => {
+      delete process.env.DEV_TELEPORT
+      const a = await new Client(url).joinOrCreate(BASE_ROOM, { name: 'Walker' })
+      const start = await until(a, (s) => s.climbers.get(a.sessionId))
+      const startZ = start.z
+      a.send(Msg.teleport, far)
+      await nextPatch(a)
+      await nextPatch(a)
+      expect((a.state as StateView).climbers.get(a.sessionId)!.z).toBe(startZ)
+      await a.leave()
+    })
+
+    it('moves you anywhere on the floor when enabled, clamped to the bounds', async () => {
+      process.env.DEV_TELEPORT = '1'
+      try {
+        const a = await new Client(url).joinOrCreate(BASE_ROOM, { name: 'Jumper' })
+        await until(a, (s) => s.climbers.get(a.sessionId))
+        a.send(Msg.teleport, far)
+        const there = await until(a, (s) => {
+          const c = s.climbers.get(a.sessionId)
+          return c && c.z < -100 ? c : undefined
+        })
+        expect(there.z).toBeCloseTo(far.z)
+        // and the next normal move from there is accepted, not corrected back
+        a.send(Msg.move, { x: 0.3, y: SPAWN.y, z: far.z, rotY: 0 })
+        const moved = await until(a, (s) => {
+          const c = s.climbers.get(a.sessionId)
+          return c && c.x > 0.2 ? c : undefined
+        })
+        expect(moved.z).toBeCloseTo(far.z)
+        await a.leave()
+      } finally {
+        delete process.env.DEV_TELEPORT
+      }
+    })
+  })
 })
