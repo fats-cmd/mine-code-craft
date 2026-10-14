@@ -2,7 +2,7 @@
 
 Milestones in build order. Each one ends in something you can **see working in the browser**. If a milestone has no visible result, it's scoped wrong. Finish and play each milestone before starting the next. Architecture: [`ARCHITECTURE.md`](./ARCHITECTURE.md). Terms: [`../CONTEXT.md`](../CONTEXT.md).
 
-**v0.1 (first playable) = M0–M4.** v0.2 = M5. Everything after that depends on what players actually do.
+**v0.1 (first playable) = M0–M4: the Testing Floor, end to end.** Re-planned 2026-10-14 around floors (see [`design/GAME_DESIGN.md`](./design/GAME_DESIGN.md)). Everything after that depends on what players actually do.
 
 ---
 
@@ -46,38 +46,45 @@ Milestones in build order. Each one ends in something you can **see working in t
 
 **Done when:** you solve a Code Challenge in both languages and a Quiz. `while True: pass` and `for(;;){}` are killed and the UI recovers. A wrong answer shows a useful diff. Rows land in Postgres.
 
-### M4 — Duels  → **v0.1**
-- Walk-up challenge flow in the Base. `DuelRoom` with best of 3 (Quiz + Code in v0.1). Server clock, focus dot, forfeit, 30 s reconnect window.
-- Battle takeover UI (Canvas hidden, `frameloop="never"`, never unmounted).
-- Glicko-2 rating (unit tested). `matches`/`rounds` writes. Simple leaderboard page.
-- Ranked vs Casual flag exists (Perks don't yet).
+### M4 — The Testing Floor  → **v0.1**
+Floor 1 end to end, per [`design/floors/01-testing-floor.md`](./design/floors/01-testing-floor.md).
+- **M4a: Greybox** (can start before M3 is finished): Arrival, the five Timeline Walk rooms, the Engine Room and the Testing Hall built from primitives. Punch's lines as on-screen text. Henchmen as glowing placeholders.
+- **M4b: Tasks:** henchmen and the three boss phases run Challenges through the M3 engine. Integrity, phase checkpoints, the boss staying beaten, the Gate of Notes.
+- **M4c: Floor-scoped Hall:** `BaseRoom` becomes `FloorRoom` with `filterBy(["floor"])` ([ADR-0009](./adr/0009-floor-scoped-presence.md)). The Testing Hall is Floor 1's Hall, with nameplates showing time on the floor.
+- **M4d: Art and sound pass:** Blender models replace greybox pieces (`npm run model`), plus the audio list.
 
-**Done when:** two accounts play a full Duel from a walk-up challenge. The winner's Rank goes up. A forged "I passed" message doesn't win. Returning to the Base is instant, and your avatar showed as `battling` the whole time.
+**Done when:** a brand-new player walks the Timeline, beats all five henchmen and Babbage & Lovelace, enters the Testing Hall, and sees the other Floor-1 players there.
 
 **→ Stop. Get real people to play v0.1.**
 
-### M5 — Queue, Stations, all four Formats  → v0.2
-- `QueueRoom` with Rank-window matchmaking (Ranked + Casual). HUD queue button.
-- Stations in the Base (practice Trial, format-specific queue).
-- Fix and Predict formats in the pipeline and UI. Round 2 enabled. Content up to the pre-launch targets.
+### M5 — Duels in the Hall
+- Walk-up challenge flow in the Floor Hall. `DuelRoom` with best of 3. Server clock, focus dot, forfeit, 30 s reconnect window.
+- Battle takeover UI (Canvas hidden, `frameloop="never"`, never unmounted).
+- Glicko-2 rating (unit tested). `matches`/`rounds` writes. Simple leaderboard.
+- Ranked vs Casual flag (Perks don't exist yet).
 
-### M6 — Progression
-- XP and Levels, Mastery per Topic, profile page with Mastery chart.
-- Cosmetics inventory, earned unlocks, Titles on nameplates.
+**Done when:** two players on Floor 1 play a full Duel from a walk-up challenge, the winner's Rank goes up, and a forged "I passed" message doesn't win.
 
-### M7 — The Tower
-- Floors and Floor Tests (TrialRoom). `highest_floor` on nameplates. A Tower view showing progress.
+### M6 — Queue, Stations, Quests
+- `QueueRoom` matchmaking per floor (Ranked + Casual). Practice Stations in the Hall. The quest board with the Floor 1 starter quests.
 
-### M8 — Roles & Perks
+### M7 — Climbing: Floor Exam, Floor 2, the Fall
+- Needs sign-in (M2b) for persistent floors.
+- Floor Exam gate. `current_floor` on profiles. Floor 2 designed (own doc) and built.
+- The Fall as proposed in [ADR-0011](./adr/0011-the-fall.md): Strikes, Stake Duels, grace, at most one floor per day.
+
+### M8 — Progression
+- XP and Levels, Mastery per Topic, profile page with a Mastery chart.
+- Cosmetics inventory, earned unlocks (Brass Goggles, titles like *Engine Breaker*) on nameplates.
+
+### M9 — Roles & Perks
 - Role selection at Level 5, Perk Trees, equip up to 3.
 - Server-authoritative `perk:use` in Casual Duels and Trials. Ranked lockout (unit tested). Effect visuals.
-- Balance pass from Casual match data.
 
-### M9 — Boss Floors: the Meta Legion
-- Minion waves, HP, Guardian multi-phase Code Challenge, Zark presentation.
-- First Boss Floor at Floor 5. Title *Breaker of the Meta Legion*.
+### M10 — More floors, up to the Meta Spire
+- One floor per design doc: Setting, Henchmen, Boss, Hall. The top floor is Zark and the Meta Legion.
 
-### M10 — Public launch readiness
+### M11 — Public launch readiness
 - Redis presence and driver, multiple server processes, sticky sessions, deployment (measure regions on the real host).
 - Custom SMTP for auth email. Rate limits, chat/name filtering, report/block/mute, abandonment cooldowns.
 - Logs and metrics. Content-bug alarm on grading disagreements.
@@ -86,4 +93,4 @@ Milestones in build order. Each one ends in something you can **see working in t
 
 ## Not planned (say so in an ADR if this changes)
 
-Mobile/touch · voice · spectating and replays · server-side code execution · languages beyond Python/JS · real-money purchases · co-op raids and live world events (the Boss design leaves room for both later) · friends lists and parties (after M10) · user-generated content.
+Mobile/touch · voice · spectating and replays · server-side code execution · languages beyond Python/JS · real-money purchases · co-op raids and live world events (the Boss design leaves room for both later) · friends lists and parties (after M11) · user-generated content.

@@ -21,6 +21,16 @@ export function useMouseLook() {
         const lock = () => {
             if (document.pointerLockElement !== canvas) void canvas.requestPointerLock()
         }
+
+    // custom key to remove the mouse lock on the canvas
+        const unlock = (e: KeyboardEvent) => {
+            if (e.code === "KeyF") {
+                if (document.pointerLockElement === canvas) {
+                    document.exitPointerLock()
+                }
+            }
+            // console.log("Key pressed:", e.code)
+        } 
         const move = (e: MouseEvent) => {
             if (document.pointerLockElement !== canvas) return
             look.current.yaw -= e.movementX * SENSITIVITY
@@ -28,10 +38,14 @@ export function useMouseLook() {
         }
         canvas.addEventListener("click", lock)
         document.addEventListener("mousemove", move)
+        document.addEventListener("keydown", unlock)
         return () => {
             canvas.removeEventListener("click", lock)
+            document.removeEventListener("keydown", unlock)
             document.removeEventListener("mousemove", move)
         }
+
+
     }, [canvas])
 
     return look

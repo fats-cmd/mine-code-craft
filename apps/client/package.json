@@ -8,7 +8,10 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "model": "node scripts/gltf.mjs",
+    "predev": "node scripts/copy-draco.mjs",
+    "prebuild": "node scripts/copy-draco.mjs"
   },
   "dependencies": {
     "@colyseus/sdk": "^0.18.5",
@@ -17,6 +20,7 @@
     "@react-three/fiber": "^9.7.0",
     "@react-three/rapier": "^2.2.0",
     "@tailwindcss/vite": "^4.3.3",
+    "leva": "^0.10.1",
     "nanoid": "^6.0.1",
     "react": "~19.2.8",
     "react-dom": "~19.2.8",
@@ -33,6 +37,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.7.0",
+    "gltfjsx": "^6.5.3",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.65.0",
     "vite": "^8.2.2"

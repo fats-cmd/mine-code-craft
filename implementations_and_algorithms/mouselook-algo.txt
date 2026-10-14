@@ -1,0 +1,33 @@
+ALGORITHM MouseLook
+
+CONSTANT SENSITIVITY = 0.0025
+
+INITIALIZE:
+    yaw ← 0
+    pitch ← -0.35
+    canvas ← 3D rendering canvas
+
+ON CANVAS CLICK:
+    IF pointer lock is not active on canvas THEN
+        REQUEST pointer lock for canvas
+    END IF
+IF CANVAS lock
+    Remove lock
+
+ON MOUSE MOVE(event):
+    IF pointer lock is not active on canvas THEN
+        RETURN
+    END IF
+
+    yaw ← yaw - (event.movementX × SENSITIVITY)
+
+    pitch ← pitch - (event.movementY × SENSITIVITY)
+    pitch ← CLAMP_PITCH(pitch)
+
+ON COMPONENT CLEANUP:
+    REMOVE canvas click listener
+    REMOVE mouse movement listener
+
+RETURN yaw, pitch
+
+END ALGORITHM
