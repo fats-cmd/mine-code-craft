@@ -65,7 +65,7 @@ function Base({ identity, onEditCharacter }: { identity: JoinOptions; onEditChar
 				</button>
 				<ChatPanel />
 				<div className="pointer-events-none absolute bottom-3 left-3 rounded bg-black/50 px-3 py-2 font-mono text-xs text-white">
-					click to look · WASD move · Shift run · Space jump · Enter chat · Esc release mouse
+					click to look · WASD move · Shift run · Space jump · Enter chat · Esc release mouse	.	F to release mouse
 				</div>
 				<StatusBadge />
 			</div>
