@@ -106,10 +106,10 @@ The typed Colyseus client uses `import type { server } from "apps/server/..."`. 
 
 | Room | Players | Lifetime | Purpose |
 |---|---|---|---|
-| `BaseRoom` | ≤ 50 | while occupied | One Base Instance. Avatar positions, nameplates, status, chat, walk-up challenges. |
+| `BaseRoom` → `FloorRoom` | ≤ 50 | while occupied | One Hall Instance of one floor. Avatar positions, nameplates, status, chat, walk-up challenges. `BaseRoom` today; becomes `FloorRoom`, keyed by floor with `filterBy(["floor"])`, in M4 ([ADR-0009](adr/0009-floor-scoped-presence.md)). |
 | `QueueRoom` | many | always on (one per region) | Ranked/Casual matchmaking by Rank and format. Creates a DuelRoom when it pairs two Climbers. |
 | `DuelRoom` | exactly 2 | one Duel | Best-of-3 Rounds, server clock, grading, Perks (Casual), result write. |
-| `TrialRoom` | 1 | one Trial | Station practice, Floor Tests, Boss Floors. Same grading and clock code as Duels, one player. |
+| `TrialRoom` | 1 | one Trial or fight | Station practice, Floor Exams, and a floor's Henchmen and Boss phases. Same grading and clock code as Duels, one player. |
 
 **A Climber stays in their `BaseRoom` during a battle** and joins the battle room in parallel, so their avatar stays visible in the Base (status `battling`). Two sockets at once is supported.
 
@@ -261,7 +261,7 @@ The **8 existing problems** in `server/problems/` move into `content/challenges/
 | **Rank** | Glicko-2. Ranked Duels only. New Climbers start at 1500 / RD 350. | `server/progression/rating.ts` (pure, tested) |
 | **XP / Level** | XP for every Duel (win > draw > loss) and Trial. Level curve `xpFor(n) = 100·n^1.5`. | server |
 | **Mastery** | Per Topic: correct Submissions weighted by difficulty, decaying slowly. Shown as a radar or bars. | server, written to `mastery` |
-| **Floors** | Clear a Floor Test (a Trial: N Challenges at that Floor's difficulty, minimum score) to unlock the next Floor. Every 5th Floor is a Boss Floor. | TrialRoom |
+| **Floors** | Beat the floor's Boss (once), then pass its Floor Exam in the Hall to climb. Falling ([ADR-0011](adr/0011-the-fall.md), proposed) drops you one floor. | TrialRoom |
 | **Roles & Perks** | Pick a Role at Level 5. One Perk point per Level, spent in that Role's tree. Up to 3 Perks equipped. Respec costs a cooldown, not currency. | `packages/shared/perks` |
 | **Cosmetics** | Unlocked by Level, Floors, Boss clears and Titles. Inventory in Postgres. No payments in v1, but the schema has a `source` column so purchases could be added later. | server |
 
@@ -276,15 +276,9 @@ Perks are **data plus pure effect functions** in `packages/shared/perks`. The cl
 | **Architect** | *Blueprint*: show a hint or solution skeleton | — |
 | **Scout** | *Recon*: see the next Round's Format and Topic early | *Fog of War*: blur the Opponent's Quiz options for 4 s |
 
-### Boss Floors (the Meta Legion)
+### Floors: Henchmen and Bosses
 
-A solo `TrialRoom` run with a health bar:
-
-1. **Waves:** 3 waves of Minions. Each Minion is one short Challenge (Quiz, Predict or Fix) on a timer. A wrong answer or a timeout costs the Climber HP.
-2. **Guardian:** a multi-phase Code Challenge. Each phase adds a requirement (e.g. handle duplicates, then meet O(n log n)). Every passed phase is a "hit". Zark's attack animations play between phases.
-3. **Victory:** Boss Floor cleared, Cosmetic and Title (*Breaker of the Meta Legion*). Losing costs nothing but time.
-
-Boss Floors reuse the same grading and clock, so they are content plus presentation, not new infrastructure.
+Game design lives in [`design/GAME_DESIGN.md`](design/GAME_DESIGN.md), and each floor gets its own doc ([Floor 1](design/floors/01-testing-floor.md)). Technically every encounter is the same thing: a solo `TrialRoom` run of Tasks (Challenges) with **Integrity** (hit points), a server clock and phase checkpoints. Henchmen are one Task; a Boss is 2–4 phases. A floor is content plus presentation, not new infrastructure. The top floor's Boss is Zark and the Meta Legion.
 
 ---
 

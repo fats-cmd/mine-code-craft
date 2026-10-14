@@ -13,12 +13,18 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "dev:client": "npm run dev -w @mcc/client",
-    "dev:server": "npm run dev -w @mcc/server"
+    "dev:server": "npm run dev -w @mcc/server",
+    "model": "npm run model -w @mcc/client --"
   },
   "engines": {
     "node": ">=22"
   },
   "devDependencies": {
     "concurrently": "^10.0.6"
+  },
+  "overrides": {
+    "sharp": "^0.35.5",
+    "react": "~19.2.8",
+    "react-dom": "~19.2.8"
   }
 }
