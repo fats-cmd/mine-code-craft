@@ -48,7 +48,8 @@ Milestones in build order. Each one ends in something you can **see working in t
 
 ### M4 — The Testing Floor  → **v0.1**
 Floor 1 end to end, per [`design/floors/01-testing-floor.md`](./design/floors/01-testing-floor.md).
-- **M4a: Greybox** (can start before M3 is finished): Arrival, the five Timeline Walk rooms, the Engine Room and the Testing Hall built from primitives. Punch's lines as on-screen text. Henchmen as glowing placeholders.
+- **M4a: Greybox ✅:** Arrival, the five Timeline Walk rooms, the Engine Room and the Testing Hall built from primitives (`apps/client/src/floor/`). The Guide's lines on screen. Henchmen as glowing placeholders with Pass/Fail standing in for Tasks. Progress, Integrity, doors and the Gate of Notes work, the Hall is the only room where you see other players, and `?debug` has room teleports.
+  - Known gap: on return you spawn at the Arrival Platform even after beating the boss (the doors stay open). M4c fixes it once the server knows your progress.
 - **M4b: Tasks:** henchmen and the three boss phases run Challenges through the M3 engine. Integrity, phase checkpoints, the boss staying beaten, the Gate of Notes.
 - **M4c: Floor-scoped Hall:** `BaseRoom` becomes `FloorRoom` with `filterBy(["floor"])` ([ADR-0009](./adr/0009-floor-scoped-presence.md)). The Testing Hall is Floor 1's Hall, with nameplates showing time on the floor.
 - **M4d: Art and sound pass:** Blender models replace greybox pieces (`npm run model`), plus the audio list.

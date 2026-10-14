@@ -33,6 +33,7 @@ import { useMouseLook } from "./useMouseLook"
 import { useBaseNet } from "../net/BaseNet"
 import SpeechBubble from "../chat/SpeechBubble"
 import { isTyping } from "../chat/typing"
+import { useFloor } from "../floor/FloorContext"
 
 const NO_KEYS = { forward: false, back: false, left: false, right: false, jump: false, run: false }
 
@@ -45,11 +46,14 @@ const SEND_EPSILON_ROT = 0.01
 const GROUND_STICK = 2
 
 const CAMERA_DISTANCE = 6
+const CAMERA_MIN_DISTANCE = 0.8
+const CAMERA_WALL_GAP = 0.3 // stop this far in front of a wall so the near plane doesn't clip it
 const CAMERA_TARGET_HEIGHT = 0.7 // above the capsule centre, roughly head height
 const DEG = Math.PI / 180
 
 export default function Player() {
-    const { world } = useRapier()
+    const { world, rapier } = useRapier()
+    const { playerPosRef, inputBlockedRef, teleportRef } = useFloor()
     const [, getKeys] = useKeyboardControls<Control>()
     const look = useMouseLook()
     const { room, self, lastSaid } = useBaseNet()
@@ -104,8 +108,8 @@ export default function Player() {
         const ctrl = controller.current
         if (!dt || !rb || !col || !ctrl) return
 
-        // Typing "w" in chat must not walk you forward.
-        const keys = isTyping() ? NO_KEYS : getKeys()
+        // Typing "w" in chat, or answering a Task, must not walk you forward.
+        const keys = isTyping() || inputBlockedRef.current ? NO_KEYS : getKeys()
         const dir = inputToDirection(keys, look.current.yaw)
         const speed = keys.run ? RUN_SPEED : WALK_SPEED
 
@@ -121,7 +125,15 @@ export default function Player() {
 
         const p = rb.translation()
         let next = { x: p.x + moved.x, y: p.y + moved.y, z: p.z + moved.z }
-        if (correction.current) {
+        const teleport = teleportRef.current
+        if (teleport) {
+            // Dev teleport (?debug). The server only honours it when run with --dev-teleport.
+            next = { x: teleport[0], y: teleport[1], z: teleport[2] }
+            teleportRef.current = null
+            vy.current = 0
+            room?.send(Msg.teleport, next)
+            lastSent.current = { ...next, rotY: lastSent.current?.rotY ?? 0 }
+        } else if (correction.current) {
             next = correction.current
             correction.current = null
             vy.current = 0
@@ -132,6 +144,7 @@ export default function Player() {
             lastSent.current = { ...SPAWN, rotY: lastSent.current?.rotY ?? 0 }
         }
         rb.setNextKinematicTranslation(next)
+        playerPosRef.current = next
 
         if (model.current && (dir.x !== 0 || dir.z !== 0)) {
             model.current.rotation.y = dampAngle(model.current.rotation.y, headingOf(dir), TURN_RATE, dt)
@@ -148,14 +161,13 @@ export default function Player() {
         }
 
         // Third-person orbit: sit behind the look direction, tilted by pitch.
+        // Indoors, pull in when a wall is between the Climber and the camera.
         const { yaw, pitch } = look.current
         const target = cameraTarget.current.set(next.x, next.y + CAMERA_TARGET_HEIGHT, next.z)
-        const horizontal = Math.cos(pitch) * CAMERA_DISTANCE
-        camera.position.set(
-            target.x + Math.sin(yaw) * horizontal,
-            target.y - Math.sin(pitch) * CAMERA_DISTANCE,
-            target.z + Math.cos(yaw) * horizontal,
-        )
+        const back = { x: Math.sin(yaw) * Math.cos(pitch), y: -Math.sin(pitch), z: Math.cos(yaw) * Math.cos(pitch) }
+        const hit = world.castRay(new rapier.Ray(target, back), CAMERA_DISTANCE, true, undefined, undefined, undefined, rb)
+        const distance = hit ? Math.max(CAMERA_MIN_DISTANCE, hit.timeOfImpact - CAMERA_WALL_GAP) : CAMERA_DISTANCE
+        camera.position.set(target.x + back.x * distance, target.y + back.y * distance, target.z + back.z * distance)
         camera.lookAt(target)
     })
 

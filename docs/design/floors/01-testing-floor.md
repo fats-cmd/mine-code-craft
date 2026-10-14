@@ -15,7 +15,7 @@ A Victorian engine house *inside* a computer. Brass, oak, iron and gaslight, wit
 
 **Mood:** wonder first, then pressure. Calm and museum-like at the start. The engines grow louder as you approach the boss.
 
-**Narrator:** a small brass automaton called **Punch**. It's an original character, the Tower's guide, and it explains each mechanic in one or two lines. It reappears on later floors.
+**Narrator:** **the Guide**, the Tower's guide, an original character who explains each mechanic in one or two lines and reappears on later floors. Its **name and design are still to come**; Ronald will design it. In the greybox it's a small floating light.
 
 ## 2. Layout
 
@@ -39,7 +39,7 @@ A Victorian engine house *inside* a computer. Brass, oak, iron and gaslight, wit
     │  ④ Gear Works → ⑤ The Moth Room                                 │
     └─────────────────────────────────▲───────────────────────────────┘
                                       │
-                              ARRIVAL PLATFORM  (spawn, Punch says hello)
+                              ARRIVAL PLATFORM  (spawn, the Guide says hello)
 ```
 
 The **Timeline Walk** is one route with five rooms. Each room teaches one thing and ends in a henchman. Sizes are small on purpose: about 3–5 minutes to walk through without stopping. Total time to the boss is 10–15 minutes for a newcomer.
@@ -96,7 +96,7 @@ In 1843 Ada published her Notes on the Analytical Engine. **Note G** lays out, s
 
 The machine they designed and never saw built boots up, and you program it.
 
-- **Mechanic:** the first **Code** Task in the game. Punch (the guide) and Ada walk you through the editor in two lines. Babbage provides the inputs, Ada the expected outputs. Pass all hidden cases and the Engine runs.
+- **Mechanic:** the first **Code** Task in the game. The Guide and Ada walk you through the editor in two lines. Babbage provides the inputs, Ada the expected outputs. Pass all hidden cases and the Engine runs.
 - **Task:** **Code**, difficulty 2: `next_value(sequence)`, which uses finite differences to predict the next term of a polynomial sequence. It ties phases 1 and 2 together: you've done this by hand, now make the machine do it.
 - **Victory:** the Engine spins up, the teal glow floods the room, and the Notes pages fly to form the **Gate of Notes**. Ada: *"It weaves your pattern now. Go on: they're waiting for you above."*
 
@@ -145,7 +145,7 @@ Build them in this order; earlier items unblock playtesting. Greybox first: ever
 | P1 | **Timeline Walk modules** | A kit of wall, arch, floor (wood → circuit) and lamp pieces, to snap rooms together. |
 | P2 | **Jacquard loom**, **card wall**, **cogs**, **relay cabinet** | One hero prop per room. |
 | P2 | Henchmen: **Shuttle Sprite**, **Punched Card**, **Loose Cog**, **The Moth** | Small and simple, and they need to read as "enemies". |
-| P2 | **Punch** (the guide) | Small brass automaton, also reused on later floors. |
+| P2 | **The Guide** | Design to come. It appears on every floor, so it's worth a strong silhouette. |
 | P3 | Testing Hall set dressing | Gate, pads, terminals, quest board. |
 
 ### Audio list
@@ -179,7 +179,7 @@ All in the content pipeline (M3), Python and JS for Code/Fix/Predict.
 
 ## 8. Build plan
 
-1. **Greybox (code only):** all rooms and the Engine Room as primitives, Punch as a floating box with speech text, henchmen as glowing cubes. You can walk it end to end. Needs nothing from M3.
+1. **Greybox (code only) ✅:** all rooms and the Engine Room as primitives, the Guide as a floating light with on-screen lines, henchmen as glowing shapes, and Pass/Fail buttons standing in for Tasks. Walkable end to end.
 2. **Wire the Tasks:** henchmen and boss phases call the challenge engine (M3). Integrity, phase checkpoints, victory and the Gate.
 3. **Floor-scoped Hall:** `FloorRoom` for Floor 1 replaces the generic Base ([ADR-0009](../../adr/0009-floor-scoped-presence.md)).
 4. **Art pass:** Blender models replace greybox pieces one at a time (`npm run model`). Then sound.
@@ -187,7 +187,7 @@ All in the content pipeline (M3), Python and JS for Code/Fix/Predict.
 
 ## Open questions (Ronald)
 
-- **Punch** as the guide: keep it, rename it, or have Ada guide you instead?
+- **The Guide:** name and design to come (Ronald).
 - Should the boss be **beatable on the first try** by a total beginner, or is a retry or two intended?
 - **Integrity 5** for the boss: too forgiving or too harsh?
 - Should Floor 1 players get an **"invite a friend into my Hall"** option, or is it strictly floor-scoped?

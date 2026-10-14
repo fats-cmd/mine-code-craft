@@ -8,7 +8,8 @@ Everything used to make the game: what's already wired into the repo, and the fr
 
 | Tool | Use it for | How |
 |---|---|---|
-| **Debug mode** | Seeing what the engine sees: collider outlines, an FPS/CPU overlay, and a Leva tweak panel for live values | Add `?debug` to the URL: `http://localhost:5173/?debug` |
+| **Debug mode** | Seeing what the engine sees: collider outlines, an FPS/CPU overlay, your live position (for placing pieces), and a Leva tweak panel for live values | Add `?debug` to the URL: `http://localhost:5173/?debug`. Click the small ▸ on the panel's title bar to expand it. |
+| **Floor teleports** | Jumping straight to any room, beating all henchmen, resetting floor progress | `?debug` → expand **Floor 1** in the panel. Online, the server must run with `--dev-teleport`, which `npm run dev` does. |
 | **Leva** | Tuning numbers live (speeds, light colours, camera distance, boss timings) without reloading | `useControls("Lighting", { intensity: 1 })` in any component. It shows only with `?debug`; normal players get the default. Shared debug switches are in `src/dev/devTools.ts`. |
 | **`npm run model`** | Turning a Blender export into a game-ready model **and** a typed React component | See *Blender → game* below |
 | **Draco decoder** | Decoding compressed models, served from our own `/draco/` folder rather than Google's CDN | Automatic: copied from `three` before every `dev` and `build` |

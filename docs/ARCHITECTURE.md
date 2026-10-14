@@ -165,7 +165,8 @@ When sign-in lands, only this step changes: name and look come from the verified
 
 **Movement is client-authoritative with server sanity checks** (`validateMove()` in `packages/shared`).
 - Horizontal speed is capped at 1.25× run speed plus a small slack, with elapsed time counted per move capped at 0.5 s.
-- Accepted positions are clamped to the Base bounds. Rejected ones get a `correction`. Server-side Rapier is not worth it for a social hub with no combat movement. Revisit only if the Base gains movement-based gameplay.
+- Accepted positions are clamped to the floor's bounds (`TESTING_FLOOR_BOUNDS`, computed from the room layout).
+- `teleport` (dev only) is honoured only when the server runs with `--dev-teleport`; `npm run dev` passes it, production must not. Rejected ones get a `correction`. Server-side Rapier is not worth it for a social hub with no combat movement. Revisit only if the Base gains movement-based gameplay.
 
 ### Interpolation (remote avatars)
 

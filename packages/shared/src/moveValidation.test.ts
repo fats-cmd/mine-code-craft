@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { MAX_ELAPSED_S, MAX_SPEED, MOVE_SLACK, clampToBase, validateMove } from './moveValidation.ts'
-import { BASE_HALF_SIZE, SPAWN, SPAWN_RING_RADIUS, Y_MAX, Y_MIN, parseMove, spawnPoint } from './protocol.ts'
+import { BASE_BOUNDS, SPAWN, SPAWN_RING_RADIUS, Y_MAX, Y_MIN, parseMove, spawnPoint } from './protocol.ts'
 
 const at = (x: number, y = 1, z = 0) => ({ x, y, z })
 
@@ -29,9 +29,9 @@ describe('validateMove', () => {
   })
 
   it('clamps accepted moves into the Base', () => {
-    const v = validateMove(at(BASE_HALF_SIZE - 0.1), at(BASE_HALF_SIZE + 0.4), 0.1)
+    const v = validateMove(at(BASE_BOUNDS.maxX - 0.1), at(BASE_BOUNDS.maxX + 0.4), 0.1)
     expect(v.ok).toBe(true)
-    expect(v.pos.x).toBe(BASE_HALF_SIZE)
+    expect(v.pos.x).toBe(BASE_BOUNDS.maxX)
   })
 
   it('negative elapsed time counts as zero', () => {
@@ -41,7 +41,8 @@ describe('validateMove', () => {
 
 describe('clampToBase', () => {
   it('clamps every axis', () => {
-    expect(clampToBase({ x: 999, y: -999, z: -999 })).toEqual({ x: BASE_HALF_SIZE, y: Y_MIN, z: -BASE_HALF_SIZE })
+    expect(clampToBase({ x: 999, y: -999, z: -999 })).toEqual({ x: BASE_BOUNDS.maxX, y: Y_MIN, z: BASE_BOUNDS.minZ })
+    expect(clampToBase({ x: -999, y: 999, z: 999 })).toEqual({ x: BASE_BOUNDS.minX, y: Y_MAX, z: BASE_BOUNDS.maxZ })
   })
 })
 
