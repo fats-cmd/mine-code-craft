@@ -7,7 +7,7 @@ import {
   headingOf,
   inputToDirection,
   shortestAngleDelta,
-  stepVerticalVelocity,
+  verticalMove,
   DEFAULT_VERTICAL,
 } from './movement.ts'
 
@@ -95,21 +95,37 @@ describe('headingOf', () => {
   })
 })
 
-describe('stepVerticalVelocity', () => {
-  it('grounded and idle stays at zero', () => {
-    expect(stepVerticalVelocity(0, true, false, 1 / 60)).toBe(0)
+describe('verticalMove', () => {
+  const g = DEFAULT_VERTICAL.gravity
+  it('grounded and idle stays put', () => {
+    expect(verticalMove(0, true, false, 1 / 60)).toEqual({ vy: 0, dy: 0 })
   })
   it('jumps only from the ground', () => {
-    expect(stepVerticalVelocity(0, true, true, 1 / 60)).toBe(DEFAULT_VERTICAL.jumpSpeed)
-    expect(stepVerticalVelocity(-2, false, true, 1 / 60)).toBeLessThan(-2)
+    expect(verticalMove(0, true, true, 1 / 60).dy).toBeGreaterThan(0)
+    expect(verticalMove(-2, false, true, 1 / 60).vy).toBeLessThan(-2)
   })
   it('falls under gravity and caps at terminal speed', () => {
     let vy = 0
-    for (let i = 0; i < 1000; i++) vy = stepVerticalVelocity(vy, false, false, MAX_DT)
+    for (let i = 0; i < 1000; i++) vy = verticalMove(vy, false, false, MAX_DT).vy
     expect(vy).toBe(-DEFAULT_VERTICAL.terminalSpeed)
   })
   it('keeps rising after leaving the ground mid-jump', () => {
-    expect(stepVerticalVelocity(5, false, false, 0.1)).toBeCloseTo(5 - DEFAULT_VERTICAL.gravity * 0.1)
+    expect(verticalMove(5, false, false, 0.1).vy).toBeCloseTo(5 - g * 0.1)
+  })
+  it('jumps the same height at 20, 60 and 240 fps', () => {
+    const peak = (dt: number) => {
+      let { vy, dy: y } = verticalMove(0, true, true, dt)
+      let top = y
+      while (vy > -1) {
+        const s = verticalMove(vy, false, false, dt)
+        vy = s.vy
+        y += s.dy
+        top = Math.max(top, y)
+      }
+      return top
+    }
+    const exact = DEFAULT_VERTICAL.jumpSpeed ** 2 / (2 * g)
+    for (const fps of [20, 60, 240]) expect(peak(1 / fps)).toBeCloseTo(exact, 1)
   })
 })
 

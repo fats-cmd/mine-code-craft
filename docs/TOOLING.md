@@ -46,8 +46,8 @@ Extra `gltfjsx` flags pass straight through: `--instance` for props repeated man
 
 | Software | For | Notes |
 |---|---|---|
-| **[Blender](https://www.blender.org/)** | Every 3D model: rooms, engines, bosses, henchmen | The standard. Low-poly modelling plus its built-in glTF exporter is all we need. |
-| **[Mixamo](https://www.mixamo.com/)** | Rigging and animating humanoids (Ada, Babbage, later Climbers): idle, talk, gesture, bow | Free with an Adobe account. Upload an unrigged character, auto-rig it, download animations as FBX, import into Blender, export `.glb`. |
+| **[MagicaVoxel](https://ephtracy.github.io/)** | Hand-made voxel models: bosses, hero props, Climber cosmetics | The game is voxel ([ADR-0012](./adr/0012-voxel-art-direction.md), [art direction](./design/ART_DIRECTION.md)). Rooms and simple props are built in code; MagicaVoxel is for the pieces worth sculpting by hand. Save `.vox`. |
+| **[Blender](https://www.blender.org/)** | Anything that isn't voxel (rare now) | Its glTF exporter feeds `npm run model`. |
 | **VS Code** with *ESLint*, *Tailwind CSS IntelliSense*, *glTF Tools* | Code, plus previewing `.glb` files inside the editor | |
 
 ### Textures and 2D

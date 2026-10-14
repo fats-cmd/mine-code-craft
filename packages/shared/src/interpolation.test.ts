@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ClockSync, MAX_SNAPSHOTS, SnapshotBuffer, type Snapshot } from './interpolation.ts'
+import { ClockSync, HOLD_GAP_MS, HOLD_STEP_MS, MAX_SNAPSHOTS, SnapshotBuffer, type Snapshot } from './interpolation.ts'
 
 const snap = (t: number, x: number, rotY = 0): Snapshot => ({ t, x, y: 0, z: 0, rotY })
 
@@ -75,6 +75,23 @@ describe('SnapshotBuffer.sample', () => {
     for (let t = 0; t <= 500; t += 50) b.push(snap(t, t))
     b.sample(420)
     expect(b.size).toBe(3) // 400, 450, 500
+  })
+
+  it('holds the old pose across a long gap, so a start from standing is sharp', () => {
+    const b = new SnapshotBuffer()
+    b.push(snap(0, 0))
+    b.push(snap(1000, 1)) // stood still for a second, then moved
+    expect(b.size).toBe(3)
+    expect(b.sample(500)?.x).toBe(0)
+    expect(b.sample(1000 - HOLD_STEP_MS)?.x).toBe(0)
+    expect(b.sample(1000 - HOLD_STEP_MS / 2)?.x).toBeCloseTo(0.5)
+  })
+
+  it('adds no hold between steady 20 Hz moves', () => {
+    const b = new SnapshotBuffer()
+    for (let t = 0; t <= HOLD_GAP_MS * 4; t += 50) b.push(snap(t, t))
+    expect(b.size).toBe(HOLD_GAP_MS * 4 / 50 + 1)
+    expect(b.sample(75)?.x).toBeCloseTo(75)
   })
 
   it('never grows past MAX_SNAPSHOTS even if never sampled', () => {

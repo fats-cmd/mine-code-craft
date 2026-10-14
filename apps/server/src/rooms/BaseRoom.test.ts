@@ -59,6 +59,8 @@ describe('BaseRoom', () => {
     const seen = await until(b, (s) => s.climbers.get(a.sessionId))
     expect(Math.hypot(seen.x - SPAWN.x, seen.z - SPAWN.z)).toBeCloseTo(SPAWN_RING_RADIUS, 3)
     const start = { x: seen.x, z: seen.z }
+    const joinedAt = seen.t
+    expect(joinedAt).toBeGreaterThan(0)
 
     a.send(Msg.move, { x: start.x + 0.5, y: SPAWN.y, z: start.z, rotY: 1 })
     const moved = await until(b, (s) => {
@@ -66,6 +68,8 @@ describe('BaseRoom', () => {
       return c && c.x > start.x + 0.4 ? c : undefined
     })
     expect(moved.rotY).toBeCloseTo(1)
+    // the pose carries the time the server accepted it
+    expect(moved.t).toBeGreaterThanOrEqual(joinedAt)
 
     await a.leave()
     await until(b, (s) => (s.climbers.has(a.sessionId) ? undefined : true))

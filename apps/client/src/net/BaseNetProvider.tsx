@@ -85,14 +85,21 @@ export function BaseNetProvider({ join, children }: { join: JoinOptions; childre
 
                 r.onMessage(Msg.chat, (line: ChatLine) => addLine(line))
 
-                // One snapshot per Climber per patch, stamped with server time.
+                // One snapshot per accepted move, stamped with the server time it was accepted.
+                // Stamping with the patch time instead would pair 20 Hz patches with
+                // 20 Hz moves that drift against them: some patches carry no new pose,
+                // and the avatar stutters.
+                const lastT = new Map<string, number>()
                 r.onStateChange((state: BaseStateView) => {
-                    const t = state.serverTime
-                    if (!(t > 0)) return
-                    clock.addSample(performance.now(), t)
+                    const now = state.serverTime
+                    if (!(now > 0)) return
+                    clock.addSample(performance.now(), now)
                     settled = true
                     state.climbers.forEach((c, id) => {
-                        buffers.get(id)?.push({ t, x: c.x, y: c.y, z: c.z, rotY: c.rotY })
+                        const buffer = buffers.get(id)
+                        if (!buffer || !(c.t > 0) || lastT.get(id) === c.t) return
+                        lastT.set(id, c.t)
+                        buffer.push({ t: c.t, x: c.x, y: c.y, z: c.z, rotY: c.rotY })
                     })
                 })
 

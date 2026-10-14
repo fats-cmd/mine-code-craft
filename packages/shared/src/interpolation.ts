@@ -18,6 +18,15 @@ export interface Snapshot extends Pose {
 
 /** Snapshots kept per avatar: ~1.5 s at 20 Hz, far more than interpolation needs. */
 export const MAX_SNAPSHOTS = 32
+/**
+ * A Climber who stood still sends nothing, so their next move arrives after a
+ * long gap. Interpolating across that gap would turn a sharp start into a slow
+ * glide that lags behind. A gap longer than this gets a hold: a copy of the
+ * old pose stamped HOLD_STEP_MS before the new one, so the avatar stays put
+ * until it really started moving.
+ */
+export const HOLD_GAP_MS = 125
+export const HOLD_STEP_MS = 50
 
 export class SnapshotBuffer {
   private snaps: Snapshot[] = []
@@ -29,6 +38,8 @@ export class SnapshotBuffer {
   /** Insert by server time, not arrival order. A repeated timestamp replaces the old one. */
   push(s: Snapshot): void {
     const arr = this.snaps
+    const last = arr[arr.length - 1]
+    if (last && s.t - last.t > HOLD_GAP_MS) arr.push({ ...last, t: s.t - HOLD_STEP_MS })
     let i = arr.length
     while (i > 0 && arr[i - 1].t > s.t) i--
     if (i > 0 && arr[i - 1].t === s.t) arr[i - 1] = s

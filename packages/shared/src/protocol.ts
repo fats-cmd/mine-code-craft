@@ -13,7 +13,7 @@ export const PATCH_RATE_MS = 50
 /** Remote avatars are drawn this far in the past: 2x the patch interval. Don't lower it. */
 export const RENDER_DELAY_MS = PATCH_RATE_MS * 2
 /** How often the client reports its own position, at most. */
-export const MOVE_SEND_HZ = 15
+export const MOVE_SEND_HZ = 20
 
 /** Walkable extent of the Base, which is Floor 1 (the Testing Floor) for now. */
 export const BASE_BOUNDS = TESTING_FLOOR_BOUNDS
@@ -69,6 +69,8 @@ export interface ClimberView {
   y: number
   z: number
   rotY: number
+  /** Server time (ms) the pose above was accepted. Changes only when the pose does. */
+  t: number
   status: ClimberStatus
 }
 

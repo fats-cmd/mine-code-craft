@@ -49,14 +49,16 @@ export class BaseRoom extends Room<{ state: BaseState }> {
       climber.y = verdict.pos.y
       climber.z = verdict.pos.z
       climber.rotY = move.rotY
+      climber.t = now
     },
 
     // Falling off the world: the server moves you, so it is never a teleport.
     [Msg.respawn]: (client: Client) => {
       const climber = this.state.climbers.get(client.sessionId)
       if (!climber) return
-      Object.assign(climber, SPAWN)
-      this.lastMove.set(client.sessionId, { pos: { ...SPAWN }, at: Date.now() })
+      const now = Date.now()
+      Object.assign(climber, SPAWN, { t: now })
+      this.lastMove.set(client.sessionId, { pos: { ...SPAWN }, at: now })
     },
 
     // Dev tool (?debug teleports). Off unless the server was started with DEV_TELEPORT=1,
@@ -67,8 +69,9 @@ export class BaseRoom extends Room<{ state: BaseState }> {
       const climber = this.state.climbers.get(client.sessionId)
       if (!to || !climber) return
       const pos = clampToBase(to)
-      Object.assign(climber, pos)
-      this.lastMove.set(client.sessionId, { pos, at: Date.now() })
+      const now = Date.now()
+      Object.assign(climber, pos, { t: now })
+      this.lastMove.set(client.sessionId, { pos, at: now })
     },
 
     // Ephemeral: broadcast and forget. Over the rate limit is dropped silently.
@@ -97,7 +100,7 @@ export class BaseRoom extends Room<{ state: BaseState }> {
     climber.name = uniqueName(wanted, taken)
     climber.look = Object.assign(new LookState(), parseLook(opts.look))
     const spawn = spawnPoint(Math.random())
-    Object.assign(climber, spawn)
+    Object.assign(climber, spawn, { t: Date.now() })
     this.state.climbers.set(client.sessionId, climber)
     this.lastMove.set(client.sessionId, { pos: spawn, at: Date.now() })
     this.chatLimit.set(client.sessionId, new RateLimiter(undefined, undefined, Date.now()))
