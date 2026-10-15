@@ -2,6 +2,8 @@
 
 How Climbers are built, how players dress them, and how to add new parts. Art style: [ART_DIRECTION.md](./ART_DIRECTION.md).
 
+> **Status: first pass, to revisit.** The Locker, its slots, the stances and paint are a starting point, not fixed rules for the game. Expect the options, proportions and workflow below to change once the character design gets its proper pass.
+
 ## What players can change (the Locker)
 
 The Locker is the screen before you enter the Base, reopened with **Edit character**. A rotating 3D stage sits on the left and the toolbox on the right. Each tab moves the camera to the body region it edits.
@@ -64,7 +66,7 @@ Keep parts readable: big shapes, 2–3 shades per colour, no single-voxel noise.
 
 ## Ready-made characters from other people?
 
-Free voxel and low-poly characters exist, for example on Sketchfab (filter by CC0 or CC-BY), itch.io asset packs, Kenney and Quaternius. They are useful as **reference or as NPCs**. They are not a drop-in replacement for Climbers: a Climber has to be built from swappable parts on the grid above, or the Locker can't dress it. Check every licence for commercial use and credit CC-BY authors in `art/CREDITS.md`. Never use characters from other games or anime, even as "inspiration copies".
+Free voxel and low-poly characters exist, for example on Sketchfab (filter by CC0 or CC-BY), itch.io asset packs, Kenney and Quaternius. They are useful as **reference or as NPCs**. They aren't a drop-in replacement for Climbers today: the current Locker dresses Climbers built from swappable parts on the grid above. Check every licence for commercial use and credit CC-BY authors in `art/CREDITS.md`. Never use characters from other games or anime, even as "inspiration copies".
 
 ## Blender
 

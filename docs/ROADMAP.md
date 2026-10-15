@@ -38,8 +38,8 @@ Milestones in build order. Each one ends in something you can **see working in t
 
 **Done when:** two different accounts see each other's names and looks, and a tampered token is rejected.
 
-### M2+ — The Locker ✅
-A character editor replaces the simple creator. It has:
+### M2+ — The Locker ✅ (first pass)
+A character editor replaces the simple creator. It's a first version to come back to when characters get their full design pass, not the final character system. It has:
 - **A 3D stage:** you can turn and zoom it, and the camera moves to the region each tab edits.
 - **Outfit slots:** top, bottoms and shoes with colours, plus builds and four stances.
 - **Paint:** brush, eraser, mirror and undo, painting markings onto the voxels a Climber already has.

@@ -33,7 +33,7 @@ Architecture and colliders come from the same call: `solid(min, max, paint)` add
 
 ## Characters
 
-Climbers are built from parts (head, torso, two arms, two legs), each a voxel grid around its own pivot, so walking is just rotating the limb groups. Rules:
+Climbers are built from parts (head, torso, two arms, two legs), each a voxel grid around its own pivot, so walking is just rotating the limb groups. Current choices (a first pass, see [CHARACTERS.md](./CHARACTERS.md)):
 
 - Big head (5×5×5 voxels) on a compact body: the anime-chibi proportion from the reference.
 - Eyes are always visible, two dark voxels. Visors (band, goggles, shades) sit over them.
