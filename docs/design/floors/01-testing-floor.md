@@ -125,23 +125,23 @@ The first shared space, and where the game becomes multiplayer. It's today's `Ba
 
 | | |
 |---|---|
-| **Style** | Stylized low-poly with soft toon shading. Chunky silhouettes, readable from the third-person camera. Not realistic. |
+| **Style** | Clean voxel diorama: flat colours, baked AO, chunky silhouettes readable from the third-person camera. See [ART_DIRECTION](../ART_DIRECTION.md). |
 | **Palette** | Brass `#c9a227`, oak `#6b3e26`, iron `#2b2f3a`, parchment `#f2e6c9`, data-teal `#19c3d6`, warning-red `#e2483d` |
-| **Lighting** | Warm gas-lamp pools in the Walk, cold teal light from the machines, and bloom on anything carrying data (M-later: `@react-three/postprocessing`) |
-| **Scale** | 1 Blender unit = 1 m. The Climber is 1.8 m tall. Doorways are at least 3 m wide and 3.5 m tall (the camera needs room). |
+| **Lighting** | One warm sun and a light sky. Lamps and data (threads, screens, pads) glow with unlit voxels. Bloom is a later option (`@react-three/postprocessing`). |
+| **Scale** | 1 unit = 1 m. Architecture is on a 0.5 m voxel grid; the Climber is 1.8 m tall (18 voxels of 0.1 m). Doorways are at least 3 m wide and 3.5 m tall (the camera needs room). |
 | **Budget** | Aim for under 150k triangles visible per room and under 50 draw calls. Reuse props with `--instance`. Textures up to 1024², WebP (the model script does this). |
 
-### Blender asset list
+### Asset list
 
-Build them in this order; earlier items unblock playtesting. Greybox first: every room can start as boxes in code, then models replace the boxes one by one.
+Build them in this order; earlier items unblock playtesting. All rooms and these props now exist as code-built voxels (`floor/rooms.ts`, `floor/models.ts`). The art pass replaces the important ones with hand-made MagicaVoxel models.
 
 | Priority | Asset | Notes |
 |---|---|---|
 | P0 | **Engine Room shell** | Floor, walls, three alcoves. Simple, because the engines carry it. |
 | P0 | **Difference Engine** | Hero prop. Columns of number wheels; 3 columns need separate meshes so they can animate "jamming". |
-| P0 | **Babbage** and **Lovelace** | Stylized, Victorian clothing, built from public-domain portraits as reference. Rig with Mixamo (idle, talk, "attack" gestures, defeat bow). |
+| P0 | **Babbage** and **Lovelace** | Voxel figures, Victorian clothing, with public-domain portraits as reference. Animated by parts in code, like Climbers (idle, talk, "attack" gestures, defeat bow). |
 | P1 | **Analytical Engine** | Wireframe/teal hologram material, so it can be lighter geometry. |
-| P1 | **Ada's desk and Notes pages** | Pages as flat planes with an emissive texture. |
+| P1 | **Ada's desk and Notes pages** | Pages as glowing voxels. |
 | P1 | **Timeline Walk modules** | A kit of wall, arch, floor (wood → circuit) and lamp pieces, to snap rooms together. |
 | P2 | **Jacquard loom**, **card wall**, **cogs**, **relay cabinet** | One hero prop per room. |
 | P2 | Henchmen: **Shuttle Sprite**, **Punched Card**, **Loose Cog**, **The Moth** | Small and simple, and they need to read as "enemies". |
@@ -182,7 +182,7 @@ All in the content pipeline (M3), Python and JS for Code/Fix/Predict.
 1. **Greybox (code only) ✅:** all rooms and the Engine Room as primitives, the Guide as a floating light with on-screen lines, henchmen as glowing shapes, and Pass/Fail buttons standing in for Tasks. Walkable end to end.
 2. **Wire the Tasks:** henchmen and boss phases call the challenge engine (M3). Integrity, phase checkpoints, victory and the Gate.
 3. **Floor-scoped Hall:** `FloorRoom` for Floor 1 replaces the generic Base ([ADR-0009](../../adr/0009-floor-scoped-presence.md)).
-4. **Art pass:** Blender models replace greybox pieces one at a time (`npm run model`). Then sound.
+4. **Art pass:** the code-built voxel version is in. Next, hand-made MagicaVoxel models for the hero props and characters. Then sound.
 5. **Exam Gate → Floor 2 placeholder.**
 
 ## Open questions (Ronald)

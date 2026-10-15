@@ -46,7 +46,7 @@ Use these words in code, issues, commits and docs. If you need a concept that is
 | **Integrity** | A Climber's hit points during an Approach or Boss fight. A wrong answer or timeout costs 1. At 0 you retry from the last checkpoint. |
 | **Floor Exam** | The Trial in a Floor Hall that climbs you to the next floor. |
 | **Trial** | A single-player run against Challenges: Station practice, a Floor Exam, or a Standing Exam. |
-| **the Guide** | The Tower's guide: explains each mechanic in a line or two, floor after floor. An original character whose **name and design are still to come** (the owner will design it). In the greybox it's a small floating light with on-screen lines. |
+| **the Guide** | The Tower's guide: explains each mechanic in a line or two, floor after floor. An original character whose **name and design are still to come** (the owner will design it). For now it is a small glowing voxel cube with on-screen lines. |
 | **Submission** | One graded attempt at a Challenge: the source or answer, the result, and timing. Always graded by the server. |
 
 ## Progression

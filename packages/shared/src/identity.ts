@@ -5,7 +5,7 @@
 
 export const HAIR = ['none', 'spiky', 'bun', 'mohawk'] as const
 export const HEADWEAR = ['none', 'cap', 'headband', 'crown'] as const
-export const VISOR = ['band', 'goggles', 'shades'] as const
+export const VISOR = ['eyes', 'band', 'goggles', 'shades'] as const
 
 export type Hair = (typeof HAIR)[number]
 export type Headwear = (typeof HEADWEAR)[number]
@@ -31,7 +31,7 @@ export const DEFAULT_LOOK: Look = {
   accent: ACCENT_COLORS[0],
   hair: 'spiky',
   headwear: 'none',
-  visor: 'band',
+  visor: 'eyes',
 }
 
 const HEX = /^#[0-9a-f]{6}$/i

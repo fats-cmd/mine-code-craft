@@ -93,17 +93,23 @@ export const DEFAULT_VERTICAL: VerticalParams = {
   terminalSpeed: 40,
 }
 
-/** Next vertical velocity. Grounded and not jumping means stuck to the floor. */
-export function stepVerticalVelocity(
+/**
+ * One vertical step: the new velocity and how far to move. The distance is
+ * the exact one for constant gravity (the average of the start and end
+ * velocities), so a jump peaks at jumpSpeed^2 / 2g whatever the frame rate:
+ * no higher jumps on a slow frame, no lower ones on a 240 Hz screen.
+ */
+export function verticalMove(
   vy: number,
   grounded: boolean,
   jump: boolean,
   dt: number,
   p: VerticalParams = DEFAULT_VERTICAL,
-): number {
-  if (grounded && jump) return p.jumpSpeed
-  if (grounded && vy <= 0) return 0
-  return Math.max(vy - p.gravity * dt, -p.terminalSpeed)
+): { vy: number; dy: number } {
+  const v0 = grounded && jump ? p.jumpSpeed : vy
+  if (grounded && !jump && vy <= 0) return { vy: 0, dy: 0 }
+  const v1 = Math.max(v0 - p.gravity * dt, -p.terminalSpeed)
+  return { vy: v1, dy: ((v0 + v1) / 2) * dt }
 }
 
 /** Keep the orbit camera from flipping over the top or digging under the floor. */

@@ -50,9 +50,14 @@ Milestones in build order. Each one ends in something you can **see working in t
 Floor 1 end to end, per [`design/floors/01-testing-floor.md`](./design/floors/01-testing-floor.md).
 - **M4a: Greybox ✅:** Arrival, the five Timeline Walk rooms, the Engine Room and the Testing Hall built from primitives (`apps/client/src/floor/`). The Guide's lines on screen. Henchmen as glowing placeholders with Pass/Fail standing in for Tasks. Progress, Integrity, doors and the Gate of Notes work, the Hall is the only room where you see other players, and `?debug` has room teleports.
   - Known gap: on return you spawn at the Arrival Platform even after beating the boss (the doors stay open). M4c fixes it once the server knows your progress.
+- **M4a+: Feel and look ✅:** smooth movement and a clean voxel restyle, both from the owner's playtest.
+  - Movement runs inside Rapier's step, so it's frame-rate independent. Jumps are integrated exactly: the same 1.7 m arc at 20, 60 or 240 fps.
+  - Remote Climbers are stamped per accepted move and sent at 20 Hz, with a hold across pauses.
+  - React state changes only on change, never per frame.
+  - Floor 1, the Climbers and the Examiners are now voxel art ([ART_DIRECTION](./design/ART_DIRECTION.md), [ADR-0012](./adr/0012-voxel-art-direction.md)).
 - **M4b: Tasks:** henchmen and the three boss phases run Challenges through the M3 engine. Integrity, phase checkpoints, the boss staying beaten, the Gate of Notes.
 - **M4c: Floor-scoped Hall:** `BaseRoom` becomes `FloorRoom` with `filterBy(["floor"])` ([ADR-0009](./adr/0009-floor-scoped-presence.md)). The Testing Hall is Floor 1's Hall, with nameplates showing time on the floor.
-- **M4d: Art and sound pass:** Blender models replace greybox pieces (`npm run model`), plus the audio list.
+- **M4d: Art and sound pass:** hand-made voxel models (MagicaVoxel `.vox` loader) for the Examiners and henchmen, room detail, and the audio list.
 
 **Done when:** a brand-new player walks the Timeline, beats all five henchmen and Babbage & Lovelace, enters the Testing Hall, and sees the other Floor-1 players there.
 

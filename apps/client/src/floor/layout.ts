@@ -12,18 +12,6 @@ export type V3 = [number, number, number]
 
 export const room = (id: RoomId): RoomDef => TESTING_FLOOR_ROOMS.find((r) => r.id === id)!
 
-/** Floor and accent colours per room: the walk goes from wood and gaslight to circuit board. */
-export const ROOM_STYLE: Record<RoomId, { floor: string; wall: string; light: string; intensity: number }> = {
-    arrival: { floor: "#5b4636", wall: "#3b2f2a", light: "#ffd9a0", intensity: 40 },
-    abacus: { floor: "#6b4a32", wall: "#3e2f26", light: "#ffcf8a", intensity: 45 },
-    loom: { floor: "#6b3e26", wall: "#3a2a22", light: "#ffc56e", intensity: 45 },
-    archive: { floor: "#5e4a3a", wall: "#2f2a28", light: "#f2e6c9", intensity: 40 },
-    gears: { floor: "#4a4038", wall: "#2b2f3a", light: "#c9a227", intensity: 50 },
-    moth: { floor: "#22262e", wall: "#15181d", light: "#7d8cff", intensity: 12 },
-    engine: { floor: "#1e2a30", wall: "#1b2228", light: "#19c3d6", intensity: 70 },
-    hall: { floor: "#14313a", wall: "#1a2a33", light: "#9fe8f2", intensity: 90 },
-}
-
 /** Henchman stands, by id. */
 export const HENCHMAN_POS: Record<string, V3> = {
     "shuttle-sprite": [0, 0, -40],

@@ -50,7 +50,9 @@ npm workspaces. Moving `Interactive_plane/` to `apps/client/` is the first task 
 apps/
   client/            React + R3F app (today's Interactive_plane/)
     src/world/       the Base: your hand-built R3F scene, colliders
-    src/avatar/      local player controller, remote avatars, interpolation
+    src/avatar/      local player controller, voxel avatars, remote avatars
+    src/voxel/       VoxelBuilder (colliders + voxels), VoxelMesh, models
+    src/floor/       per-floor scenes: rooms, props, henchmen, the Sun
     src/battle/      Duel/Trial UI, editor, format panels
     src/runners/     pyodide.worker.ts, js.worker.ts, runner protocol
     src/net/         Colyseus client, room hooks
@@ -130,6 +132,7 @@ const Climber = schema({
   look: t.ref(Look),
   x: t.float32(), y: t.float32(), z: t.float32(),  // capsule centre
   rotY: t.float32(),
+  t: t.float64(),                                  // server time this pose was accepted
   status: t.string().default('idle'),              // idle | battling | away
 }, 'Climber')
 
@@ -143,7 +146,7 @@ const BaseState = schema({
 
 | Message | Direction | Purpose |
 |---|---|---|
-| `move` | client → server | Sent at ≤ 15 Hz, only when the position or heading changed. |
+| `move` | client → server | Sent at ≤ 20 Hz, only when the position or heading changed. |
 | `respawn` | client → server | The client fell off the world; the server moves it, so it isn't a teleport. |
 | `correction` | server → client | The last move was refused; snap back to this position. |
 | `chat` | client → server `{ text }`, then server → everyone as a `ChatLine` | World chat (M2). See **Chat** below. |
@@ -168,9 +171,18 @@ When sign-in lands, only this step changes: name and look come from the verified
 - Accepted positions are clamped to the floor's bounds (`TESTING_FLOOR_BOUNDS`, computed from the room layout).
 - `teleport` (dev only) is honoured only when the server runs with `--dev-teleport`; `npm run dev` passes it, production must not. Rejected ones get a `correction`. Server-side Rapier is not worth it for a social hub with no combat movement. Revisit only if the Base gains movement-based gameplay.
 
+### The local Climber's frame
+
+Movement runs **inside Rapier's step** (`useBeforePhysicsStep`), with `<Physics timeStep="vary">`, so there is exactly one physics step per rendered frame:
+
+1. **Before the step:** read input, sweep the capsule with the character controller, and set the kinematic body's next position.
+2. **After the step** (`useAfterPhysicsStep`): one position feeds everything else (camera, facing, walk animation, the shared `playerPosRef`, network sends), so nothing drifts apart.
+
+Vertical motion uses `verticalMove()`, which integrates constant gravity exactly, so a jump peaks at the same height at any frame rate. The loop allocates almost nothing and sets no React state. Trackers compare against refs and call `setState` only when the answer changes.
+
 ### Interpolation (remote avatars)
 
-Render remote avatars **100 ms in the past** (2× the 50 ms patch rate) and lerp between the two buffered snapshots that straddle `now − 100 ms`. Buffer snapshots by server time, not arrival order: every patch carries `serverTime`, and `ClockSync` maps local time onto it using the lowest-latency recent sample. Rotation lerps along the **shortest arc** across ±π. Discrete fields (`status`, `anim`, `look`) **snap** to the newer snapshot. When the buffer starves, **hold** the last position, never extrapolate. Full algorithm: [`research/interpolation-collision-grading.md`](./research/interpolation-collision-grading.md) §1. Lives in `packages/shared/interpolation` with unit tests.
+Render remote avatars **100 ms in the past** (2× the 50 ms patch rate) and lerp between the two buffered snapshots that straddle `now − 100 ms`. Buffer snapshots by server time, not arrival order. Each Climber's pose carries `t`, the server time its move was accepted, and the client adds a snapshot only when `t` changes. Stamping with the patch time instead made 20 Hz moves beat against 20 Hz patches: some patches had no new pose, and avatars stuttered. A gap over 125 ms (someone who stood still) gets a hold snapshot 50 ms before the new pose, so a start from standing is sharp instead of a slow glide. `serverTime` on each patch still feeds `ClockSync`, which maps local time onto server time using the lowest-latency recent sample. Rotation lerps along the **shortest arc** across ±π. Discrete fields (`status`, `anim`, `look`) **snap** to the newer snapshot. When the buffer starves, **hold** the last position, never extrapolate. Full algorithm: [`research/interpolation-collision-grading.md`](./research/interpolation-collision-grading.md) §1. Lives in `packages/shared/interpolation` with unit tests.
 
 ---
 

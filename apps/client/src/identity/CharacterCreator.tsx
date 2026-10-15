@@ -1,6 +1,6 @@
 import { useRef, useState, type ReactNode } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
-import type { Group } from "three"
+import { NeutralToneMapping, type Group } from "three"
 import {
     ACCENT_COLORS,
     BODY_COLORS,
@@ -13,7 +13,7 @@ import {
     type JoinOptions,
     type Look,
 } from "@mcc/shared"
-import AvatarModel from "../avatar/AvatarModel"
+import VoxelAvatar from "../avatar/VoxelAvatar"
 
 const pick = <T,>(xs: readonly T[]): T => xs[Math.floor(Math.random() * xs.length)]
 
@@ -35,7 +35,7 @@ function Turntable({ look }: { look: Look }) {
     })
     return (
         <group ref={group} position={[0, -0.95, 0]}>
-            <AvatarModel look={look} />
+            <VoxelAvatar look={look} />
         </group>
     )
 }
@@ -60,9 +60,9 @@ export default function CharacterCreator({
     return (
         <div className="flex h-full w-full flex-col bg-slate-950 text-slate-100 md:flex-row">
             <div className="relative h-72 shrink-0 md:h-full md:flex-1">
-                <Canvas camera={{ position: [0, 0.3, 4.6], fov: 35 }}>
-                    <ambientLight intensity={0.8} />
-                    <directionalLight position={[3, 4, 5]} intensity={1.4} />
+                <Canvas camera={{ position: [0, 0.4, 5.6], fov: 35 }} gl={{ toneMapping: NeutralToneMapping }}>
+                    <hemisphereLight args={["#e6f4ff", "#5a4a3a", 1.2]} />
+                    <directionalLight position={[3, 4, 5]} intensity={2} />
                     <Turntable look={look} />
                 </Canvas>
                 <h1 className="pointer-events-none absolute left-6 top-5 font-mono text-sm uppercase tracking-[0.3em] text-slate-400">

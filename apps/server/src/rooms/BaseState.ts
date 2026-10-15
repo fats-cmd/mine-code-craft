@@ -19,6 +19,9 @@ export const Climber = schema({
   y: t.float32(),
   z: t.float32(),
   rotY: t.float32(),
+  // Server time the pose was accepted. Clients build one snapshot per change,
+  // so interpolation follows the mover's own cadence, not the patch clock.
+  t: t.float64().default(0),
   status: t.string().default('idle'),
 }, 'Climber')
 export type Climber = SchemaType<typeof Climber>
