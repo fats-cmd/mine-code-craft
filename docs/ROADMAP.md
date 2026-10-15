@@ -38,6 +38,15 @@ Milestones in build order. Each one ends in something you can **see working in t
 
 **Done when:** two different accounts see each other's names and looks, and a tampered token is rejected.
 
+### M2+ — The Locker ✅
+A character editor replaces the simple creator. It has:
+- **A 3D stage:** you can turn and zoom it, and the camera moves to the region each tab edits.
+- **Outfit slots:** top, bottoms and shoes with colours, plus builds and four stances.
+- **Paint:** brush, eraser, mirror and undo, painting markings onto the voxels a Climber already has.
+- **Hand-made parts:** MagicaVoxel `.vox` parts loaded at build time, with a sculpting template and a sample "flame" hairstyle.
+
+Guide: [`design/CHARACTERS.md`](./design/CHARACTERS.md).
+
 ### M3 — Challenge engine (solo, dev route `/trial/:slug`)
 - Content pipeline. Migrate the 8 problems into `content/challenges/code/`. Add JS signatures and starters. Write the first ~20 Quiz questions.
 - Pyodide worker and JS worker, timeouts via terminate and respawn, warm spares.

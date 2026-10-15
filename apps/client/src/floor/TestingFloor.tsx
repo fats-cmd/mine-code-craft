@@ -9,6 +9,7 @@ import {
     roomAt,
     type HenchmanDef,
     type Look,
+    DEFAULT_LOOK,
     type RoomId,
 } from "@mcc/shared"
 import VoxelAvatar from "../avatar/VoxelAvatar"
@@ -99,10 +100,15 @@ function Cog({ at, radius, spin }: { at: V3; radius: number; spin: number }) {
     )
 }
 
-const BABBAGE_LOOK: Look = { body: "#2b2f3a", skin: "#f1c27d", accent: "#d9d9d9", hair: "none", headwear: "none", visor: "eyes" }
+const BABBAGE_LOOK: Look = {
+    ...DEFAULT_LOOK,
+    body: "#2b2f3a", skin: "#f1c27d", accent: "#d9d9d9", hair: "none", top: "jacket", bottomsColor: "#1e1e24", shoes: "boots", shoesColor: "#1b1b1f", idle: "proud",
+}
 const BABBAGE_EXTRAS: NpcExtras = { topHat: true, sideburns: "#c8c8c8" }
-const LOVELACE_LOOK: Look = { body: "#6b2d5c", skin: "#f6d7b8", accent: "#3b2416", hair: "bun", headwear: "none", visor: "eyes" }
-const LOVELACE_EXTRAS: NpcExtras = { skirt: "#5a2450" }
+const LOVELACE_LOOK: Look = {
+    ...DEFAULT_LOOK,
+    body: "#6b2d5c", skin: "#f6d7b8", accent: "#3b2416", hair: "bun", top: "long", bottoms: "skirt", bottomsColor: "#5a2450", shoes: "boots", shoesColor: "#3b2416", build: "slim",
+}
 
 /** The boss arena: Difference Engine (left), Analytical Engine (centre), Ada's desk (right). */
 function EngineRoom() {
@@ -121,7 +127,7 @@ function EngineRoom() {
                 <VoxelAvatar look={BABBAGE_LOOK} npc={BABBAGE_EXTRAS} />
             </group>
             <group position={LOVELACE_POS} rotation={[0, -Math.PI * 0.85, 0]}>
-                <VoxelAvatar look={LOVELACE_LOOK} npc={LOVELACE_EXTRAS} />
+                <VoxelAvatar look={LOVELACE_LOOK} />
             </group>
             {/* the pad you stand on to face them */}
             <Model model={floorRing(1.6, 0, ready ? 0x19c3d6 : 0x2f4a55, ready)} position={[BOSS_PAD[0], -0.1, BOSS_PAD[2]]} shadows={false} />

@@ -123,8 +123,11 @@ As built in M1 and M2 (`apps/server/src/rooms/BaseState.ts`). Later milestones a
 
 ```ts
 const Look = schema({
-  body: t.string(), skin: t.string(), accent: t.string(),  // #rrggbb
+  body: t.string(), skin: t.string(), accent: t.string(),  // #rrggbb: top, skin, hair and hats
   hair: t.string(), headwear: t.string(), visor: t.string(),  // part ids, see HAIR/HEADWEAR/VISOR
+  top: t.string(), bottoms: t.string(), bottomsColor: t.string(), shoes: t.string(), shoesColor: t.string(),
+  build: t.string(), idle: t.string(),  // slim|regular|broad; relaxed|pockets|fighter|proud
+  paint: t.string(),  // painted voxels, packed by encodePaint(): ≤ 512 marks, < 3 KB
 }, 'Look')
 
 const Climber = schema({
@@ -156,7 +159,7 @@ M4 adds `challenge:send|accept|decline|cancel`. Joiners spawn on a small ring ar
 **Join options carry the guest identity** (M2): `joinOrCreate("base", { name, look })`. The server never rejects a join over them:
 - `checkName()`: 3–16 characters, letters, digits, spaces and `_ . -`. Reserved names like admin, server, mod and Zark are blocked, compared ignoring case and punctuation. A bad name falls back to `Climber-xxxx`.
 - `uniqueName()` numbers clashes (`Name#2`).
-- `parseLook()` replaces each invalid field with its default.
+- `parseLook()` replaces each invalid field with its default. Looks saved before a field existed get its default, so old saves keep working. Paint is decoded and re-encoded, which drops junk, duplicates and anything over the cap.
 
 When sign-in lands, only this step changes: name and look come from the verified profile, and join options shrink to `{ token }`.
 
