@@ -11,7 +11,8 @@ Use these words in code, issues, commits and docs. If you need a concept that is
 | **Climber** | A signed-in player. Has a profile, avatar, Role, Rank and Level. | user (fine in auth code only), hero |
 | **Opponent** | The other Climber in a Duel. | enemy (reserved for the Legion) |
 | **Guest** | A Climber who hasn't signed in. Their name and Look live in their browser and are sent when joining. Everything works except anything that needs to be saved (Rank, XP). | anonymous |
-| **Look** | How a Climber's avatar appears: three colours (outfit, skin, accent) and three parts (hair, headwear, eyes). Cosmetics extend it later. | skin (means the skin colour only), outfit |
+| **Locker** | The character editor shown before entering the Base (and from "Edit character"): outfit slots, build, stance and Paint on a rotating stage. | creator, wardrobe |
+| **Look** | How a Climber's avatar appears: colours, parts (hair, headwear, eyes, top, bottoms, shoes), build, stance and Paint. Edited in the Locker; Cosmetics extend it later. | skin (means the skin colour only), outfit |
 
 ## Places
 

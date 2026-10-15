@@ -11,7 +11,8 @@
     "typecheck": "tsc -b",
     "model": "node scripts/gltf.mjs",
     "predev": "node scripts/copy-draco.mjs",
-    "prebuild": "node scripts/copy-draco.mjs"
+    "prebuild": "node scripts/copy-draco.mjs",
+    "vox:templates": "tsx scripts/vox-templates.ts"
   },
   "dependencies": {
     "@colyseus/sdk": "^0.18.5",

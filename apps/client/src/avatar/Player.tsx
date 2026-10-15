@@ -255,7 +255,10 @@ export default function Player() {
         >
             <CapsuleCollider ref={collider} args={[CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS]} />
             <group position={[0, -CENTER_TO_FEET, 0]}>
-                <VoxelAvatar ref={model} look={self?.look} motion={motion} />
+                {/* Start facing up the route (-z), away from the camera. */}
+                <group ref={model} rotation-y={Math.PI}>
+                    <VoxelAvatar look={self?.look} motion={motion} />
+                </group>
             </group>
             {said && <SpeechBubble key={said.at} line={said} height={2.25 - CENTER_TO_FEET} />}
         </RigidBody>

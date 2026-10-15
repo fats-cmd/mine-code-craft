@@ -5,6 +5,8 @@ import {
   CHAT_BURST,
   CHAT_MAX,
   DEFAULT_LOOK,
+  encodePaint,
+  type Look,
   Msg,
   SPAWN,
   SPAWN_RING_RADIUS,
@@ -114,11 +116,14 @@ describe('BaseRoom', () => {
   })
 
   describe('identity', () => {
-    const look = { body: '#112233', skin: '#445566', accent: '#778899', hair: 'mohawk', headwear: 'crown', visor: 'goggles' }
+    const look = {
+      ...DEFAULT_LOOK,
+      body: '#112233', skin: '#445566', accent: '#778899', hair: 'mohawk', headwear: 'crown', visor: 'goggles',
+      top: 'hoodie', build: 'broad', idle: 'fighter',
+      paint: encodePaint([{ part: 'torso', x: 0, y: 9, z: 1, color: 2 }]),
+    }
     // Decoded schema instances carry internal keys, so compare the fields themselves.
-    const fields = (l: ClimberView['look']) => ({
-      body: l.body, skin: l.skin, accent: l.accent, hair: l.hair, headwear: l.headwear, visor: l.visor,
-    })
+    const fields = (l: ClimberView['look']) => Object.fromEntries(Object.keys(DEFAULT_LOOK).map((k) => [k, l[k as keyof Look]]))
     const join = (opts: Partial<JoinOptions> | Record<string, unknown>) => new Client(url).joinOrCreate(BASE_ROOM, opts)
 
     it('others see the chosen name and look', async () => {

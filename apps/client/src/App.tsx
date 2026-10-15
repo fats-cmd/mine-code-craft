@@ -11,7 +11,7 @@ import { controlMap } from "./avatar/controls"
 import { BaseNetProvider } from "./net/BaseNetProvider"
 import StatusBadge from "./net/StatusBadge"
 import ChatPanel from "./chat/ChatPanel"
-import CharacterCreator from "./identity/CharacterCreator"
+import CharacterEditor from "./identity/CharacterEditor"
 import { loadIdentity, saveIdentity } from "./identity/storage"
 import { DEV_TOOLS, useDevControls } from "./dev/devTools"
 import { FloorProvider } from "./floor/FloorProvider"
@@ -26,7 +26,7 @@ export default function App() {
 
 	if (!inBase) {
 		return (
-			<CharacterCreator
+			<CharacterEditor
 				initial={identity}
 				onEnter={(chosen) => {
 					saveIdentity(chosen)

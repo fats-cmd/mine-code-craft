@@ -8,6 +8,15 @@ export const LookState = schema({
   hair: t.string(),
   headwear: t.string(),
   visor: t.string(),
+  top: t.string(),
+  bottoms: t.string(),
+  bottomsColor: t.string(),
+  shoes: t.string(),
+  shoesColor: t.string(),
+  build: t.string(),
+  idle: t.string(),
+  // Packed paint marks (encodePaint), at most ~2.7 KB; re-encoded by parseLook.
+  paint: t.string(),
 }, 'Look')
 export type LookState = SchemaType<typeof LookState>
 
