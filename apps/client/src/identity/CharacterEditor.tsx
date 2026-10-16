@@ -147,8 +147,8 @@ export default function CharacterEditor({ initial, onEnter }: { initial: JoinOpt
             </div>
 
             {/* ---- toolbox -------------------------------------------------- */}
-            <aside className="flex w-[30rem] shrink-0 border-l border-white/10">
-                <nav className="flex w-24 flex-col gap-1 border-r border-white/10 bg-black/20 p-2">
+            <aside className="flex w-120 shrink-0 border-l border-white/10">
+                <nav className="flex w-24 flex-col gap-2 border-r border-white/10 bg-black/20 p-2">
                     {TABS.map((t) => (
                         <button
                             key={t.id}
@@ -175,7 +175,7 @@ export default function CharacterEditor({ initial, onEnter }: { initial: JoinOpt
                         {tab === "hair" && (
                             <>
                                 <Options title="Style" options={HAIR} value={look.hair} onChange={(v) => set("hair", v)} />
-                                <Colors title="Colour (hair and hats)" colors={ACCENT_COLORS} value={look.accent} onChange={(c) => set("accent", c)} />
+                                <Colors title="Color (hair and hats)" colors={ACCENT_COLORS} value={look.accent} onChange={(c) => set("accent", c)} />
                             </>
                         )}
                         {tab === "head" && (
