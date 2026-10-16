@@ -671,6 +671,21 @@ export const CHALLENGES: readonly PublicChallenge[] = [
     }
   },
   {
+    "slug": "cogsnap-doubling",
+    "format": "predict",
+    "title": "Cogsnap Tick's Doubling",
+    "difficulty": 1,
+    "topics": [
+      "loops",
+      "sequences"
+    ],
+    "prompt": "What does this print? Type the exact output.",
+    "snippet": {
+      "python": "teeth = 1\nfor _ in range(4):\n    teeth = teeth * 2\n    print(teeth)\n",
+      "javascript": "let teeth = 1\nfor (let n = 0; n < 4; n++) {\n  teeth = teeth * 2\n  console.log(teeth)\n}\n"
+    }
+  },
+  {
     "slug": "cogsnap-sequence",
     "format": "predict",
     "title": "Cogsnap Tick's Sequence",
@@ -686,6 +701,35 @@ export const CHALLENGES: readonly PublicChallenge[] = [
     }
   },
   {
+    "slug": "cogsnap-total",
+    "format": "predict",
+    "title": "Cogsnap Tock's Total",
+    "difficulty": 2,
+    "topics": [
+      "loops",
+      "accumulators"
+    ],
+    "prompt": "What does this print? Type the exact output.",
+    "snippet": {
+      "python": "total = 0\nfor n in range(1, 5):\n    total += n\nprint(total)\n",
+      "javascript": "let total = 0\nfor (let n = 1; n < 5; n++) {\n  total += n\n}\nconsole.log(total)\n"
+    }
+  },
+  {
+    "slug": "holloquy-countdown",
+    "format": "predict",
+    "title": "Holloquy's Countdown",
+    "difficulty": 1,
+    "topics": [
+      "loops"
+    ],
+    "prompt": "What does this print? Type the exact output.",
+    "snippet": {
+      "python": "for i in range(3, 0, -1):\n    print(i)\nprint(\"go\")\n",
+      "javascript": "for (let i = 3; i > 0; i--) {\n  console.log(i)\n}\nconsole.log(\"go\")\n"
+    }
+  },
+  {
     "slug": "holloquy-loop",
     "format": "predict",
     "title": "Holloquy's Loop",
@@ -697,6 +741,21 @@ export const CHALLENGES: readonly PublicChallenge[] = [
     "snippet": {
       "python": "for i in range(3):\n    print(i * 2)\n",
       "javascript": "for (let i = 0; i < 3; i++) {\n  console.log(i * 2)\n}\n"
+    }
+  },
+  {
+    "slug": "holloquy-rows",
+    "format": "predict",
+    "title": "Holloquy's Rows",
+    "difficulty": 1,
+    "topics": [
+      "loops",
+      "strings"
+    ],
+    "prompt": "What does this print? Type the exact output.",
+    "snippet": {
+      "python": "for row in range(1, 4):\n    print(\"o\" * row)\n",
+      "javascript": "for (let row = 1; row <= 3; row++) {\n  console.log(\"o\".repeat(row))\n}\n"
     }
   },
   {

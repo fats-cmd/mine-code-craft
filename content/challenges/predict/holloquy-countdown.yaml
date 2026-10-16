@@ -1,0 +1,13 @@
+# Floor 1, Holloquy (the Card Archive): a retry. A loop that counts down.
+title: Holloquy's Countdown
+difficulty: 1
+topics: [loops]
+python: |
+  for i in range(3, 0, -1):
+      print(i)
+  print("go")
+javascript: |
+  for (let i = 3; i > 0; i--) {
+    console.log(i)
+  }
+  console.log("go")

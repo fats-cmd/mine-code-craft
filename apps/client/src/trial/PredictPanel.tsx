@@ -5,7 +5,7 @@ import Markdown from "./Markdown"
 import { Box } from "./CodePanel"
 
 /** Predict: read the code, type exactly what it prints. One try; the verdict shows the real output. */
-export default function PredictPanel({ challenge: c, submit }: { challenge: PredictChallenge; submit: (body: unknown) => Promise<TrialVerdict> }) {
+export default function PredictPanel({ challenge: c, submit, onVerdict }: { challenge: PredictChallenge; submit: (body: unknown) => Promise<TrialVerdict>; onVerdict?: (v: TrialVerdict) => void }) {
     const languages = LANGUAGES.filter((l) => c.snippet[l])
     const [language, setLanguage] = useState<Language>(languages[0])
     const [answer, setAnswer] = useState("")
@@ -15,8 +15,10 @@ export default function PredictPanel({ challenge: c, submit }: { challenge: Pred
 
     const send = async () => {
         setBusy(true)
-        setVerdict(await submit({ kind: "predict", language, answer }))
+        const v = await submit({ kind: "predict", language, answer })
+        setVerdict(v)
         setBusy(false)
+        onVerdict?.(v)
     }
 
     return (

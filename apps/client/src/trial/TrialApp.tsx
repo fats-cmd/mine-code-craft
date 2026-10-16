@@ -1,9 +1,5 @@
 import { CHALLENGES, type Format, type PublicChallenge } from "@mcc/shared"
-import { loadIdentity } from "../identity/storage"
-import CodePanel from "./CodePanel"
-import PredictPanel from "./PredictPanel"
-import QuizPanel from "./QuizPanel"
-import { useTrialRoom } from "./useTrialRoom"
+import ChallengePanel from "./ChallengePanel"
 
 // The dev route for the challenge engine (ROADMAP M3): /trial lists every
 // Challenge, /trial/<slug> runs one in a TrialRoom. M4b puts these same panels
@@ -54,7 +50,6 @@ function TrialList({ missing }: { missing: string | null }) {
 }
 
 function Trial({ challenge: c }: { challenge: PublicChallenge }) {
-    const { status, start, submit } = useTrialRoom(c.slug, loadIdentity().name)
     return (
         <>
             <header className="flex items-center gap-3 border-b border-white/10 px-4 py-2">
@@ -62,17 +57,8 @@ function Trial({ challenge: c }: { challenge: PublicChallenge }) {
                 <span className="rounded bg-white/10 px-2 py-0.5 text-xs uppercase tracking-wide">{FORMAT_NAME[c.format]}</span>
                 <h1 className="font-semibold">{c.title}</h1>
                 <Difficulty n={c.difficulty} />
-                <span className={`ml-auto text-xs ${status === "ready" ? "text-emerald-300" : status === "offline" ? "text-red-300" : "text-white/50"}`}>
-                    {status === "ready" ? "server connected" : status === "offline" ? "server offline: you can run code, not submit" : "connecting…"}
-                </span>
             </header>
-            {c.format === "quiz" ? (
-                <QuizPanel challenge={c} submit={submit} />
-            ) : c.format === "predict" ? (
-                <PredictPanel challenge={c} submit={submit} />
-            ) : (
-                <CodePanel challenge={c} start={start} submit={submit} />
-            )}
+            <ChallengePanel key={c.slug} challenge={c} />
         </>
     )
 }

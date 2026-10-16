@@ -1,6 +1,6 @@
 // Floor 1, the Testing Floor, as data. The design lives in
 // docs/design/floors/01-testing-floor.md; this file is what code reads.
-// Pure and shared: the client draws it, and the server will grade its Tasks (M4b).
+// Pure and shared: the client draws it, and the server grades its Tasks.
 
 export type TaskFormat = 'quiz' | 'predict' | 'fix' | 'code' | 'movement'
 
@@ -20,9 +20,17 @@ export interface HenchmanDef {
   name: string
   room: RoomId
   format: TaskFormat
-  /** What the Task will be once the challenge engine is wired in (M4b). */
+  /** The Task, in a sentence. */
   task: string
   flavor: string
+  /**
+   * Challenge slugs (content/challenges), in order. The fight starts on the
+   * first; every new question takes the next, wrapping round, so a retry is
+   * never the question you just saw.
+   */
+  pool: readonly string[]
+  /** Passes needed to beat it. */
+  wins: number
 }
 
 export interface BossPhaseDef {
@@ -53,6 +61,8 @@ export const TESTING_FLOOR_HENCHMEN: readonly HenchmanDef[] = [
     format: 'quiz',
     task: 'Quiz: 3 questions on what a program, an input and an output are.',
     flavor: 'A loom shuttle trailing its weft thread, darting faster than thought.',
+    pool: ['floor-1-what-is-a-program', 'floor-1-what-is-input', 'floor-1-what-is-output', 'floor-1-same-input', 'floor-1-what-is-a-loop', 'floor-1-what-is-a-variable'],
+    wins: 3,
   },
   {
     id: 'holloquy',
@@ -61,6 +71,8 @@ export const TESTING_FLOOR_HENCHMEN: readonly HenchmanDef[] = [
     format: 'predict',
     task: 'Predict: the exact output of a 3-line loop.',
     flavor: 'A punched card that reads its own holes aloud, one row at a time.',
+    pool: ['holloquy-loop', 'holloquy-countdown', 'holloquy-rows'],
+    wins: 1,
   },
   {
     id: 'cogsnap-tick',
@@ -69,6 +81,8 @@ export const TESTING_FLOOR_HENCHMEN: readonly HenchmanDef[] = [
     format: 'predict',
     task: 'Predict: the next value of a simple arithmetic sequence.',
     flavor: 'A cog that snapped loose from the Gear Works and wants a fight.',
+    pool: ['cogsnap-sequence', 'cogsnap-doubling'],
+    wins: 1,
   },
   {
     id: 'cogsnap-tock',
@@ -77,6 +91,8 @@ export const TESTING_FLOOR_HENCHMEN: readonly HenchmanDef[] = [
     format: 'predict',
     task: 'Predict: the final value of a counter in a loop.',
     flavor: "Tick's twin. Slightly angrier.",
+    pool: ['cogsnap-counter', 'cogsnap-total'],
+    wins: 1,
   },
   {
     id: 'firstbug',
@@ -85,8 +101,15 @@ export const TESTING_FLOOR_HENCHMEN: readonly HenchmanDef[] = [
     format: 'fix',
     task: 'Fix: an off-by-one in a loop that sums a list.',
     flavor: 'In 1947 a moth was taped into a logbook: "First actual case of bug being found."',
+    pool: ['sum-list', 'largest'],
+    wins: 1,
   },
 ]
+
+/** The Challenge for a henchman's nth question (0-based), wrapping round its pool. */
+export function henchmanChallenge(h: HenchmanDef, n: number): string {
+  return h.pool[((n % h.pool.length) + h.pool.length) % h.pool.length]
+}
 
 /** Floor 1's boss: Charles Babbage alone. Ada watches from her balcony (ADR-0013). */
 export const TESTING_FLOOR_BOSS = {

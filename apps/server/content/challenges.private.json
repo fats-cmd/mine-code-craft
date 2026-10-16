@@ -1745,16 +1745,40 @@
       "javascript": "4"
     }
   },
+  "cogsnap-doubling": {
+    "output": {
+      "python": "2\n4\n8\n16",
+      "javascript": "2\n4\n8\n16"
+    }
+  },
   "cogsnap-sequence": {
     "output": {
       "python": "7\n11\n15\n19",
       "javascript": "7\n11\n15\n19"
     }
   },
+  "cogsnap-total": {
+    "output": {
+      "python": "10",
+      "javascript": "10"
+    }
+  },
+  "holloquy-countdown": {
+    "output": {
+      "python": "3\n2\n1\ngo",
+      "javascript": "3\n2\n1\ngo"
+    }
+  },
   "holloquy-loop": {
     "output": {
       "python": "0\n2\n4",
       "javascript": "0\n2\n4"
+    }
+  },
+  "holloquy-rows": {
+    "output": {
+      "python": "o\noo\nooo",
+      "javascript": "o\noo\nooo"
     }
   },
   "store-and-mill": {

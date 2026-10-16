@@ -67,7 +67,7 @@ Floor 1 end to end, per [`design/floors/01-testing-floor.md`](./design/floors/01
   - React state changes only on change, never per frame.
   - Floor 1, the Climbers and the Examiners are now voxel art ([ART_DIRECTION](./design/ART_DIRECTION.md), [ADR-0012](./adr/0012-voxel-art-direction.md)).
 - **M4a++: Story rework ✅ (greybox):** Babbage alone is the boss. Ada is an NPC you follow up the Walk, who watches from a balcony and leaves through the Gate of Notes for Floor 2 ([ADR-0013](./adr/0013-the-towers-story.md)).
-- **M4b: Tasks:** henchmen and the three boss phases run Challenges through the M3 engine. Passes land **Moves** and fails take **Counters** (GAME_DESIGN). Integrity, phase checkpoints, the boss staying beaten, the Gate of Notes.
+- **M4b: Tasks** (henchmen ✅, boss next): henchmen and the three boss phases run Challenges through the M3 engine. Passes land **Moves** and fails take **Counters** (GAME_DESIGN). Integrity, phase checkpoints, the boss staying beaten, the Gate of Notes.
 - **M4c: Floor-scoped Hall:** `BaseRoom` becomes `FloorRoom` with `filterBy(["floor"])` ([ADR-0009](./adr/0009-floor-scoped-presence.md)). The Testing Hall is Floor 1's Hall, with nameplates showing time on the floor.
 - **M4d: Art and sound pass:** hand-made voxel models (MagicaVoxel `.vox` loader) for the Examiners and henchmen, room detail, and the audio list.
 
