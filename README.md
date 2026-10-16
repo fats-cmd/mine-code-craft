@@ -23,6 +23,8 @@ Pick a name and look, then **Enter the Base**. Click the canvas to capture the m
 
 You start on **Floor 1, the Testing Floor** (greybox): walk the Timeline, beat the henchmen and Babbage & Lovelace, then meet other players in the Testing Hall. Add `?debug` to the URL for collider outlines, an FPS overlay, your position, and a tweak panel with teleports to every room (expand **Floor 1** in it).
 
+**Trials:** open `/trial` (e.g. http://localhost:5173/trial) to play any Challenge on its own: write Code or Fix in Python or JavaScript, answer a Quiz, or Predict an output. Your code runs in the browser and the server grades it. Python loads the first time you use it (about 10 MB). After editing anything in `content/challenges/`, run `npm run content`.
+
 ## Layout
 
 | Path | What |

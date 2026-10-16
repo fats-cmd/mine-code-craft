@@ -19,8 +19,8 @@ import {
     type RosterEntry,
     type SelfEntry,
 } from "./BaseNet"
+import { SERVER_URL } from "./serverUrl"
 
-const SERVER_URL = import.meta.env.VITE_SERVER_URL ?? "http://localhost:2567"
 
 /** Chat lines kept on the client. Older ones scroll away for good. */
 const CHAT_KEEP = 50

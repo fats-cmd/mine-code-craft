@@ -765,7 +765,7 @@ export const CHALLENGES: readonly PublicChallenge[] = [
   {
     "slug": "floor-1-same-input",
     "format": "quiz",
-    "title": "A program with no randomness is run twice with the same inpu",
+    "title": "A program with no randomness is run twice with the same…",
     "difficulty": 1,
     "topics": [
       "fundamentals"
@@ -781,7 +781,7 @@ export const CHALLENGES: readonly PublicChallenge[] = [
   {
     "slug": "floor-1-loom-cards",
     "format": "quiz",
-    "title": "What did the Jacquard loom use to control the pattern it wov",
+    "title": "What did the Jacquard loom use to control the pattern it…",
     "difficulty": 1,
     "topics": [
       "history"
@@ -829,7 +829,7 @@ export const CHALLENGES: readonly PublicChallenge[] = [
   {
     "slug": "floor-1-store-is",
     "format": "quiz",
-    "title": "In Babbage's Analytical Engine, the \"Store\" was what we now ",
+    "title": "In Babbage's Analytical Engine, the \"Store\" was what we now…",
     "difficulty": 1,
     "topics": [
       "history",
@@ -879,7 +879,7 @@ export const CHALLENGES: readonly PublicChallenge[] = [
   {
     "slug": "floor-1-difference-engine",
     "format": "quiz",
-    "title": "How did Babbage's Difference Engine compute tables of number",
+    "title": "How did Babbage's Difference Engine compute tables of…",
     "difficulty": 2,
     "topics": [
       "history",
@@ -896,7 +896,7 @@ export const CHALLENGES: readonly PublicChallenge[] = [
   {
     "slug": "floor-1-second-differences",
     "format": "quiz",
-    "title": "In 1, 4, 9, 16, 25… the differences are 3, 5, 7, 9. What are",
+    "title": "In 1, 4, 9, 16, 25… the differences are 3, 5, 7, 9. What…",
     "difficulty": 2,
     "topics": [
       "sequences"
@@ -912,7 +912,7 @@ export const CHALLENGES: readonly PublicChallenge[] = [
   {
     "slug": "floor-1-first-bug",
     "format": "quiz",
-    "title": "In 1947, what was found in the Harvard Mark II computer and ",
+    "title": "In 1947, what was found in the Harvard Mark II computer and…",
     "difficulty": 1,
     "topics": [
       "history",
@@ -994,7 +994,7 @@ export const CHALLENGES: readonly PublicChallenge[] = [
   {
     "slug": "floor-1-equals",
     "format": "quiz",
-    "title": "In most languages, what's the difference between `=` and `==",
+    "title": "In most languages, what's the difference between `=` and…",
     "difficulty": 1,
     "topics": [
       "fundamentals"

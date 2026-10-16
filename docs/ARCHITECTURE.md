@@ -254,8 +254,10 @@ All Challenges are files in the repo, reviewed in PRs. A generator turns them in
 
 | Output | Contains | Shipped to |
 |---|---|---|
-| `packages/shared/content/*.json` | statements, starter code per language, public cases + expected, quiz questions **without** answers, metadata | client bundle |
-| `apps/server/content/*.private.json` | hidden-case expected outputs, quiz answer keys, predict expected output | **server only** |
+| `packages/shared/src/content/challenges.gen.ts` | statements, starter code per language, public cases + expected, quiz questions **without** answers, metadata | client bundle |
+| `apps/server/content/challenges.private.json` | hidden cases (args + expected), quiz answer keys, predict expected output | **server only** |
+
+`npm run content` runs the generator (`content/build/build.py`; how to write a Challenge is in `content/README.md`). It runs each language through the same harness the browser uses (`packages/shared/src/challenge/harness.py` and `jsHarness.ts`), so a case means the same thing at build time and in play. Values cross the wire as **typed JSON**: Python floats are tagged `{"$float": x}` so `1` and `1.0` stay apart, and non-finite numbers are tagged in both languages.
 
 Per format:
 
@@ -326,6 +328,8 @@ reports       (id uuid pk, reporter, reported, reason text, context jsonb, resol
 ```
 
 **RLS:** profiles, ratings and leaderboards are readable by everyone. A Climber can update only cosmetic and display fields on their own profile. **Every progression table is written only by the game server's service role**, never by the client. The service-role key is a server secret and never appears in the client bundle.
+
+**Until Supabase lands**, `TrialRoom` appends each graded submission to a JSONL file (`apps/server/data/submissions.jsonl`, or `SUBMISSIONS_LOG`), with the same fields as the `submissions` row. It loads straight into the table later.
 
 **Leaderboards** are queries or materialised views over `ratings`, `profiles.highest_floor` and `submissions`, not hand-maintained tables.
 

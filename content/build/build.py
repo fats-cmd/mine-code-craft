@@ -223,6 +223,12 @@ def build_predict(path):
     return public, {"output": output}
 
 
+def short(text, limit=60):
+    """A list title from a question: whole words, with an ellipsis if cut."""
+    text = " ".join(text.split())
+    return text if len(text) <= limit else text[:limit].rsplit(" ", 1)[0].rstrip(",.;:") + "…"
+
+
 def build_quiz(path):
     out = []
     bank = path.stem
@@ -233,7 +239,7 @@ def build_quiz(path):
             fail(f"quiz/{slug}: needs 2-5 options and a valid answer index")
         if len(set(opts)) != len(opts):
             fail(f"quiz/{slug}: duplicate options")
-        public = {"slug": slug, "format": "quiz", "title": q.get("title", q["question"][:60]), "difficulty": q["difficulty"],
+        public = {"slug": slug, "format": "quiz", "title": q.get("title", short(q["question"])), "difficulty": q["difficulty"],
                   "topics": q.get("topics", []), "question": q["question"].strip(), "options": opts}
         out.append((public, {"answer": q["answer"], "explanation": q["explanation"].strip()}))
     return out
