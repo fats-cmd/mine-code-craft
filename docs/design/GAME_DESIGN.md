@@ -8,7 +8,21 @@ What the game *is*, as opposed to how it's built ([`../ARCHITECTURE.md`](../ARCH
 
 You are a **Climber** at the bottom of the **Tower**, a world built out of the history and ideas of computer science. Every floor is its own place, with its own story, its own **Boss** and its own **Tasks**. You beat them with real programming and CS knowledge, not reflexes.
 
+**The aim:** teach computer science the way it actually grew, from the first engines to the AI era. Each floor is a moment in that story, and climbing the Tower *is* learning it.
+
 You only ever share a floor with the people who are on it *right now*. Fast climbers race ahead. Someone stuck on Floor 3 for three months will meet every newcomer who arrives there. And the Tower pushes back: **fail a test and you fall a floor.**
+
+## The thread: Lovelace's Objection
+
+The Tower has one question running through it, asked by Ada Lovelace in 1843: *"The Analytical Engine has no pretensions whatever to originate any thing. It can do whatever we know how to order it to perform."* Can a machine create?
+
+- **Floor 1:** you chase Ada and beat Babbage. Machines follow procedures.
+- **Floor 2:** Ada's floor. She asks the question, and wins the argument for now: your composing program "only did what you ordered".
+- **Floor 3:** Alan Turing, whose 1950 paper answers "Lady Lovelace's Objection" by name. A machine that *learns* can surprise its maker.
+- **Floors above:** search, data, learning, neural networks and generative AI each add evidence.
+- **The top:** the Climber finally answers the Objection themselves. The Meta Legion want the answer to be "only if we own it".
+
+**The Objection Journal** records the thread: each floor's Examiner adds a page, with their answer in their own words. Decision record: [ADR-0013](../adr/0013-the-towers-story.md).
 
 ## Pillars
 
@@ -54,6 +68,21 @@ Every floor is built from the same parts, so each new one is mostly content: a s
 | **Floor Exam** | A short, harder Trial in the Hall. Pass it to climb to the next floor. | Solo |
 
 **Tasks are Challenges.** A Task is a Challenge placed in the world, in one of the four Formats (Code, Fix, Predict, Quiz). The challenge engine (M3) runs them all, so a boss is a sequence of Challenges plus presentation.
+
+**Henchman bosses** sit between the two: a named figure at the end of a wing or section, with two or three Tasks and Integrity checkpoints like a boss, but no phases or title card. Example: Menabrea on Floor 2.
+
+## Moves and Counters: what a pass looks like
+
+Fights are won by solving, and they should *look* like fights. A Task result plays out as combat:
+
+| Result | What happens |
+|---|---|
+| **Pass** | Your Climber lands a **Move**: a punch, kick or push (chosen by Format, e.g. Quiz = jab, Predict = kick, Fix = push, Code = a combo finisher). The henchman staggers or the boss's guard cracks. A boss's last phase ends on a finisher. |
+| **Wrong answer or timeout** | The enemy lands a **Counter** on you: you're knocked back and lose 1 Integrity. |
+
+- **Everywhere:** henchmen, bosses and **Duels**. In a Duel, the Round winner's Climber lands a Move on the opponent's avatar. It's visual only; the score is the Round result.
+- **Examiners keep their dignity.** Moves hit an Examiner's **guard** (an aura or shield of their work: Babbage's gears, Ada's woven threads), never a body blow. They're tested, not beaten up ([ADR-0010](../adr/0010-historical-figures-as-examiners.md)).
+- **Presentation only.** Moves never change grading, timers or rewards. Players who prefer a calm screen can turn them down in settings.
 
 ## The core loop
 
@@ -112,15 +141,17 @@ Hall quests and Stations lead to **Duels** (best of three Rounds, see Architectu
 
 ## Planned floors (sketch)
 
-Only Floor 1 is designed in detail ([`floors/01-testing-floor.md`](floors/01-testing-floor.md)). Each later floor gets its own doc before it's built.
+Floors 1 and 2 are designed in detail ([`floors/01-testing-floor.md`](floors/01-testing-floor.md)). Each later floor gets its own doc before it's built.
 
 | Floor | Working name | Boss idea | Theme / topic |
 |---|---|---|---|
-| 1 | **The Testing Floor** | Ada Lovelace & Charles Babbage | Origins of computing: algorithms, loops, the first program |
-| 2 | The Codebreakers' Hut | Alan Turing (Bletchley) | Logic, state machines, ciphers |
-| 3 | The Compiler Deck | *an homage character* (Grace Hopper died 1992: too recent, see ADR-0010) | Compilers, debugging, the first "bug" |
-| 4 | The Shortest Path | *an homage character* (Dijkstra died 2002) | Graphs, shortest paths |
+| 1 | **The Testing Floor** ([doc](floors/01-testing-floor.md)) | Charles Babbage (Ada appears as an NPC you chase) | Origins of computing: procedures, finite differences, the Store and the Mill, the first Code task |
+| 2 | **Poetical Science** ([doc](floors/02-poetical-science.md)) | Augusta Ada King, Countess of Lovelace (henchman boss: Luigi Menabrea) | Algorithms and loops (Note G), encoding and general-purpose computing, Lovelace's Objection |
+| 3 | The Codebreakers' Hut | Alan Turing (Bletchley), answering her Objection | Logic, state machines, ciphers, computability, the imitation game |
+| 4 | The Compiler Deck | *an homage character* (Grace Hopper died 1992: too recent, see ADR-0010) | Compilers, debugging, the first "bug" |
+| 5 | The Shortest Path | *an homage character* (Dijkstra died 2002) | Graphs, shortest paths |
+| … | the AI floors | *to design* | Search, learning from data, neural networks, generative models |
 | … | … | … | … |
 | top | The Meta Spire | Zark and the Meta Legion | Everything |
 
-Floors 2+ are sketches to show where this goes, not commitments.
+Floors 3+ are sketches to show where this goes, not commitments.

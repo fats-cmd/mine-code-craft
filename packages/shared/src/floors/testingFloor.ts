@@ -88,8 +88,9 @@ export const TESTING_FLOOR_HENCHMEN: readonly HenchmanDef[] = [
   },
 ]
 
+/** Floor 1's boss: Charles Babbage alone. Ada watches from her balcony (ADR-0013). */
 export const TESTING_FLOOR_BOSS = {
-  name: 'The Examiners: Babbage & Lovelace',
+  name: 'The Examiner: Charles Babbage',
   phases: [
     {
       title: 'The Difference Engine',
@@ -98,14 +99,14 @@ export const TESTING_FLOOR_BOSS = {
       task: 'Predict the next value of three difference tables before the crank completes.',
     },
     {
-      title: 'Note G',
-      examiner: 'Ada Lovelace',
-      format: 'fix',
-      task: 'Fix the swapped operands in her Bernoulli loop, then 3 quick Quiz questions.',
+      title: 'The Mill and the Store',
+      examiner: 'Charles Babbage',
+      format: 'predict',
+      task: 'Map the Store, Mill and cards to a modern computer, then trace what each Store column holds after the cards run.',
     },
     {
       title: 'The Analytical Engine',
-      examiner: 'Babbage & Lovelace',
+      examiner: 'Charles Babbage',
       format: 'code',
       task: 'Code next_value(sequence): predict the next term using finite differences.',
     },

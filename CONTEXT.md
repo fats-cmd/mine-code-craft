@@ -38,12 +38,16 @@ Use these words in code, issues, commits and docs. If you need a concept that is
 | **Duel** | A PvP battle between two Climbers: **best of 3 Rounds**. |
 | **Round** | One segment of a Duel, played on one Format with its own clock. The first correct answer (or the higher score for Quiz) wins the Round. |
 | **Stake Duel** | An opt-in Duel where both players stake their floor: the loser takes a Strike ([ADR-0011](docs/adr/0011-the-fall.md), proposed). |
+| **Move** | The blow your Climber lands when a Task passes: a punch, kick or push, or a combo finisher for Code. Presentation only. Against an Examiner it hits their guard, never their body. |
+| **Counter** | The hit you take when a Task fails or times out: knockback and −1 Integrity. |
+| **Henchman boss** | A named figure ending a wing or section (e.g. Menabrea on Floor 2): two or three Tasks with Integrity checkpoints, but no phases. |
+| **Objection Journal** | The Climber's record of the Tower's question, *can a machine originate anything?*. Each floor's Examiner adds a page ([ADR-0013](docs/adr/0013-the-towers-story.md)). |
 | **Ranked** | A Duel mode that changes Rank. **Perks are disabled.** Started only from the queue. |
 | **Casual** | A Duel mode with Perks enabled and no Rank change. Walk-up challenges default to Casual. |
 | **Task** | A Challenge placed in the world: what a Henchman is, and what each Boss phase is made of. |
 | **Henchman** | A small enemy on a floor's Approach. Beating it means passing one Task (e.g. the Moth: a Fix Task). |
 | **Boss** | A floor's signature fight: 2–4 phases, each a Task or a short run of them. Beaten once, it stays beaten. |
-| **Examiner** | A Boss who is a real historical computing pioneer (Floor 1: Babbage & Lovelace). Portrayed as demanding and fair, never mocked ([ADR-0010](docs/adr/0010-historical-figures-as-examiners.md)). |
+| **Examiner** | A Boss who is a real historical computing pioneer (Floor 1: Babbage; Floor 2: Lovelace). Portrayed as demanding and fair, never mocked ([ADR-0010](docs/adr/0010-historical-figures-as-examiners.md)). |
 | **Integrity** | A Climber's hit points during an Approach or Boss fight. A wrong answer or timeout costs 1. At 0 you retry from the last checkpoint. |
 | **Floor Exam** | The Trial in a Floor Hall that climbs you to the next floor. |
 | **Trial** | A single-player run against Challenges: Station practice, a Floor Exam, or a Standing Exam. |

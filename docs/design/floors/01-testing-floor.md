@@ -3,7 +3,15 @@
 > *"The Analytical Engine weaves algebraical patterns just as the Jacquard-loom weaves flowers and leaves."*
 > Ada Lovelace, 1843
 
-The first floor of the Tower and the entrance exam. A new Climber walks through the origins of computing and learns every way the game is played. Then they must beat the first two people who ever imagined a programmable machine: **Charles Babbage** and **Ada Lovelace**. Only after that do they reach the **Testing Hall**, where everyone else on Floor 1 is.
+The first floor of the Tower and the entrance exam. A new Climber walks through the origins of computing and learns every way the game is played.
+
+**The story:**
+- **The hook.** On the Arrival Platform, **Ada Lovelace** appears, looks straight at you, and slips away up the Timeline Walk. The objective reads **"Follow Ada Lovelace"**, so you think catching her is the goal.
+- **The chase.** **Charles Babbage**'s machines bar the way.
+- **The twist.** In the Engine Room, Babbage himself is the boss: *"You'll not reach her without passing through my Engines."*
+- **The payoff.** Ada watches the fight from a balcony. When Babbage falls, she acknowledges you and leaves through the Gate of Notes to **Floor 2, her floor** ([`02-poetical-science.md`](02-poetical-science.md)), where she waits.
+
+Only then do you reach the **Testing Hall**, where everyone else on Floor 1 is.
 
 Follows the floor anatomy in [`../GAME_DESIGN.md`](../GAME_DESIGN.md): **Setting → Henchmen → Boss → Floor Hall → Floor Exam**.
 
@@ -27,10 +35,10 @@ A Victorian engine house *inside* a computer. Brass, oak, iron and gaslight, wit
                          └────────────▲─────────────┘
                                       │  the Gate of Notes (opens on victory)
                          ┌────────────┴─────────────┐
-                         │     THE ENGINE ROOM      │  BOSS: Babbage & Lovelace
+                         │     THE ENGINE ROOM      │  BOSS: Charles Babbage
                          │  Difference Engine (L)   │
                          │  Analytical Engine (C)   │
-                         │  Ada's desk & Notes (R)  │
+                         │  Ada's balcony (R, above)│
                          └────────────▲─────────────┘
                                       │
     ┌─────────────────────────────────┴───────────────────────────────┐
@@ -39,7 +47,7 @@ A Victorian engine house *inside* a computer. Brass, oak, iron and gaslight, wit
     │  ④ Gear Works → ⑤ The Moth Room                                 │
     └─────────────────────────────────▲───────────────────────────────┘
                                       │
-                              ARRIVAL PLATFORM  (spawn, the Guide says hello)
+                              ARRIVAL PLATFORM  (spawn · Ada appears, then slips away)
 ```
 
 The **Timeline Walk** is one route with five rooms. Each room teaches one thing and ends in a henchman. Sizes are small on purpose: about 3–5 minutes to walk through without stopping. Total time to the boss is 10–15 minutes for a newcomer.
@@ -56,22 +64,35 @@ Each room teaches either a **game mechanic** or a **Task Format**, then tests it
 | ④ | **Gear Works**: giant meshing cogs, some jammed | Reading code; difficulty ramps | **Loose Cog** (×2) | Predict: a simple arithmetic sequence, then a counter in a loop |
 | ⑤ | **The Moth Room**: a dark relay cabinet with one moth fluttering inside | **Fix** format | **The Moth**: a nod to the moth found in the Harvard Mark II relay in 1947, logged as the "first actual case of bug being found" | Fix: an off-by-one in a loop that sums a list |
 
-**Code** (writing a function from scratch) is introduced in the boss fight itself, with Ada as the teacher. That gives the boss a job beyond being a wall.
+**Code** (writing a function from scratch) is introduced in the boss fight itself, in Babbage's last phase. That gives the boss a job beyond being a wall.
+
+### Following Ada
+
+Ada is an NPC on this floor, never a fight. She is always one room ahead.
+
+- **Arrival Platform:** she stands at the far doorway, looks back at you, and walks off up the Walk. The objective becomes **"Follow Ada Lovelace"**.
+- **Each room:** as you enter, you glimpse her by the exit. She leaves a **Note** (a glowing page) with a hint for that room's Task, then slips through the door before you reach her. The Notes are short, in her voice, and teach the Format. For example, at the Loom: *"The Engine weaves algebraical patterns, just as the loom weaves flowers. Find the pattern."*
+- **The Engine Room:** she is on a **balcony behind glass**, above and behind Babbage. She doesn't help. She watches.
+- **After the fight:** she says her line, walks to the Gate of Notes and is gone.
+
+She can't be caught, talked into helping, or attacked: she is the reason to climb, not an obstacle.
 
 Every henchman uses the shared battle UI (M3). A fail costs one **Integrity** point and lets you retry with a new question. Henchmen never block progress permanently.
 
-## 4. Boss: the Examiners, Babbage & Lovelace
+## 4. Boss: the Examiner, Charles Babbage
 
-**Framing:** they aren't villains. They're **the Examiners** of the first floor: proud, sharp and fair. Babbage is gruff and impatient with sloppy thinking. Ada is quick, poetic and challenging. When you win, they step aside and Ada says the line that opens the Gate. Portray both respectfully ([ADR-0010](../../adr/0010-historical-figures-as-examiners.md)).
+**Framing:** Babbage is the Examiner of the first floor: proud, sharp and fair, gruff and impatient with sloppy thinking. He designed the machines you have been fighting through, and he won't let you reach Ada until you have proved you understand them. When you win, he steps aside with grudging respect. Portray him respectfully ([ADR-0010](../../adr/0010-historical-figures-as-examiners.md)).
+
+**Intro line:** *"You'll not reach her without passing through my Engines."*
 
 **Arena:** the Engine Room.
 - **Left:** a full-size **Difference Engine**. The real Difference Engine No. 2 was finally built by the Science Museum, London, in 1991.
 - **Centre:** the unbuilt **Analytical Engine**, rising from the floor in glowing wireframe.
-- **Right:** Ada's desk, with the **Notes** floating as pages of light.
+- **Right, above:** **Ada's balcony**, behind glass. She watches the whole fight.
 
 **Climber Integrity:** 5 points. A wrong answer costs 1, a timeout costs 1. At 0 you're "returned to the Walk's end" and retry from the **start of the current phase**, not the whole fight.
 
-### Phase 1: "The Difference Engine" (Babbage)
+### Phase 1: "The Difference Engine"
 
 Babbage's engine tabulated polynomials using the **method of finite differences**: add up columns of differences and you never need to multiply. The fight teaches exactly that.
 
@@ -82,27 +103,31 @@ Babbage's engine tabulated polynomials using the **method of finite differences*
   3. Next term of a cubic, given its difference table
 - **Babbage's attack:** the "crank". The timer speeds up after each jam.
 
-### Phase 2: "Note G" (Lovelace)
+### Phase 2: "The Mill and the Store"
 
-In 1843 Ada published her Notes on the Analytical Engine. **Note G** lays out, step by step, how the Engine could compute **Bernoulli numbers**. It's often called the first published computer program. Historians have pointed out a small error in its table of operations, which is the perfect excuse for a **Fix** fight.
+The Analytical Engine split a computer into the parts every computer still has: the **Store** (memory, columns of numbered variables) and the **Mill** (the processor that does the arithmetic). It was driven by punched cards (the program). Babbage opens the wireframe Engine and makes you run it by hand.
 
-- **Mechanic:** Ada "weaves" the program as glowing thread between the engines. You must find and fix the faults before the weave completes.
+- **Mechanic:** cards fly from the reader to the Mill, and values move between Store columns. You must say what each column holds before the cards finish. Each correct trace locks one Store column.
 - **Tasks:**
-  1. **Fix**: a short Python/JS translation of a loop with two operands swapped. The tests show the wrong output. This is the homage to Note G's error.
-  2. **Quiz** (fast, 3 questions): what is a loop / a variable / an operation? Ada's own vocabulary of operations and variables, mapped to modern terms.
-- **Ada's attack:** "weaving": red threads cut across the Task panel's timer bar, and each one you leave unfixed costs Integrity when the weave completes.
+  1. **Quiz** (3 questions): Store, Mill, cards and printer mapped to memory, processor, program and output.
+  2. **Predict**: a short sequence of operations on variables `v1`–`v4` (with one loop). What's in each variable at the end?
+- **Babbage's attack:** "the card storm". Each wrong answer shuffles the next card sequence.
 
-### Phase 3: "The Analytical Engine" (both)
+### Phase 3: "The Analytical Engine"
 
-The machine they designed and never saw built boots up, and you program it.
+The machine he designed and never saw built boots up, and you program it.
 
-- **Mechanic:** the first **Code** Task in the game. The Guide and Ada walk you through the editor in two lines. Babbage provides the inputs, Ada the expected outputs. Pass all hidden cases and the Engine runs.
+- **Mechanic:** the first **Code** Task in the game. The Guide walks you through the editor in two lines. Babbage provides the inputs and the expected outputs. Pass all hidden cases and the Engine runs.
 - **Task:** **Code**, difficulty 2: `next_value(sequence)`, which uses finite differences to predict the next term of a polynomial sequence. It ties phases 1 and 2 together: you've done this by hand, now make the machine do it.
-- **Victory:** the Engine spins up, the teal glow floods the room, and the Notes pages fly to form the **Gate of Notes**. Ada: *"It weaves your pattern now. Go on: they're waiting for you above."*
+- **Victory:** the Engine spins up and the teal glow floods the room. Babbage steps back: *"Hm. You'll do."*
+- **Then Ada,** from the balcony: *"You may yet understand what I saw in it."* She walks to the Gate of Notes, which opens for her and for you, and leaves for Floor 2.
+
+*Moved to Floor 2:* Note G, the weave, and Ada as an Examiner. That is her floor now.
 
 ### Rewards
 
 - Title **"Engine Breaker"**.
+- The first page of **the Objection Journal**: Ada's line from the balcony (see GAME_DESIGN, *The thread*).
 - Cosmetic **Brass Goggles** (a new eyes part).
 - The boss stays beaten forever, including after a Fall.
 
@@ -139,9 +164,10 @@ Build them in this order; earlier items unblock playtesting. All rooms and these
 |---|---|---|
 | P0 | **Engine Room shell** | Floor, walls, three alcoves. Simple, because the engines carry it. |
 | P0 | **Difference Engine** | Hero prop. Columns of number wheels; 3 columns need separate meshes so they can animate "jamming". |
-| P0 | **Babbage** and **Lovelace** | Voxel figures, Victorian clothing, with public-domain portraits as reference. Animated by parts in code, like Climbers (idle, talk, "attack" gestures, defeat bow). |
+| P0 | **Babbage** | A voxel figure in Victorian clothing, with public-domain portraits as reference. Animated by parts in code, like Climbers (idle, talk, "attack" gestures, defeat bow). |
+| P0 | **Ada** (NPC here, boss on Floor 2) | Same model as Floor 2. Here she needs only walk, look back and leave. |
 | P1 | **Analytical Engine** | Wireframe/teal hologram material, so it can be lighter geometry. |
-| P1 | **Ada's desk and Notes pages** | Pages as glowing voxels. |
+| P1 | **Ada's balcony** and her **Notes** (one per room) | A glass-fronted balcony; the Notes are glowing pages. |
 | P1 | **Timeline Walk modules** | A kit of wall, arch, floor (wood → circuit) and lamp pieces, to snap rooms together. |
 | P2 | **Jacquard loom**, **card wall**, **cogs**, **relay cabinet** | One hero prop per room. |
 | P2 | Henchmen: **Shuttle Sprite**, **Punched Card**, **Loose Cog**, **The Moth** | Small and simple, and they need to read as "enemies". |
@@ -154,11 +180,12 @@ Build them in this order; earlier items unblock playtesting. All rooms and these
 |---|---|
 | Walk ambience | Distant clockwork, gas hiss, a soft music box. |
 | Henchman sting | Short, playful, mechanical. |
-| Boss intro | Big orchestral hit plus a steam whistle, then the title card *"THE EXAMINERS"*. |
+| Ada's theme | A short harpsichord phrase whenever she appears ahead of you; it grows fuller each room. |
+| Boss intro | Big orchestral hit plus a steam whistle, then the title card *"CHARLES BABBAGE"*. |
 | Phase 1 crank loop | Rhythmic gear clatter that speeds up with the timer. |
-| Phase 2 weave | Strings and a harpsichord; tension rises as the thread grows. |
+| Phase 2 card storm | Punched cards clattering through the reader, faster with every wrong answer. |
 | Phase 3 boot-up | The machine whirs up into a synth chord, the floor's first electronic sound. |
-| Victory / Gate | Triumphant brass resolving into a modern synth pad. |
+| Victory / Gate | Triumphant brass, then Ada's theme as she leaves through the Gate. |
 
 ## 7. Challenge content to write
 
@@ -171,7 +198,8 @@ All in the content pipeline (M3), Python and JS for Code/Fix/Predict.
 | Loose Cog ×2 | Predict | 4 | 1–2 |
 | The Moth | Fix | 2 | 1 |
 | Babbage, phase 1 | Predict/Quiz (difference tables) | 6 | 1–2 |
-| Lovelace, phase 2 | Fix ("Note G") + Quiz | 2 + 6 | 2 |
+| Babbage, phase 2 | Quiz (Store/Mill) + Predict (trace) | 6 + 3 | 2 |
+| Ada's Notes (hints, one per room) | none: text only | 5 | – |
 | Phase 3 | Code: `next_value` | 1 (+1 alternate) | 2 |
 | Floor 1 Exam | Mixed | pool of 15 | 2 |
 
@@ -180,10 +208,11 @@ All in the content pipeline (M3), Python and JS for Code/Fix/Predict.
 ## 8. Build plan
 
 1. **Greybox (code only) ✅:** all rooms and the Engine Room as primitives, the Guide as a floating light with on-screen lines, henchmen as glowing shapes, and Pass/Fail buttons standing in for Tasks. Walkable end to end.
-2. **Wire the Tasks:** henchmen and boss phases call the challenge engine (M3). Integrity, phase checkpoints, victory and the Gate.
-3. **Floor-scoped Hall:** `FloorRoom` for Floor 1 replaces the generic Base ([ADR-0009](../../adr/0009-floor-scoped-presence.md)).
-4. **Art pass:** the code-built voxel version is in. Next, hand-made MagicaVoxel models for the hero props and characters. Then sound.
-5. **Exam Gate → Floor 2 placeholder.**
+2. **Story rework ✅ (greybox):** Babbage alone in the arena, and Ada as an NPC who appears at Arrival, slips away ahead of you room by room, watches from a balcony, and leaves through the Gate after the fight.
+3. **Wire the Tasks:** henchmen and boss phases call the challenge engine (M3). Integrity, phase checkpoints, victory and the Gate.
+4. **Floor-scoped Hall:** `FloorRoom` for Floor 1 replaces the generic Base ([ADR-0009](../../adr/0009-floor-scoped-presence.md)).
+5. **Art pass:** the code-built voxel version is in. Next, hand-made MagicaVoxel models for the hero props and characters. Then sound.
+6. **Exam Gate → Floor 2** ([Poetical Science](02-poetical-science.md)).
 
 ## Open questions (Ronald)
 
