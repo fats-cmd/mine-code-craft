@@ -1,0 +1,15 @@
+# Floor 1, Cogsnap Tick (the Gear Works): a retry. Each turn doubles the teeth.
+title: Cogsnap Tick's Doubling
+difficulty: 1
+topics: [loops, sequences]
+python: |
+  teeth = 1
+  for _ in range(4):
+      teeth = teeth * 2
+      print(teeth)
+javascript: |
+  let teeth = 1
+  for (let n = 0; n < 4; n++) {
+    teeth = teeth * 2
+    console.log(teeth)
+  }

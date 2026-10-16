@@ -16,10 +16,13 @@ export default function CodePanel({
     challenge: c,
     start,
     submit,
+    onVerdict,
 }: {
     challenge: CodeChallenge
     start: TrialStart | null
     submit: (body: unknown) => Promise<TrialVerdict>
+    /** Every verdict from the server, e.g. for a henchman fight to count. */
+    onVerdict?: (v: TrialVerdict) => void
 }) {
     const [language, setLanguage] = useState<Language>(c.languages[0])
     // The code per language, seeded from the saved draft or the starter.
@@ -61,6 +64,7 @@ export default function CodePanel({
         const verdict = await submit(body)
         setOutcome({ kind: "submit", language, result, verdict })
         setBusy(null)
+        onVerdict?.(verdict)
     }
 
     const reset = () => {

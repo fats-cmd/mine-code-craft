@@ -210,6 +210,8 @@ All in the content pipeline (M3), Python and JS for Code/Fix/Predict.
 1. **Greybox (code only) ✅:** all rooms and the Engine Room as primitives, the Guide as a floating light with on-screen lines, henchmen as glowing shapes, and Pass/Fail buttons standing in for Tasks. Walkable end to end.
 2. **Story rework ✅ (greybox):** Babbage alone in the arena, and Ada as an NPC who appears at Arrival, slips away ahead of you room by room, watches from a balcony, and leaves through the Gate after the fight.
 3. **Wire the Tasks:** henchmen and boss phases call the challenge engine (M3). Integrity, phase checkpoints, victory and the Gate.
+   - **Henchmen ✅:** each fights with a real Challenge from its pool (`pool` in `testingFloor.ts`), graded by the server in a TrialRoom. A pass lands a Move (Quiz jab, Predict kick, Fix push); a fail takes a Counter and costs 1 Integrity. After a Quiz or Predict answer the next question comes from the pool. A Fix stays on screen so you can keep editing, until a knockout swaps in a different bug. The Moves and Counters are on-screen effects for now; avatar animations come with the art pass.
+   - **Babbage's phases:** still Pass/Fail. Next.
 4. **Floor-scoped Hall:** `FloorRoom` for Floor 1 replaces the generic Base ([ADR-0009](../../adr/0009-floor-scoped-presence.md)).
 5. **Art pass:** the code-built voxel version is in. Next, hand-made MagicaVoxel models for the hero props and characters. Then sound.
 6. **Exam Gate → Floor 2** ([Poetical Science](02-poetical-science.md)).

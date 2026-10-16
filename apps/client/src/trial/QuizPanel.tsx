@@ -4,7 +4,7 @@ import Markdown from "./Markdown"
 import { Box } from "./CodePanel"
 
 /** Quiz: pick one. One try; the verdict marks the right answer and explains it. */
-export default function QuizPanel({ challenge: c, submit }: { challenge: QuizChallenge; submit: (body: unknown) => Promise<TrialVerdict> }) {
+export default function QuizPanel({ challenge: c, submit, onVerdict }: { challenge: QuizChallenge; submit: (body: unknown) => Promise<TrialVerdict>; onVerdict?: (v: TrialVerdict) => void }) {
     const [chosen, setChosen] = useState<number | null>(null)
     const [verdict, setVerdict] = useState<TrialVerdict | null>(null)
 
@@ -14,6 +14,7 @@ export default function QuizPanel({ challenge: c, submit }: { challenge: QuizCha
         const v = await submit({ kind: "quiz", choice: i })
         setVerdict(v)
         if (v.kind === "rejected") setChosen(null)
+        onVerdict?.(v)
     }
     const answer = verdict?.kind === "quiz" ? verdict.answer : null
 

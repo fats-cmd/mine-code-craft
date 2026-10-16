@@ -1,0 +1,11 @@
+# Floor 1, Holloquy (the Card Archive): a retry. One row of holes per card.
+title: Holloquy's Rows
+difficulty: 1
+topics: [loops, strings]
+python: |
+  for row in range(1, 4):
+      print("o" * row)
+javascript: |
+  for (let row = 1; row <= 3; row++) {
+    console.log("o".repeat(row))
+  }
