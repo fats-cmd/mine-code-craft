@@ -259,12 +259,12 @@ All Challenges are files in the repo, reviewed in PRs. A generator turns them in
 
 Per format:
 
-- **Code:** `reference.py` is the source of truth (as in today's `server/problems/`). The generator runs it to produce every expected output. Each Challenge gets a JS signature and starter. A `reference.js` is optional, and if present the generator checks that it agrees with Python on every case.
+- **Code:** `reference.py` is the source of truth (formerly `server/problems/`). The generator runs it to produce every expected output. Each Challenge gets a JS signature and starter. A `reference.js` is optional, and if present the generator checks that it agrees with Python on every case.
 - **Fix:** like Code, plus the buggy starter per language.
 - **Predict:** a snippet per language. The generator *executes* it to capture the expected output, so it is never hand-typed.
 - **Quiz:** YAML: question, options, answer index, topic, difficulty, explanation.
 
-The **8 existing problems** in `server/problems/` move into `content/challenges/code/` unchanged. Their three comparator pins (README) stay binding.
+The **8 original problems** (formerly `server/problems/`) live in `content/challenges/code/` unchanged. Their three comparator pins (README) stay binding.
 
 **Content volume is the real bottleneck for a public game.** Duels pick Challenges by mode, difficulty and topic, avoiding ones either player has seen recently. Plan for roughly 40 Quiz questions, 15 Code, 10 Fix and 15 Predict before a public launch.
 

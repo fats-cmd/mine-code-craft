@@ -1,0 +1,15 @@
+# Floor 1, Cogsnap Tick (the Gear Works): a simple arithmetic sequence.
+title: Cogsnap Tick's Sequence
+difficulty: 1
+topics: [loops, sequences]
+python: |
+  x = 3
+  for _ in range(4):
+      x = x + 4
+      print(x)
+javascript: |
+  let x = 3
+  for (let n = 0; n < 4; n++) {
+    x = x + 4
+    console.log(x)
+  }

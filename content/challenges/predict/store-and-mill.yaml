@@ -1,0 +1,19 @@
+# Floor 1, Babbage's phase 2: values move between the Store's columns.
+title: The Mill and the Store
+difficulty: 2
+topics: [variables, tracing]
+prompt: The Store holds v1, v2 and v3; the Mill does the arithmetic. What's in each column at the end? Type the exact output.
+python: |
+  v1 = 2
+  v2 = 3
+  v3 = v1 * v2
+  v1 = v3 + v1
+  v2 = v1 - v2
+  print(v1, v2, v3)
+javascript: |
+  let v1 = 2
+  let v2 = 3
+  let v3 = v1 * v2
+  v1 = v3 + v1
+  v2 = v1 - v2
+  console.log(v1, v2, v3)
