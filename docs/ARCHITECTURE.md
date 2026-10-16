@@ -254,17 +254,19 @@ All Challenges are files in the repo, reviewed in PRs. A generator turns them in
 
 | Output | Contains | Shipped to |
 |---|---|---|
-| `packages/shared/content/*.json` | statements, starter code per language, public cases + expected, quiz questions **without** answers, metadata | client bundle |
-| `apps/server/content/*.private.json` | hidden-case expected outputs, quiz answer keys, predict expected output | **server only** |
+| `packages/shared/src/content/challenges.gen.ts` | statements, starter code per language, public cases + expected, quiz questions **without** answers, metadata | client bundle |
+| `apps/server/content/challenges.private.json` | hidden cases (args + expected), quiz answer keys, predict expected output | **server only** |
+
+`npm run content` runs the generator (`content/build/build.py`; how to write a Challenge is in `content/README.md`). It runs each language through the same harness the browser uses (`packages/shared/src/challenge/harness.py` and `jsHarness.ts`), so a case means the same thing at build time and in play. Values cross the wire as **typed JSON**: Python floats are tagged `{"$float": x}` so `1` and `1.0` stay apart, and non-finite numbers are tagged in both languages.
 
 Per format:
 
-- **Code:** `reference.py` is the source of truth (as in today's `server/problems/`). The generator runs it to produce every expected output. Each Challenge gets a JS signature and starter. A `reference.js` is optional, and if present the generator checks that it agrees with Python on every case.
+- **Code:** `reference.py` is the source of truth (formerly `server/problems/`). The generator runs it to produce every expected output. Each Challenge gets a JS signature and starter. A `reference.js` is optional, and if present the generator checks that it agrees with Python on every case.
 - **Fix:** like Code, plus the buggy starter per language.
 - **Predict:** a snippet per language. The generator *executes* it to capture the expected output, so it is never hand-typed.
 - **Quiz:** YAML: question, options, answer index, topic, difficulty, explanation.
 
-The **8 existing problems** in `server/problems/` move into `content/challenges/code/` unchanged. Their three comparator pins (README) stay binding.
+The **8 original problems** (formerly `server/problems/`) live in `content/challenges/code/` unchanged. Their three comparator pins (README) stay binding.
 
 **Content volume is the real bottleneck for a public game.** Duels pick Challenges by mode, difficulty and topic, avoiding ones either player has seen recently. Plan for roughly 40 Quiz questions, 15 Code, 10 Fix and 15 Predict before a public launch.
 
@@ -326,6 +328,8 @@ reports       (id uuid pk, reporter, reported, reason text, context jsonb, resol
 ```
 
 **RLS:** profiles, ratings and leaderboards are readable by everyone. A Climber can update only cosmetic and display fields on their own profile. **Every progression table is written only by the game server's service role**, never by the client. The service-role key is a server secret and never appears in the client bundle.
+
+**Until Supabase lands**, `TrialRoom` appends each graded submission to a JSONL file (`apps/server/data/submissions.jsonl`, or `SUBMISSIONS_LOG`), with the same fields as the `submissions` row. It loads straight into the table later.
 
 **Leaderboards** are queries or materialised views over `ratings`, `profiles.highest_floor` and `submissions`, not hand-maintained tables.
 

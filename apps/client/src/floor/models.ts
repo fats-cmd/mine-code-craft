@@ -159,7 +159,7 @@ function eyes(m: VoxelModel, y: number, z: number, gap = 1) {
 export const henchman = (id: string) =>
     cached(`h:${id}`, () => {
         const m = new VoxelModel(0.1)
-        if (id === "shuttle-sprite") {
+        if (id === "weftdart") {
             // a loom shuttle: a pointed spindle, cyan with a thread trailing
             for (let y = -6; y < 6; y++) {
                 const r = 3.2 * Math.cos(((y + 0.5) / 6) * (Math.PI / 2))
@@ -168,12 +168,12 @@ export const henchman = (id: string) =>
             }
             eyes(m, 1, 2)
             m.glow.box(0, -9, 0, 0, -7, 0, 0x9ff6fa)
-        } else if (id === "punched-card") {
+        } else if (id === "holloquy") {
             m.lit.box(-4, -6, 0, 4, 6, 0, (x, y) => (hash3(x, y, 0, 7) < 0.2 && Math.abs(y) < 5 && y !== 2 ? 0x8a6a3a : 0xf2e6c9))
             m.lit.delete(4, 6, 0).delete(3, 6, 0) // the clipped corner
             eyes(m, 2, 1)
-        } else if (id.startsWith("loose-cog")) {
-            const color = id.endsWith("2") ? 0xe2a227 : 0xc9a227
+        } else if (id.startsWith("cogsnap")) {
+            const color = id.endsWith("tock") ? 0xe2a227 : 0xc9a227
             for (let x = -6; x < 6; x++)
                 for (let y = -6; y < 6; y++) {
                     const d = Math.hypot(x + 0.5, y + 0.5)
@@ -181,7 +181,7 @@ export const henchman = (id: string) =>
                     if ((d <= 4.2 || (tooth && d <= 5.6)) && d > 1.5) m.lit.box(x, y, -1, x, y, 0, varied(color, 0.06, 5))
                 }
             m.lit.set(-2, 2, 1, EYE).set(1, 2, 1, EYE)
-        } else if (id === "the-moth") {
+        } else if (id === "firstbug") {
             m.lit.box(-1, -4, -1, 0, 3, 0, 0x5a4a3a) // body
             m.lit.box(-1, 2, 1, 0, 3, 1, 0x5a4a3a)
             eyes(m, 3, 1, 0)

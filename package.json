@@ -14,7 +14,8 @@
     "test": "npm run test --workspaces --if-present",
     "dev:client": "npm run dev -w @mcc/client",
     "dev:server": "npm run dev -w @mcc/server",
-    "model": "npm run model -w @mcc/client --"
+    "model": "npm run model -w @mcc/client --",
+    "content": "python3 content/build/build.py"
   },
   "engines": {
     "node": ">=22"

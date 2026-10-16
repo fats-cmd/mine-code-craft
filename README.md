@@ -21,7 +21,9 @@ Open two browser tabs to see each other move. The client also runs on its own (`
 
 Pick a name and look, then **Enter the Base**. Click the canvas to capture the mouse. WASD moves, Shift runs, Space jumps, **E** faces a henchman or the Examiners, Enter opens chat, Esc or F releases the mouse.
 
-You start on **Floor 1, the Testing Floor** (greybox): walk the Timeline, beat the henchmen and Babbage & Lovelace, then meet other players in the Testing Hall. Add `?debug` to the URL for collider outlines, an FPS overlay, your position, and a tweak panel with teleports to every room (expand **Floor 1** in it). Add `?debug` to the URL to draw the physics colliders.
+You start on **Floor 1, the Testing Floor** (greybox): walk the Timeline, beat the henchmen and Babbage & Lovelace, then meet other players in the Testing Hall. Add `?debug` to the URL for collider outlines, an FPS overlay, your position, and a tweak panel with teleports to every room (expand **Floor 1** in it).
+
+**Trials:** open `/trial` (e.g. http://localhost:5173/trial) to play any Challenge on its own: write Code or Fix in Python or JavaScript, answer a Quiz, or Predict an output. Your code runs in the browser and the server grades it. Python loads the first time you use it (about 10 MB). After editing anything in `content/challenges/`, run `npm run content`.
 
 ## Layout
 
@@ -30,8 +32,7 @@ You start on **Floor 1, the Testing Floor** (greybox): walk the Timeline, beat t
 | `apps/client` | React + R3F + Rapier game client |
 | `apps/server` | Colyseus game server (`BaseRoom`) |
 | `packages/shared` | Pure TS shared by client and (later) server, unit tested |
-| `server/problems` | Duel problem sources and generator (`python3 server/problems/build_problems.py`) |
-| `shared/problems` | Generated public problem files |
+| `content/` | Challenge sources (Code, Fix, Predict, Quiz) and the build (`npm run content`) |
 | `docs/` | Game design (`design/`), architecture, roadmap, ADRs, tooling |
 | `art/` | Blender sources and exports (Git LFS), credits |
 

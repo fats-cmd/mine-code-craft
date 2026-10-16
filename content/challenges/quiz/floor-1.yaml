@@ -1,0 +1,221 @@
+# Floor 1 quiz bank. Weftdart asks 3 of the first six; Babbage's phase 2 draws from the Store/Mill ones.
+- id: what-is-a-program
+  difficulty: 1
+  topics: [fundamentals]
+  question: What is a program?
+  options:
+    - A list of instructions a computer follows, in order
+    - Any file saved on a computer
+    - The screen a computer shows you
+    - A kind of computer chip
+  answer: 0
+  explanation: A program is a sequence of instructions. The computer carries them out one after another, exactly as written.
+- id: what-is-input
+  difficulty: 1
+  topics: [fundamentals]
+  question: In `two_sum([2, 7], 9)`, what are `[2, 7]` and `9`?
+  options:
+    - The output
+    - The inputs (arguments) to the function
+    - Variables the function creates
+    - Comments
+  answer: 1
+  explanation: Values passed into a function are its inputs, also called arguments. What the function gives back is its output.
+- id: what-is-output
+  difficulty: 1
+  topics: [fundamentals]
+  question: What is a function's output?
+  options:
+    - The code inside it
+    - Its name
+    - The value it returns (or prints)
+    - The values passed into it
+  answer: 2
+  explanation: The output is what comes out of the function, its return value, or what it prints.
+- id: same-input
+  difficulty: 1
+  topics: [fundamentals]
+  question: A program with no randomness is run twice with the same input. What happens?
+  options:
+    - It gives the same output both times
+    - It gives a different output each time
+    - The second run is always faster and different
+    - It refuses to run twice
+  answer: 0
+  explanation: Without randomness, a program is deterministic. The same input always gives the same output. (Ada Lovelace's Objection on Floor 2 starts here.)
+- id: loom-cards
+  difficulty: 1
+  topics: [history]
+  question: What did the Jacquard loom use to control the pattern it wove?
+  options:
+    - Gears turned by hand for every row
+    - Punched cards, one per row of the pattern
+    - Electric switches
+    - A paper roll of drawings
+  answer: 1
+  explanation: Jacquard's loom (1804) read a chain of punched cards. Holes let hooks through, so each card set one row of the pattern. Babbage borrowed the idea to feed instructions to his Analytical Engine.
+- id: what-is-a-loop
+  difficulty: 1
+  topics: [loops]
+  question: What does a loop do?
+  options:
+    - Ends the program
+    - Repeats a block of instructions
+    - Stores a number
+    - Connects two computers
+  answer: 1
+  explanation: A loop repeats its body, either a fixed number of times (`for`) or while a condition holds (`while`). Ada Lovelace called these repeated sequences "cycles".
+- id: what-is-a-variable
+  difficulty: 1
+  topics: [variables]
+  question: What is a variable?
+  options:
+    - A named place that holds a value, which can change
+    - A number that can never change
+    - A type of loop
+    - An error in a program
+  answer: 0
+  explanation: A variable is a name for a value in memory. In the Analytical Engine, the columns of the Store were the variables, V1, V2, V3…
+- id: store-is
+  difficulty: 1
+  topics: [history, hardware]
+  question: In Babbage's Analytical Engine, the "Store" was what we now call…
+  options:
+    - The processor
+    - Memory
+    - The keyboard
+    - The printer
+  answer: 1
+  explanation: The Store held numbers in columns of wheels, waiting to be used. Today we call that memory.
+- id: mill-is
+  difficulty: 1
+  topics: [history, hardware]
+  question: In the Analytical Engine, the "Mill" was what we now call…
+  options:
+    - Memory
+    - The processor, which does the arithmetic
+    - The power supply
+    - The screen
+  answer: 1
+  explanation: The Mill took numbers from the Store, did the arithmetic, and sent results back. That's a processor's job.
+- id: cards-are
+  difficulty: 1
+  topics: [history]
+  question: The Analytical Engine's punched cards played the part of…
+  options:
+    - The program
+    - The memory
+    - The output
+    - The power switch
+  answer: 0
+  explanation: Operation cards said what to do and variable cards said what to do it to. Together, the cards were the program.
+- id: difference-engine
+  difficulty: 2
+  topics: [history, sequences]
+  question: How did Babbage's Difference Engine compute tables of numbers without multiplying?
+  options:
+    - It guessed and then checked
+    - It looked the answers up in a book
+    - By adding up columns of differences, again and again
+    - It used electricity to multiply quickly
+  answer: 2
+  explanation: For a polynomial, some row of differences is constant. Adding the columns back up gives the next value, using addition alone. That's the method of finite differences.
+- id: second-differences
+  difficulty: 2
+  topics: [sequences]
+  question: In 1, 4, 9, 16, 25… the differences are 3, 5, 7, 9. What are the second differences?
+  options:
+    - 1, 1, 1
+    - 2, 2, 2
+    - 3, 3, 3
+    - They keep growing
+  answer: 1
+  explanation: 5-3, 7-5 and 9-7 are all 2. For square numbers, the second differences are constant.
+- id: first-bug
+  difficulty: 1
+  topics: [history, debugging]
+  question: In 1947, what was found in the Harvard Mark II computer and taped into its logbook?
+  options:
+    - A mouse
+    - A moth
+    - A spider
+    - A coin
+  answer: 1
+  explanation: Operators found a moth trapped in a relay and logged it as the "first actual case of bug being found". The word "bug" for a fault was older, but the moth made it famous.
+- id: off-by-one
+  difficulty: 1
+  topics: [debugging, loops]
+  question: What is an off-by-one error?
+  options:
+    - A loop that runs one time too many or too few
+    - A number that is one too big on purpose
+    - A program that is one line too long
+    - A crash at line one
+  answer: 0
+  explanation: Starting at 1 instead of 0, or stopping one step early or late, are some of the most common bugs in any loop.
+- id: what-is-an-algorithm
+  difficulty: 1
+  topics: [fundamentals]
+  question: What is an algorithm?
+  options:
+    - A computer's brand name
+    - A precise, step-by-step method for solving a problem
+    - A type of variable
+    - A very fast computer
+  answer: 1
+  explanation: An algorithm is the method. A program is that method written in a language a computer can run.
+- id: note-g
+  difficulty: 2
+  topics: [history]
+  question: Ada Lovelace's Note G (1843) is famous because it…
+  options:
+    - Described the first electric computer
+    - Set out, step by step, how the Analytical Engine could compute Bernoulli numbers
+    - Invented the punched card
+    - Was the first computer game
+  answer: 1
+  explanation: Note G's table of operations is often called the first published computer program, more than a century before electronic computers.
+- id: range-three
+  difficulty: 1
+  topics: [loops]
+  question: How many times does `for i in range(3):` run its body?
+  options:
+    - 2
+    - 3
+    - 4
+    - It depends on i
+  answer: 1
+  explanation: range(3) gives 0, 1 and 2, which is three values, so the body runs three times. It stops before 3.
+- id: equals
+  difficulty: 1
+  topics: [fundamentals]
+  question: In most languages, what's the difference between `=` and `==`?
+  options:
+    - None, they mean the same thing
+    - '`=` stores a value in a variable; `==` asks whether two values are equal'
+    - '`==` stores a value; `=` compares'
+    - '`=` is for numbers and `==` is for text'
+  answer: 1
+  explanation: A single `=` assigns, and a double `==` compares. Mixing them up is a classic bug. (JavaScript also has `===`, a strict comparison.)
+- id: debugging
+  difficulty: 1
+  topics: [debugging]
+  question: What does "debugging" mean?
+  options:
+    - Making a program run faster
+    - Finding and fixing faults in a program
+    - Deleting a program
+    - Adding new features
+  answer: 1
+  explanation: Debugging is tracking down why a program misbehaves and fixing it. Reading what the code actually does, not what you meant it to do, is the first step.
+- id: modulo
+  difficulty: 2
+  topics: [arithmetic]
+  question: What is `10 % 3`?
+  options:
+    - '3'
+    - '1'
+    - '0'
+    - '3.33'
+  answer: 1
+  explanation: '`%` gives the remainder: 10 divided by 3 is 3 remainder 1.'

@@ -9,3 +9,9 @@ declare module "*.vox" {
     const base64: string
     export default base64
 }
+
+/** Plain text, e.g. the Python harness shared with the content build. */
+declare module "*.py?raw" {
+    const text: string
+    export default text
+}

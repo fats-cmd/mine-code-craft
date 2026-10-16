@@ -16,8 +16,6 @@ import { ADA_NOTES, GUIDE_LINES } from "./layout"
 const GUIDE_MS = 9000
 const VICTORY_LINE = "“You may yet understand what I saw in it.”"
 
-/** "the Shuttle Sprite", but "The Moth" rather than "the The Moth". */
-const theName = (name: string) => (name.startsWith("The ") ? name : `the ${name}`)
 
 /** What to do next, from progress and where you are. */
 function objective(p: FloorProgress, room: RoomId | null): string {
@@ -26,7 +24,7 @@ function objective(p: FloorProgress, room: RoomId | null): string {
         // You think the goal is to catch Ada; the henchmen are just in the way (ADR-0013).
         if (p.defeated.length === 0 && (room === "arrival" || room === "abacus")) return "Follow Ada Lovelace · cross the Abacus Court"
         const where = TESTING_FLOOR_ROOMS.find((r) => r.id === next.room)!.name
-        return `Follow Ada Lovelace · get past ${theName(next.name)} (${where})`
+        return `Follow Ada Lovelace · get past ${next.name} (${where})`
     }
     if (!p.bossBeaten) return `Face Charles Babbage · phase ${p.bossPhase + 1}/${TESTING_FLOOR_BOSS.phases.length}`
     if (room !== "hall") return "Go through the Gate of Notes"
@@ -34,7 +32,7 @@ function objective(p: FloorProgress, room: RoomId | null): string {
 }
 
 function label(what: Interactable): string {
-    if (what.kind === "henchman") return `face ${theName(TESTING_FLOOR_HENCHMEN.find((h) => h.id === what.id)!.name)}`
+    if (what.kind === "henchman") return `face ${TESTING_FLOOR_HENCHMEN.find((h) => h.id === what.id)!.name}`
     if (what.kind === "boss") return "face Charles Babbage"
     return "approach the Exam Gate"
 }

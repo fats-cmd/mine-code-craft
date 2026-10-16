@@ -1,0 +1,11 @@
+# Floor 1, Holloquy (the Card Archive): the output of a 3-line loop.
+title: Holloquy's Loop
+difficulty: 1
+topics: [loops]
+python: |
+  for i in range(3):
+      print(i * 2)
+javascript: |
+  for (let i = 0; i < 3; i++) {
+    console.log(i * 2)
+  }

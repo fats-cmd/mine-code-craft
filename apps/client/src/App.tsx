@@ -19,8 +19,16 @@ import TestingFloor from "./floor/TestingFloor"
 import { FOG_FAR, FOG_NEAR, SKY } from "./floor/Sun"
 import FloorHud from "./floor/FloorHud"
 import DevFloorControls, { DevPosition } from "./floor/DevFloorControls"
+import TrialApp from "./trial/TrialApp"
 
 export default function App() {
+	// No router yet: /trial is the challenge engine's dev route (ROADMAP M3).
+	const path = window.location.pathname
+	if (path === "/trial" || path.startsWith("/trial/")) return <TrialApp path={path} />
+	return <Game />
+}
+
+function Game() {
 	const [identity, setIdentity] = useState<JoinOptions>(loadIdentity)
 	const [inBase, setInBase] = useState(false)
 

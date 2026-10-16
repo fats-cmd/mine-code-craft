@@ -47,13 +47,15 @@ A character editor replaces the simple creator. It's a first version to come bac
 
 Guide: [`design/CHARACTERS.md`](./design/CHARACTERS.md).
 
-### M3 — Challenge engine (solo, dev route `/trial/:slug`)
-- Content pipeline. Migrate the 8 problems into `content/challenges/code/`. Add JS signatures and starters. Write the first ~20 Quiz questions.
-- Pyodide worker and JS worker, timeouts via terminate and respawn, warm spares.
-- Comparator in `packages/shared` (unit tested, including the JS number rule). `TrialRoom` grades on the server and writes a `submissions` row.
-- Editor (CodeMirror 6, Python and JS modes) and the Quiz panel.
+### M3 — Challenge engine ✅ (solo, dev route `/trial/:slug`)
+- **Content pipeline:** the 8 problems live in `content/challenges/code/` with JS references, plus Floor 1's first Fix, Predict and 20 Quiz questions. `npm run content` builds the public and private bundles (`content/README.md`).
+- **Runners:** a Pyodide worker and a JS worker (`apps/client/src/runners`), sharing one harness per language with the content build. Timeouts terminate and respawn the worker, and each language keeps a warm spare.
+- **Comparator** in `packages/shared` (unit tested, including the JS number rule). `TrialRoom` grades on the server.
+- **Trial UI:** `/trial` lists every Challenge. Each has a CodeMirror 6 editor in Python and JS modes, plus Quiz and Predict panels.
 
-**Done when:** you solve a Code Challenge in both languages and a Quiz. `while True: pass` and `for(;;){}` are killed and the UI recovers. A wrong answer shows a useful diff. Rows land in Postgres.
+**Done when ✅:** you solve a Code Challenge in both languages and a Quiz. `while True: pass` and `for(;;){}` are killed and the UI recovers. A wrong answer shows a useful diff.
+- **Deferred:** rows land in a JSONL log, not Postgres, until Supabase is set up (ARCHITECTURE §8).
+- **Known gap:** statements are written with Python names, so JS players read `two_sum` and "list". The UI names the JS function; per-language statements can come with more content.
 
 ### M4 — The Testing Floor  → **v0.1**
 Floor 1 end to end, per [`design/floors/01-testing-floor.md`](./design/floors/01-testing-floor.md).
