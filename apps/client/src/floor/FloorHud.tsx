@@ -11,10 +11,10 @@ import {
 } from "@mcc/shared"
 import { isTyping } from "../chat/typing"
 import { useFloor, type Interactable } from "./FloorContext"
-import { GUIDE_LINES } from "./layout"
+import { ADA_NOTES, GUIDE_LINES } from "./layout"
 
 const GUIDE_MS = 9000
-const VICTORY_LINE = "Ada Lovelace: “It weaves your pattern now. Go on: they're waiting for you above.”"
+const VICTORY_LINE = "“You may yet understand what I saw in it.”"
 
 /** "the Shuttle Sprite", but "The Moth" rather than "the The Moth". */
 const theName = (name: string) => (name.startsWith("The ") ? name : `the ${name}`)
@@ -23,18 +23,19 @@ const theName = (name: string) => (name.startsWith("The ") ? name : `the ${name}
 function objective(p: FloorProgress, room: RoomId | null): string {
     const next = TESTING_FLOOR_HENCHMEN.find((h) => !p.defeated.includes(h.id))
     if (next) {
-        if (p.defeated.length === 0 && (room === "arrival" || room === "abacus")) return "Cross the Abacus Court"
+        // You think the goal is to catch Ada; the henchmen are just in the way (ADR-0013).
+        if (p.defeated.length === 0 && (room === "arrival" || room === "abacus")) return "Follow Ada Lovelace · cross the Abacus Court"
         const where = TESTING_FLOOR_ROOMS.find((r) => r.id === next.room)!.name
-        return `Defeat ${theName(next.name)} · ${where}`
+        return `Follow Ada Lovelace · get past ${theName(next.name)} (${where})`
     }
-    if (!p.bossBeaten) return `Face the Examiners · phase ${p.bossPhase + 1}/${TESTING_FLOOR_BOSS.phases.length}`
+    if (!p.bossBeaten) return `Face Charles Babbage · phase ${p.bossPhase + 1}/${TESTING_FLOOR_BOSS.phases.length}`
     if (room !== "hall") return "Go through the Gate of Notes"
     return "Floor 1 Exam: the gate at the far end"
 }
 
 function label(what: Interactable): string {
     if (what.kind === "henchman") return `face ${theName(TESTING_FLOOR_HENCHMEN.find((h) => h.id === what.id)!.name)}`
-    if (what.kind === "boss") return "face the Examiners"
+    if (what.kind === "boss") return "face Charles Babbage"
     return "approach the Exam Gate"
 }
 
@@ -81,34 +82,55 @@ function Integrity({ value }: { value: number }) {
     )
 }
 
-/** The Guide speaks once per room per visit, and once more when the Examiners fall. */
+interface Line {
+    speaker: string
+    text: string
+    key: number
+}
+
+/**
+ * The Guide speaks once per room per visit. Ada's Note for the room follows
+ * it (she's always one room ahead), and she has the last word when Babbage falls.
+ */
 function GuideLine() {
     const { room, progress } = useFloor()
-    const [line, setLine] = useState<{ text: string; key: number } | null>(null)
+    const [line, setLine] = useState<Line | null>(null)
     const greeted = useRef(new Set<string>())
     const wasBeaten = useRef(progress.bossBeaten)
 
     useEffect(() => {
-        let text: string | null = null
-        if (progress.bossBeaten && !wasBeaten.current) text = VICTORY_LINE
-        else if (room && !greeted.current.has(room)) text = GUIDE_LINES[room]
+        const queue: Omit<Line, "key">[] = []
+        if (progress.bossBeaten && !wasBeaten.current) queue.push({ speaker: "Ada Lovelace", text: VICTORY_LINE })
+        else if (room && !greeted.current.has(room)) {
+            queue.push({ speaker: "Guide", text: GUIDE_LINES[room] })
+            const note = progress.bossBeaten ? undefined : ADA_NOTES[room]
+            if (note) queue.push({ speaker: "Ada's Note", text: note })
+        }
         wasBeaten.current = progress.bossBeaten
         if (room) greeted.current.add(room)
-        if (!text) return
-        const key = Date.now()
-        // Deferred so the state change isn't made synchronously inside the effect.
-        const show = setTimeout(() => setLine({ text: text!, key }), 0)
-        const hide = setTimeout(() => setLine((l) => (l?.key === key ? null : l)), GUIDE_MS)
-        return () => {
-            clearTimeout(show)
-            clearTimeout(hide)
-        }
+        if (!queue.length) return
+        // Deferred so no state change is made synchronously inside the effect.
+        const timers = queue.flatMap((l, i) => {
+            const key = Date.now() + i
+            return [
+                setTimeout(() => setLine({ ...l, key }), i * GUIDE_MS),
+                setTimeout(() => setLine((cur) => (cur?.key === key ? null : cur)), (i + 1) * GUIDE_MS),
+            ]
+        })
+        return () => timers.forEach(clearTimeout)
     }, [room, progress.bossBeaten])
 
     if (!line) return null
+    const ada = line.speaker !== "Guide"
     return (
-        <div className="pointer-events-none absolute bottom-40 left-1/2 w-[min(40rem,calc(100vw-2rem))] -translate-x-1/2 rounded-lg bg-slate-950/80 px-4 py-3 text-sm text-slate-100 ring-1 ring-amber-200/30">
-            <span className="mr-2 font-mono text-xs font-bold uppercase tracking-wider text-amber-300">Guide</span>
+        <div
+            className={`pointer-events-none absolute bottom-40 left-1/2 w-[min(40rem,calc(100vw-2rem))] -translate-x-1/2 rounded-lg px-4 py-3 text-sm text-slate-100 ring-1 ${
+                ada ? "bg-[#2a1630]/85 italic ring-fuchsia-300/40" : "bg-slate-950/80 ring-amber-200/30"
+            }`}
+        >
+            <span className={`mr-2 font-mono text-xs font-bold not-italic uppercase tracking-wider ${ada ? "text-fuchsia-300" : "text-amber-300"}`}>
+                {line.speaker}
+            </span>
             {line.text}
         </div>
     )
@@ -153,7 +175,7 @@ function EncounterPanel({ what }: { what: Interactable }) {
         flavor = h.flavor
     } else if (what.kind === "boss") {
         const phase = TESTING_FLOOR_BOSS.phases[Math.min(progress.bossPhase, TESTING_FLOOR_BOSS.phases.length - 1)]
-        title = progress.bossBeaten ? "The Examiners are beaten" : phase.title
+        title = progress.bossBeaten ? "Babbage is beaten" : phase.title
         subtitle = progress.bossBeaten
             ? TESTING_FLOOR_BOSS.name
             : `Phase ${progress.bossPhase + 1} of ${TESTING_FLOOR_BOSS.phases.length} · ${phase.examiner}`
@@ -164,7 +186,7 @@ function EncounterPanel({ what }: { what: Interactable }) {
         subtitle = "Exam Gate"
         task = approachCleared(progress) && progress.bossBeaten
             ? "Five mixed Tasks; pass four to climb to Floor 2. The Exam arrives with M7 (it needs sign-in to remember your floor)."
-            : "Beat the Examiners first."
+            : "Beat Charles Babbage first."
     }
 
     const fightable = what.kind === "henchman" || (what.kind === "boss" && !progress.bossBeaten)

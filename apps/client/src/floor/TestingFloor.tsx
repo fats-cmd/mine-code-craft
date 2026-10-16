@@ -12,18 +12,18 @@ import {
     DEFAULT_LOOK,
     type RoomId,
 } from "@mcc/shared"
-import VoxelAvatar from "../avatar/VoxelAvatar"
+import VoxelAvatar, { type AvatarMotion } from "../avatar/VoxelAvatar"
 import type { NpcExtras } from "../avatar/avatarVoxels"
 import Voxels, { Model } from "../voxel/Voxels"
 import { useFloor, type Interactable } from "./FloorContext"
-import { BABBAGE_POS, BOSS_PAD, EXAM_GATE, HENCHMAN_POS, INTERACT_RANGE, LOVELACE_POS, room, type V3 } from "./layout"
+import { ADA_BALCONY, BABBAGE_POS, BOSS_PAD, EXAM_GATE, HENCHMAN_POS, INTERACT_RANGE, room, type V3 } from "./layout"
 import { COGS, DIFF_COLUMNS, TREES, doorFor, floorArchitecture } from "./rooms"
 import { analyticalEngine, cog, diffColumn, floorRing, gateRing, guide, henchman, threads, tree } from "./models"
 import Sun, { FOG_FAR } from "./Sun"
 
 // Floor 1 in voxels (see docs/design/floors/01-testing-floor.md). The
 // architecture is static and built once (rooms.ts); this file adds what
-// changes with progress: doors, henchmen, the Examiners' arena, the Guide.
+// changes with progress: doors, henchmen, Babbage's arena, Ada, the Guide.
 
 /** Rooms whose exit door depends on progress (the rest are always open or walled). */
 const GATED: RoomId[] = ["loom", "archive", "gears", "moth", "engine"]
@@ -43,6 +43,7 @@ export default function TestingFloor() {
             {GATED.map((id) => (exitOpen(progress, id) ? null : <Voxels key={id} build={doorFor(room(id), id === "engine")} />))}
             <Decor />
             <EngineRoom />
+            <AdaLovelace />
             {TESTING_FLOOR_HENCHMEN.map((h) => (
                 <Henchman key={h.id} def={h} />
             ))}
@@ -110,7 +111,7 @@ const LOVELACE_LOOK: Look = {
     body: "#6b2d5c", skin: "#f6d7b8", accent: "#3b2416", hair: "bun", top: "long", bottoms: "skirt", bottomsColor: "#5a2450", shoes: "boots", shoesColor: "#3b2416", build: "slim",
 }
 
-/** The boss arena: Difference Engine (left), Analytical Engine (centre), Ada's desk (right). */
+/** The boss arena: Difference Engine (left), Analytical Engine (centre), Ada's desk and balcony (right). */
 function EngineRoom() {
     const { progress } = useFloor()
     const ready = approachCleared(progress) && !progress.bossBeaten
@@ -120,17 +121,107 @@ function EngineRoom() {
             {DIFF_COLUMNS.map((x, col) => (
                 <Model key={x} model={diffColumn(!(col < progress.bossPhase || progress.bossBeaten))} position={[x, 0.5, -118]} />
             ))}
-            {/* Analytical Engine: boots when the Examiners are beaten */}
+            {/* Analytical Engine: boots when Babbage is beaten */}
             <Model model={analyticalEngine(progress.bossBeaten)} position={[0, 3.2, -131]} />
-            {/* the Examiners */}
-            <group position={BABBAGE_POS} rotation={[0, Math.PI * 0.85, 0]}>
+            {/* the Examiner, in front of his Engine */}
+            <group position={BABBAGE_POS}>
                 <VoxelAvatar look={BABBAGE_LOOK} npc={BABBAGE_EXTRAS} />
             </group>
-            <group position={LOVELACE_POS} rotation={[0, -Math.PI * 0.85, 0]}>
-                <VoxelAvatar look={LOVELACE_LOOK} />
-            </group>
-            {/* the pad you stand on to face them */}
+            {/* the pad you stand on to face him */}
             <Model model={floorRing(1.6, 0, ready ? 0x19c3d6 : 0x2f4a55, ready)} position={[BOSS_PAD[0], -0.1, BOSS_PAD[2]]} shadows={false} />
+        </group>
+    )
+}
+
+interface AdaSpot {
+    at: V3
+    /** Seconds she stays after you first see her. */
+    linger: number
+    /** Leave only once you come close (else as soon as `linger` is up). */
+    whenNear: boolean
+    /** Direction she walks off in (x, z). */
+    exit: [number, number]
+}
+
+const AHEAD = (z: number): AdaSpot => ({ at: [1.5, 0, z], linger: 0.5, whenNear: true, exit: [0, -1] })
+
+/** Where Ada waits in each room of the Walk: by the exit, always a room ahead of you. */
+const ADA_SPOTS: Partial<Record<RoomId, AdaSpot>> = {
+    arrival: { at: [0, 0, -0.5], linger: 2.5, whenNear: false, exit: [0, -1] },
+    abacus: AHEAD(-22.5),
+    loom: AHEAD(-46),
+    archive: AHEAD(-66),
+    gears: AHEAD(-88),
+    moth: AHEAD(-102.5),
+}
+const ON_BALCONY: AdaSpot = { at: ADA_BALCONY, linger: Infinity, whenNear: false, exit: [0, 0] }
+const AFTER_VICTORY: AdaSpot = { at: ADA_BALCONY, linger: 5, whenNear: false, exit: [-1, 0] }
+const NEAR = 6.5
+const WALK_AWAY_S = 1.8
+
+/**
+ * Ada Lovelace on Floor 1: never a fight, always one room ahead (ADR-0013).
+ * She looks back at you, slips off through the next door as you close in,
+ * watches Babbage's fight from her balcony, and leaves for Floor 2 when he falls.
+ */
+function AdaLovelace() {
+    const { room: here, progress, playerPosRef } = useFloor()
+    const g = useRef<Group>(null)
+    const motion = useRef<AvatarMotion>({ speed: 0, airborne: false })
+    const gone = useRef(new Set<string>())
+    const state = useRef<{ key: string | null; t: number; leaving: number }>({ key: null, t: 0, leaving: -1 })
+
+    let key: string | null = null
+    let spot: AdaSpot | null = null
+    if (here === "engine") {
+        // Seen beaten on arrival (a reload after victory): she has already gone.
+        key = progress.bossBeaten ? "victory" : "balcony"
+        spot = progress.bossBeaten ? AFTER_VICTORY : ON_BALCONY
+    } else if (here && !progress.bossBeaten && ADA_SPOTS[here]) {
+        key = here
+        spot = ADA_SPOTS[here]!
+    }
+
+    useFrame((_, rawDt) => {
+        const group = g.current
+        if (!group) return
+        const dt = Math.min(rawDt, 0.1)
+        const s = state.current
+        if (key !== s.key) {
+            // A victory seen without the balcony first (e.g. after a reload) means she left long ago.
+            if (key === "victory" && s.key !== "balcony") gone.current.add("victory")
+            s.key = key
+            s.t = 0
+            s.leaving = -1
+            if (spot) group.position.set(...spot.at)
+        }
+        if (!spot || !key || gone.current.has(key)) {
+            group.visible = false
+            return
+        }
+        group.visible = true
+        s.t += dt
+        const p = playerPosRef.current
+        const [x, , z] = spot.at
+        if (s.leaving < 0) {
+            motion.current.speed = 0
+            if (p) group.rotation.y = Math.atan2(p.x - group.position.x, p.z - group.position.z) // she looks at you
+            const near = !!p && Math.hypot(p.x - x, p.z - z) < NEAR
+            if (s.t > spot.linger && (!spot.whenNear || near)) s.leaving = 0
+            return
+        }
+        s.leaving += dt
+        const [ex, ez] = spot.exit
+        group.rotation.y = Math.atan2(ex, ez)
+        group.position.x += ex * 2.2 * dt
+        group.position.z += ez * 2.2 * dt
+        motion.current.speed = 2.2
+        if (s.leaving > WALK_AWAY_S) gone.current.add(key)
+    })
+
+    return (
+        <group ref={g} visible={false}>
+            <VoxelAvatar look={LOVELACE_LOOK} motion={motion} />
         </group>
     )
 }
