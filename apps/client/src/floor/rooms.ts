@@ -208,6 +208,11 @@ function engine() {
     // Ada's desk, her Notes floating above it
     b.solid([10, 0, -119], [13, 1, -117], planks(0x6b3e26, 60))
     for (let i = 0; i < 3; i++) b.deco([10.5 + i, 2 + i * 0.5, -118.5], [11 + i, 2.5 + i * 0.5, -118], 0xf2e6c9, true)
+    // Ada's balcony: she watches the fight from here, behind glass (ADR-0013)
+    const oak = planks(0x6b3e26, 61)
+    b.solid([9, 2.5, -135.5], [15, 3, -130.5], oak)
+    b.solid([9, 0, -131], [9.5, 2.5, -130.5], 0x4a2c1a).solid([14.5, 0, -131], [15, 2.5, -130.5], 0x4a2c1a)
+    b.deco([9, 3, -130.5], [15, 4.5, -130], (x, y) => (y === 6 || x % 4 === 0 ? 0x8fb8c4 : 0xd8f4ff), true)
     return b
 }
 
