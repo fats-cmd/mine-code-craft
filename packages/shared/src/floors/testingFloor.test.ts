@@ -49,8 +49,8 @@ describe('layout', () => {
 
 describe('progressReducer', () => {
   it('defeating a henchman is recorded once, unknown ids are ignored', () => {
-    const s = run([{ type: 'defeat', id: 'the-moth' }, { type: 'defeat', id: 'the-moth' }, { type: 'defeat', id: 'nope' }])
-    expect(s.defeated).toEqual(['the-moth'])
+    const s = run([{ type: 'defeat', id: 'firstbug' }, { type: 'defeat', id: 'firstbug' }, { type: 'defeat', id: 'nope' }])
+    expect(s.defeated).toEqual(['firstbug'])
   })
 
   it('exits open room by room as henchmen fall', () => {
@@ -58,9 +58,9 @@ describe('progressReducer', () => {
     expect(exitOpen(s, 'arrival')).toBe(true) // no henchmen
     expect(exitOpen(s, 'abacus')).toBe(true)
     expect(exitOpen(s, 'gears')).toBe(false)
-    s = run([{ type: 'defeat', id: 'loose-cog-1' }], s)
+    s = run([{ type: 'defeat', id: 'cogsnap-tick' }], s)
     expect(exitOpen(s, 'gears')).toBe(false) // both cogs needed
-    s = run([{ type: 'defeat', id: 'loose-cog-2' }], s)
+    s = run([{ type: 'defeat', id: 'cogsnap-tock' }], s)
     expect(exitOpen(s, 'gears')).toBe(true)
   })
 
@@ -114,12 +114,16 @@ describe('parseProgress', () => {
     expect(parseProgress(JSON.parse(JSON.stringify(s)))).toEqual(s)
   })
   it('drops unknown or duplicate henchmen and clamps numbers', () => {
-    const s = parseProgress({ defeated: ['the-moth', 'the-moth', 'dragon', 7], bossPhase: 99, integrity: -3, knockouts: -1 })
-    expect(s.defeated).toEqual(['the-moth'])
+    const s = parseProgress({ defeated: ['firstbug', 'firstbug', 'dragon', 7], bossPhase: 99, integrity: -3, knockouts: -1 })
+    expect(s.defeated).toEqual(['firstbug'])
     expect(s.bossPhase).toBe(TESTING_FLOOR_BOSS.phases.length)
     expect(s.bossBeaten).toBe(true)
     expect(s.integrity).toBe(1)
     expect(s.knockouts).toBe(0)
+  })
+  it('saves from before the naming pass keep their progress', () => {
+    const s = parseProgress({ defeated: ['shuttle-sprite', 'loose-cog-2', 'the-moth', 'firstbug'] })
+    expect(s.defeated).toEqual(['weftdart', 'cogsnap-tock', 'firstbug'])
   })
   it('garbage is a fresh start', () => {
     expect(parseProgress(null)).toEqual(initialProgress())

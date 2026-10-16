@@ -59,10 +59,10 @@ Each room teaches either a **game mechanic** or a **Task Format**, then tests it
 | # | Room | Teaches | Henchman | Task |
 |---|---|---|---|---|
 | ① | **Abacus Court** | Walking, camera, jumping across giant abacus beads | none, just movement | Reach the far side |
-| ② | **Loom Gallery**: a towering Jacquard loom weaving glowing thread | **Quiz** format | **Shuttle Sprite**: a darting loom shuttle | Quiz: 3 questions on what a program, an input and an output are |
-| ③ | **Card Archive**: walls of punched cards | **Predict** format | **Punched Card**: a card that reads itself aloud | Predict: the output of a 3-line loop |
-| ④ | **Gear Works**: giant meshing cogs, some jammed | Reading code; difficulty ramps | **Loose Cog** (×2) | Predict: a simple arithmetic sequence, then a counter in a loop |
-| ⑤ | **The Moth Room**: a dark relay cabinet with one moth fluttering inside | **Fix** format | **The Moth**: a nod to the moth found in the Harvard Mark II relay in 1947, logged as the "first actual case of bug being found" | Fix: an off-by-one in a loop that sums a list |
+| ② | **Loom Gallery**: a towering Jacquard loom weaving glowing thread | **Quiz** format | **Weftdart**: a loom shuttle trailing its weft thread | Quiz: 3 questions on what a program, an input and an output are |
+| ③ | **Card Archive**: walls of punched cards | **Predict** format | **Holloquy**: a punched card that reads its own holes aloud | Predict: the output of a 3-line loop |
+| ④ | **Gear Works**: giant meshing cogs, some jammed | Reading code; difficulty ramps | **Cogsnap Tick** and **Cogsnap Tock**: twin cogs snapped loose | Predict: a simple arithmetic sequence, then a counter in a loop |
+| ⑤ | **The Moth Room**: a dark relay cabinet with one moth fluttering inside | **Fix** format | **Firstbug**: a nod to the moth found in the Harvard Mark II relay in 1947, logged as the "first actual case of bug being found" | Fix: an off-by-one in a loop that sums a list |
 
 **Code** (writing a function from scratch) is introduced in the boss fight itself, in Babbage's last phase. That gives the boss a job beyond being a wall.
 
@@ -170,7 +170,7 @@ Build them in this order; earlier items unblock playtesting. All rooms and these
 | P1 | **Ada's balcony** and her **Notes** (one per room) | A glass-fronted balcony; the Notes are glowing pages. |
 | P1 | **Timeline Walk modules** | A kit of wall, arch, floor (wood → circuit) and lamp pieces, to snap rooms together. |
 | P2 | **Jacquard loom**, **card wall**, **cogs**, **relay cabinet** | One hero prop per room. |
-| P2 | Henchmen: **Shuttle Sprite**, **Punched Card**, **Loose Cog**, **The Moth** | Small and simple, and they need to read as "enemies". |
+| P2 | Henchmen: **Weftdart**, **Holloquy**, **Cogsnap Tick and Tock**, **Firstbug** | Small and simple, and they need to read as "enemies". |
 | P2 | **The Guide** | Design to come. It appears on every floor, so it's worth a strong silhouette. |
 | P3 | Testing Hall set dressing | Gate, pads, terminals, quest board. |
 
@@ -193,10 +193,10 @@ All in the content pipeline (M3), Python and JS for Code/Fix/Predict.
 
 | Encounter | Format | Count | Difficulty |
 |---|---|---|---|
-| Shuttle Sprite | Quiz | 6 (3 used, 3 for retries) | 1 |
-| Punched Card | Predict | 3 | 1 |
-| Loose Cog ×2 | Predict | 4 | 1–2 |
-| The Moth | Fix | 2 | 1 |
+| Weftdart | Quiz | 6 (3 used, 3 for retries) | 1 |
+| Holloquy | Predict | 3 | 1 |
+| Cogsnap Tick, Tock | Predict | 4 | 1–2 |
+| Firstbug | Fix | 2 | 1 |
 | Babbage, phase 1 | Predict/Quiz (difference tables) | 6 | 1–2 |
 | Babbage, phase 2 | Quiz (Store/Mill) + Predict (trace) | 6 + 3 | 2 |
 | Ada's Notes (hints, one per room) | none: text only | 5 | – |

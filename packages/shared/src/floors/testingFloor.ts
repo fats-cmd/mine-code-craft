@@ -47,40 +47,40 @@ export const TESTING_FLOOR_ROOMS: readonly RoomDef[] = [
 
 export const TESTING_FLOOR_HENCHMEN: readonly HenchmanDef[] = [
   {
-    id: 'shuttle-sprite',
-    name: 'Shuttle Sprite',
+    id: 'weftdart',
+    name: 'Weftdart',
     room: 'loom',
     format: 'quiz',
     task: 'Quiz: 3 questions on what a program, an input and an output are.',
-    flavor: 'A loom shuttle that darts faster than thought.',
+    flavor: 'A loom shuttle trailing its weft thread, darting faster than thought.',
   },
   {
-    id: 'punched-card',
-    name: 'Punched Card',
+    id: 'holloquy',
+    name: 'Holloquy',
     room: 'archive',
     format: 'predict',
     task: 'Predict: the exact output of a 3-line loop.',
-    flavor: 'It reads its own holes aloud, one row at a time.',
+    flavor: 'A punched card that reads its own holes aloud, one row at a time.',
   },
   {
-    id: 'loose-cog-1',
-    name: 'Loose Cog',
+    id: 'cogsnap-tick',
+    name: 'Cogsnap Tick',
     room: 'gears',
     format: 'predict',
     task: 'Predict: the next value of a simple arithmetic sequence.',
-    flavor: 'A cog that slipped its teeth and wants a fight.',
+    flavor: 'A cog that snapped loose from the Gear Works and wants a fight.',
   },
   {
-    id: 'loose-cog-2',
-    name: 'Loose Cog',
+    id: 'cogsnap-tock',
+    name: 'Cogsnap Tock',
     room: 'gears',
     format: 'predict',
     task: 'Predict: the final value of a counter in a loop.',
-    flavor: 'Its twin. Slightly angrier.',
+    flavor: "Tick's twin. Slightly angrier.",
   },
   {
-    id: 'the-moth',
-    name: 'The Moth',
+    id: 'firstbug',
+    name: 'Firstbug',
     room: 'moth',
     format: 'fix',
     task: 'Fix: an off-by-one in a loop that sums a list.',
@@ -190,10 +190,20 @@ export function exitOpen(state: FloorProgress, room: RoomId): boolean {
 }
 
 /** Parse saved progress leniently: anything malformed starts fresh rather than crashing. */
+/** Henchman ids from before the naming pass (GAME_DESIGN, Naming), so old saves keep their progress. */
+const RENAMED_HENCHMEN: Record<string, string> = {
+  'shuttle-sprite': 'weftdart',
+  'punched-card': 'holloquy',
+  'loose-cog-1': 'cogsnap-tick',
+  'loose-cog-2': 'cogsnap-tock',
+  'the-moth': 'firstbug',
+}
+
 export function parseProgress(raw: unknown): FloorProgress {
   const r = (typeof raw === 'object' && raw !== null ? raw : {}) as Record<string, unknown>
   const ids = new Set(TESTING_FLOOR_HENCHMEN.map((h) => h.id))
-  const defeated = Array.isArray(r.defeated) ? [...new Set(r.defeated.filter((d): d is string => ids.has(d as string)))] : []
+  const renamed = (d: unknown) => (typeof d === 'string' ? (RENAMED_HENCHMEN[d] ?? d) : d)
+  const defeated = Array.isArray(r.defeated) ? [...new Set(r.defeated.map(renamed).filter((d): d is string => ids.has(d as string)))] : []
   const phases = TESTING_FLOOR_BOSS.phases.length
   const bossPhase = Number.isInteger(r.bossPhase) ? Math.min(Math.max(r.bossPhase as number, 0), phases) : 0
   const integrity = Number.isInteger(r.integrity) ? Math.min(Math.max(r.integrity as number, 1), MAX_INTEGRITY) : MAX_INTEGRITY

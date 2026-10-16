@@ -1,0 +1,1846 @@
+{
+  "balanced-brackets": {
+    "hiddenCases": [
+      {
+        "args": [
+          ""
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          ")"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "]("
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "(("
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "))"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "{[()]}"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "{[(])}"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "no brackets at all"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "(((((((((())))))))))"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "(]"
+        ],
+        "expected": false
+      },
+      {
+        "args": [
+          "a(b[c{d}e]f)g"
+        ],
+        "expected": true
+      },
+      {
+        "args": [
+          "([{}])(]"
+        ],
+        "expected": false
+      }
+    ]
+  },
+  "group-anagrams": {
+    "hiddenCases": [
+      {
+        "args": [
+          [
+            ""
+          ]
+        ],
+        "expected": [
+          [
+            ""
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            "",
+            ""
+          ]
+        ],
+        "expected": [
+          [
+            "",
+            ""
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            "ab",
+            "ba"
+          ]
+        ],
+        "expected": [
+          [
+            "ab",
+            "ba"
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            "Ab",
+            "ba"
+          ]
+        ],
+        "expected": [
+          [
+            "Ab"
+          ],
+          [
+            "ba"
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            "abc",
+            "cba",
+            "bac",
+            "xyz"
+          ]
+        ],
+        "expected": [
+          [
+            "abc",
+            "bac",
+            "cba"
+          ],
+          [
+            "xyz"
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            "dog",
+            "god",
+            "cat",
+            "act",
+            "tac"
+          ]
+        ],
+        "expected": [
+          [
+            "dog",
+            "god"
+          ],
+          [
+            "act",
+            "cat",
+            "tac"
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            "listen",
+            "silent",
+            "enlist",
+            "google"
+          ]
+        ],
+        "expected": [
+          [
+            "enlist",
+            "listen",
+            "silent"
+          ],
+          [
+            "google"
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            "aa",
+            "aa",
+            "aa"
+          ]
+        ],
+        "expected": [
+          [
+            "aa",
+            "aa",
+            "aa"
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            "one",
+            "two",
+            "three",
+            "four"
+          ]
+        ],
+        "expected": [
+          [
+            "one"
+          ],
+          [
+            "two"
+          ],
+          [
+            "three"
+          ],
+          [
+            "four"
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            "aab",
+            "aba",
+            "baa",
+            "abb",
+            "bab",
+            "bba"
+          ]
+        ],
+        "expected": [
+          [
+            "aab",
+            "aba",
+            "baa"
+          ],
+          [
+            "abb",
+            "bab",
+            "bba"
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            "x",
+            "y",
+            "z",
+            "x",
+            "y",
+            "z"
+          ]
+        ],
+        "expected": [
+          [
+            "x",
+            "x"
+          ],
+          [
+            "y",
+            "y"
+          ],
+          [
+            "z",
+            "z"
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            "stressed",
+            "desserts",
+            "dessert"
+          ]
+        ],
+        "expected": [
+          [
+            "desserts",
+            "stressed"
+          ],
+          [
+            "dessert"
+          ]
+        ]
+      }
+    ]
+  },
+  "longest-unique-substring": {
+    "hiddenCases": [
+      {
+        "args": [
+          "a"
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          "aa"
+        ],
+        "expected": 1
+      },
+      {
+        "args": [
+          "ab"
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          "abcdefghij"
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          "abba"
+        ],
+        "expected": 2
+      },
+      {
+        "args": [
+          "tmmzuxt"
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          "dvdf"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "aAbBcC"
+        ],
+        "expected": 6
+      },
+      {
+        "args": [
+          "a b c a b"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "!@#!@#"
+        ],
+        "expected": 3
+      },
+      {
+        "args": [
+          "0123456789012"
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          "abcdeafghij"
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          "thequickbrownfox"
+        ],
+        "expected": 14
+      },
+      {
+        "args": [
+          "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"
+        ],
+        "expected": 1
+      }
+    ]
+  },
+  "moving-average": {
+    "hiddenCases": [
+      {
+        "args": [
+          [],
+          1
+        ],
+        "expected": []
+      },
+      {
+        "args": [
+          [],
+          0
+        ],
+        "expected": []
+      },
+      {
+        "args": [
+          [
+            5
+          ],
+          1
+        ],
+        "expected": [
+          {
+            "$float": 5.0
+          }
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          1
+        ],
+        "expected": [
+          {
+            "$float": 1.0
+          },
+          {
+            "$float": 2.0
+          },
+          {
+            "$float": 3.0
+          },
+          {
+            "$float": 4.0
+          },
+          {
+            "$float": 5.0
+          }
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ],
+          0
+        ],
+        "expected": []
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3
+          ],
+          -2
+        ],
+        "expected": []
+      },
+      {
+        "args": [
+          [
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.2
+            },
+            {
+              "$float": 0.3
+            },
+            {
+              "$float": 0.4
+            },
+            {
+              "$float": 0.5
+            }
+          ],
+          3
+        ],
+        "expected": [
+          {
+            "$float": 0.19999999999999998
+          },
+          {
+            "$float": 0.3
+          },
+          {
+            "$float": 0.39999999999999997
+          }
+        ]
+      },
+      {
+        "args": [
+          [
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.1
+            }
+          ],
+          3
+        ],
+        "expected": [
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          },
+          {
+            "$float": 0.10000000000000002
+          }
+        ]
+      },
+      {
+        "args": [
+          [
+            {
+              "$float": 1e-12
+            },
+            {
+              "$float": 2e-12
+            },
+            {
+              "$float": 3e-12
+            }
+          ],
+          2
+        ],
+        "expected": [
+          {
+            "$float": 1.5e-12
+          },
+          {
+            "$float": 2.5000000000000003e-12
+          }
+        ]
+      },
+      {
+        "args": [
+          [
+            {
+              "$float": 10000000000.0
+            },
+            {
+              "$float": 3300000000000.0
+            },
+            {
+              "$float": 0.5
+            },
+            {
+              "$float": 2500000000000000.0
+            },
+            {
+              "$float": 3300000000000.0
+            },
+            {
+              "$float": 2500000000000000.0
+            },
+            {
+              "$float": 1.0
+            }
+          ],
+          4
+        ],
+        "expected": [
+          {
+            "$float": 625827500000000.1
+          },
+          {
+            "$float": 626650000000000.1
+          },
+          {
+            "$float": 1250825000000000.0
+          },
+          {
+            "$float": 1250825000000000.2
+          }
+        ]
+      },
+      {
+        "args": [
+          [
+            {
+              "$float": 0.5
+            },
+            {
+              "$float": 7.7
+            },
+            {
+              "$float": 1.6
+            },
+            {
+              "$float": 0.1
+            },
+            {
+              "$float": 0.05
+            }
+          ],
+          2
+        ],
+        "expected": [
+          {
+            "$float": 4.1
+          },
+          {
+            "$float": 4.65
+          },
+          {
+            "$float": 0.8500000000000001
+          },
+          {
+            "$float": 0.07500000000000001
+          }
+        ]
+      },
+      {
+        "args": [
+          [
+            -1,
+            -2,
+            -3,
+            -4
+          ],
+          2
+        ],
+        "expected": [
+          {
+            "$float": -1.5
+          },
+          {
+            "$float": -2.5
+          },
+          {
+            "$float": -3.5
+          }
+        ]
+      },
+      {
+        "args": [
+          [
+            10,
+            -10,
+            10,
+            -10,
+            10
+          ],
+          2
+        ],
+        "expected": [
+          {
+            "$float": 0.0
+          },
+          {
+            "$float": 0.0
+          },
+          {
+            "$float": 0.0
+          },
+          {
+            "$float": 0.0
+          }
+        ]
+      },
+      {
+        "args": [
+          [
+            {
+              "$float": 1.5
+            },
+            {
+              "$float": 2.5
+            },
+            {
+              "$float": 3.5
+            }
+          ],
+          2
+        ],
+        "expected": [
+          {
+            "$float": 2.0
+          },
+          {
+            "$float": 3.0
+          }
+        ]
+      },
+      {
+        "args": [
+          [
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          4
+        ],
+        "expected": [
+          {
+            "$float": 7.0
+          },
+          {
+            "$float": 7.0
+          },
+          {
+            "$float": 7.0
+          },
+          {
+            "$float": 7.0
+          }
+        ]
+      }
+    ]
+  },
+  "next-value": {
+    "hiddenCases": [
+      {
+        "args": [
+          [
+            5,
+            5,
+            5
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            3,
+            1
+          ]
+        ],
+        "expected": -1
+      },
+      {
+        "args": [
+          [
+            0,
+            1,
+            4,
+            9,
+            16,
+            25
+          ]
+        ],
+        "expected": 36
+      },
+      {
+        "args": [
+          [
+            1,
+            3,
+            6,
+            10,
+            15
+          ]
+        ],
+        "expected": 21
+      },
+      {
+        "args": [
+          [
+            2,
+            9,
+            28,
+            65,
+            126
+          ]
+        ],
+        "expected": 217
+      },
+      {
+        "args": [
+          [
+            -1,
+            -8,
+            -27,
+            -64
+          ]
+        ],
+        "expected": -125
+      },
+      {
+        "args": [
+          [
+            10,
+            7,
+            4,
+            1
+          ]
+        ],
+        "expected": -2
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            4,
+            7,
+            11,
+            16
+          ]
+        ],
+        "expected": 22
+      },
+      {
+        "args": [
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            100,
+            1000
+          ]
+        ],
+        "expected": 1900
+      }
+    ]
+  },
+  "rotate-matrix": {
+    "hiddenCases": [
+      {
+        "args": [
+          []
+        ],
+        "expected": []
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            3,
+            2,
+            1
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ],
+            [
+              7,
+              8,
+              9
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            7,
+            4,
+            1
+          ],
+          [
+            8,
+            5,
+            2
+          ],
+          [
+            9,
+            6,
+            3
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              7,
+              8
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            7,
+            5,
+            3,
+            1
+          ],
+          [
+            8,
+            6,
+            4,
+            2
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              -1,
+              -2
+            ],
+            [
+              -3,
+              -4
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            -3,
+            -1
+          ],
+          [
+            -4,
+            -2
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              "a",
+              "b"
+            ],
+            [
+              "c",
+              "d"
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            "c",
+            "a"
+          ],
+          [
+            "d",
+            "b"
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              1,
+              2,
+              3,
+              4
+            ],
+            [
+              5,
+              6,
+              7,
+              8
+            ],
+            [
+              9,
+              10,
+              11,
+              12
+            ],
+            [
+              13,
+              14,
+              15,
+              16
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            13,
+            9,
+            5,
+            1
+          ],
+          [
+            14,
+            10,
+            6,
+            2
+          ],
+          [
+            15,
+            11,
+            7,
+            3
+          ],
+          [
+            16,
+            12,
+            8,
+            4
+          ]
+        ]
+      },
+      {
+        "args": [
+          [
+            [
+              true,
+              false
+            ],
+            [
+              false,
+              true
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            false,
+            true
+          ],
+          [
+            true,
+            false
+          ]
+        ]
+      }
+    ]
+  },
+  "run-length-encode": {
+    "hiddenCases": [
+      {
+        "args": [
+          "a"
+        ],
+        "expected": "a1"
+      },
+      {
+        "args": [
+          "aa"
+        ],
+        "expected": "a2"
+      },
+      {
+        "args": [
+          "aaaaaaaaaa"
+        ],
+        "expected": "a10"
+      },
+      {
+        "args": [
+          "aaaaaaaaaaaa"
+        ],
+        "expected": "a12"
+      },
+      {
+        "args": [
+          "wwwwwwwwwwwwbbb"
+        ],
+        "expected": "w12b3"
+      },
+      {
+        "args": [
+          "abababab"
+        ],
+        "expected": "a1b1a1b1a1b1a1b1"
+      },
+      {
+        "args": [
+          "  "
+        ],
+        "expected": " 2"
+      },
+      {
+        "args": [
+          "112233"
+        ],
+        "expected": "122232"
+      },
+      {
+        "args": [
+          "!!??!!"
+        ],
+        "expected": "!2?2!2"
+      },
+      {
+        "args": [
+          "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+        ],
+        "expected": "z100"
+      },
+      {
+        "args": [
+          "aabbaabb"
+        ],
+        "expected": "a2b2a2b2"
+      },
+      {
+        "args": [
+          "The quick brown fox"
+        ],
+        "expected": "T1h1e1 1q1u1i1c1k1 1b1r1o1w1n1 1f1o1x1"
+      }
+    ]
+  },
+  "two-sum": {
+    "hiddenCases": [
+      {
+        "args": [
+          [],
+          0
+        ],
+        "expected": []
+      },
+      {
+        "args": [
+          [
+            5
+          ],
+          5
+        ],
+        "expected": []
+      },
+      {
+        "args": [
+          [
+            0,
+            0
+          ],
+          0
+        ],
+        "expected": [
+          0,
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            -3,
+            4,
+            1
+          ],
+          1
+        ],
+        "expected": [
+          0,
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            -8,
+            -2,
+            -5
+          ],
+          -7
+        ],
+        "expected": [
+          1,
+          2
+        ]
+      },
+      {
+        "args": [
+          [
+            1000000,
+            999999
+          ],
+          1999999
+        ],
+        "expected": [
+          0,
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            10,
+            20,
+            30,
+            40,
+            50
+          ],
+          90
+        ],
+        "expected": [
+          3,
+          4
+        ]
+      },
+      {
+        "args": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            100
+          ],
+          109
+        ],
+        "expected": [
+          8,
+          9
+        ]
+      },
+      {
+        "args": [
+          [
+            4,
+            4
+          ],
+          8
+        ],
+        "expected": [
+          0,
+          1
+        ]
+      },
+      {
+        "args": [
+          [
+            7,
+            1,
+            2,
+            3
+          ],
+          10
+        ],
+        "expected": [
+          0,
+          3
+        ]
+      }
+    ]
+  },
+  "word-frequency": {
+    "hiddenCases": [
+      {
+        "args": [
+          ""
+        ],
+        "expected": {}
+      },
+      {
+        "args": [
+          "a"
+        ],
+        "expected": {
+          "a": 1
+        }
+      },
+      {
+        "args": [
+          "a a a a a"
+        ],
+        "expected": {
+          "a": 5
+        }
+      },
+      {
+        "args": [
+          "one two three"
+        ],
+        "expected": {
+          "one": 1,
+          "two": 1,
+          "three": 1
+        }
+      },
+      {
+        "args": [
+          "don't stop"
+        ],
+        "expected": {
+          "don": 1,
+          "t": 1,
+          "stop": 1
+        }
+      },
+      {
+        "args": [
+          "h2o and c2h5oh"
+        ],
+        "expected": {
+          "h": 2,
+          "o": 1,
+          "and": 1,
+          "c": 1,
+          "oh": 1
+        }
+      },
+      {
+        "args": [
+          "   spaced   out   "
+        ],
+        "expected": {
+          "spaced": 1,
+          "out": 1
+        }
+      },
+      {
+        "args": [
+          "Mixed CASE mixed case MIXED"
+        ],
+        "expected": {
+          "mixed": 3,
+          "case": 2
+        }
+      },
+      {
+        "args": [
+          "punctuation!!! everywhere??? really..."
+        ],
+        "expected": {
+          "punctuation": 1,
+          "everywhere": 1,
+          "really": 1
+        }
+      },
+      {
+        "args": [
+          "aaa bbb aaa ccc bbb aaa"
+        ],
+        "expected": {
+          "aaa": 3,
+          "bbb": 2,
+          "ccc": 1
+        }
+      },
+      {
+        "args": [
+          "The rain in SPAIN stays mainly in the plain"
+        ],
+        "expected": {
+          "the": 2,
+          "rain": 1,
+          "in": 2,
+          "spain": 1,
+          "stays": 1,
+          "mainly": 1,
+          "plain": 1
+        }
+      },
+      {
+        "args": [
+          "!@#$%^&*()"
+        ],
+        "expected": {}
+      }
+    ]
+  },
+  "largest": {
+    "hiddenCases": [
+      {
+        "args": [
+          [
+            -5,
+            -2,
+            -9
+          ]
+        ],
+        "expected": -2
+      },
+      {
+        "args": [
+          [
+            -1
+          ]
+        ],
+        "expected": -1
+      },
+      {
+        "args": [
+          [
+            0,
+            -1
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            4,
+            4,
+            4
+          ]
+        ],
+        "expected": 4
+      },
+      {
+        "args": [
+          [
+            -10,
+            3,
+            -20
+          ]
+        ],
+        "expected": 3
+      }
+    ]
+  },
+  "sum-list": {
+    "hiddenCases": [
+      {
+        "args": [
+          [
+            5
+          ]
+        ],
+        "expected": 5
+      },
+      {
+        "args": [
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "expected": 0
+      },
+      {
+        "args": [
+          [
+            7,
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": 10
+      },
+      {
+        "args": [
+          [
+            -3,
+            -3,
+            -3
+          ]
+        ],
+        "expected": -9
+      },
+      {
+        "args": [
+          [
+            100,
+            200,
+            300,
+            400
+          ]
+        ],
+        "expected": 1000
+      }
+    ]
+  },
+  "cogsnap-counter": {
+    "output": {
+      "python": "4",
+      "javascript": "4"
+    }
+  },
+  "cogsnap-sequence": {
+    "output": {
+      "python": "7\n11\n15\n19",
+      "javascript": "7\n11\n15\n19"
+    }
+  },
+  "holloquy-loop": {
+    "output": {
+      "python": "0\n2\n4",
+      "javascript": "0\n2\n4"
+    }
+  },
+  "store-and-mill": {
+    "output": {
+      "python": "8 5 6",
+      "javascript": "8 5 6"
+    }
+  },
+  "floor-1-what-is-a-program": {
+    "answer": 0,
+    "explanation": "A program is a sequence of instructions. The computer carries them out one after another, exactly as written."
+  },
+  "floor-1-what-is-input": {
+    "answer": 1,
+    "explanation": "Values passed into a function are its inputs, also called arguments. What the function gives back is its output."
+  },
+  "floor-1-what-is-output": {
+    "answer": 2,
+    "explanation": "The output is what comes out of the function, its return value, or what it prints."
+  },
+  "floor-1-same-input": {
+    "answer": 0,
+    "explanation": "Without randomness, a program is deterministic. The same input always gives the same output. (Ada Lovelace's Objection on Floor 2 starts here.)"
+  },
+  "floor-1-loom-cards": {
+    "answer": 1,
+    "explanation": "Jacquard's loom (1804) read a chain of punched cards. Holes let hooks through, so each card set one row of the pattern. Babbage borrowed the idea to feed instructions to his Analytical Engine."
+  },
+  "floor-1-what-is-a-loop": {
+    "answer": 1,
+    "explanation": "A loop repeats its body, either a fixed number of times (`for`) or while a condition holds (`while`). Ada Lovelace called these repeated sequences \"cycles\"."
+  },
+  "floor-1-what-is-a-variable": {
+    "answer": 0,
+    "explanation": "A variable is a name for a value in memory. In the Analytical Engine, the columns of the Store were the variables, V1, V2, V3…"
+  },
+  "floor-1-store-is": {
+    "answer": 1,
+    "explanation": "The Store held numbers in columns of wheels, waiting to be used. Today we call that memory."
+  },
+  "floor-1-mill-is": {
+    "answer": 1,
+    "explanation": "The Mill took numbers from the Store, did the arithmetic, and sent results back. That's a processor's job."
+  },
+  "floor-1-cards-are": {
+    "answer": 0,
+    "explanation": "Operation cards said what to do and variable cards said what to do it to. Together, the cards were the program."
+  },
+  "floor-1-difference-engine": {
+    "answer": 2,
+    "explanation": "For a polynomial, some row of differences is constant. Adding the columns back up gives the next value, using addition alone. That's the method of finite differences."
+  },
+  "floor-1-second-differences": {
+    "answer": 1,
+    "explanation": "5-3, 7-5 and 9-7 are all 2. For square numbers, the second differences are constant."
+  },
+  "floor-1-first-bug": {
+    "answer": 1,
+    "explanation": "Operators found a moth trapped in a relay and logged it as the \"first actual case of bug being found\". The word \"bug\" for a fault was older, but the moth made it famous."
+  },
+  "floor-1-off-by-one": {
+    "answer": 0,
+    "explanation": "Starting at 1 instead of 0, or stopping one step early or late, are some of the most common bugs in any loop."
+  },
+  "floor-1-what-is-an-algorithm": {
+    "answer": 1,
+    "explanation": "An algorithm is the method. A program is that method written in a language a computer can run."
+  },
+  "floor-1-note-g": {
+    "answer": 1,
+    "explanation": "Note G's table of operations is often called the first published computer program, more than a century before electronic computers."
+  },
+  "floor-1-range-three": {
+    "answer": 1,
+    "explanation": "range(3) gives 0, 1 and 2, which is three values, so the body runs three times. It stops before 3."
+  },
+  "floor-1-equals": {
+    "answer": 1,
+    "explanation": "A single `=` assigns, and a double `==` compares. Mixing them up is a classic bug. (JavaScript also has `===`, a strict comparison.)"
+  },
+  "floor-1-debugging": {
+    "answer": 1,
+    "explanation": "Debugging is tracking down why a program misbehaves and fixing it. Reading what the code actually does, not what you meant it to do, is the first step."
+  },
+  "floor-1-modulo": {
+    "answer": 1,
+    "explanation": "`%` gives the remainder: 10 divided by 3 is 3 remainder 1."
+  }
+}

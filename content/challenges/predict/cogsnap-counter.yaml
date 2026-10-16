@@ -1,0 +1,16 @@
+# Floor 1, Cogsnap Tock (the Gear Works): the final value of a counter in a loop.
+title: Cogsnap Tock's Counter
+difficulty: 2
+topics: [loops, conditionals]
+python: |
+  count = 0
+  for n in range(10):
+      if n % 3 == 0:
+          count += 1
+  print(count)
+javascript: |
+  let count = 0
+  for (let n = 0; n < 10; n++) {
+    if (n % 3 === 0) count += 1
+  }
+  console.log(count)
