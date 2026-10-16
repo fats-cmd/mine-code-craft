@@ -24,6 +24,19 @@ The Tower has one question running through it, asked by Ada Lovelace in 1843: *"
 
 **The Objection Journal** records the thread: each floor's Examiner adds a page, with their answer in their own words. Decision record: [ADR-0013](../adr/0013-the-towers-story.md).
 
+## The Pioneer Codex
+
+The Tower is also a way to meet the people who built computing, AI and programming. Many players have never heard of most of them.
+
+- **Every floor brings several pioneers,** not just its Examiner. They appear as henchman bosses (Menabrea and De Morgan on Floor 2), NPCs (Mary Somerville hosts Floor 2's Hall) and in Notes and Guide lines.
+- **Meeting one unlocks their Codex page:** who they were, what they built, and the Task you solved about it. The Codex is browsable from the Hall.
+- **As the game grows, so do the pioneers and the Tasks.** New challengers and Tasks are added floor by floor, always tied to a real contribution.
+- ADR-0010 applies to everyone: named and drawn only if they died 70+ years ago; more recent pioneers appear as homage characters.
+
+## Naming
+
+Places, creatures and items get **their own names**, unique to the Tower: Shuttlecrest, Punchlings, Glassmimes, the Starloom. Never generic umbrella terms like "the algorithm wing", "Echoes" or "the Observatory". Generic words only describe ("Shuttlecrest, the algorithm wing"). Real people and historical artefacts (Note G, the Difference Engine) keep their real names.
+
 ## Pillars
 
 Every feature gets checked against these. If it serves none of them, it waits.
@@ -134,6 +147,7 @@ Hall quests and Stations lead to **Duels** (best of three Rounds, see Architectu
 
 ## Tone
 
+- **Bosses look the part.** Every boss and henchman boss is a hand-made MagicaVoxel model that looks good and authentic, built from public-domain portraits for historical figures. Code-built figures are placeholders only.
 - **Respectful towards history.** Historical computing pioneers appear as **Examiners**: proud, demanding and fair. When you beat them they acknowledge you; they are never mocked. Only figures who died 70+ years ago appear by name ([ADR-0010](../adr/0010-historical-figures-as-examiners.md)).
 - **Parody for the modern villain.** Big-Tech satire stays fictional (the Meta Legion, ADR-0007).
 - **Anime energy.** Boss intros, phase transitions, title cards, aura effects. The game should feel *mad*: big moments, big sound, big text.
@@ -146,7 +160,7 @@ Floors 1 and 2 are designed in detail ([`floors/01-testing-floor.md`](floors/01-
 | Floor | Working name | Boss idea | Theme / topic |
 |---|---|---|---|
 | 1 | **The Testing Floor** ([doc](floors/01-testing-floor.md)) | Charles Babbage (Ada appears as an NPC you chase) | Origins of computing: procedures, finite differences, the Store and the Mill, the first Code task |
-| 2 | **Poetical Science** ([doc](floors/02-poetical-science.md)) | Augusta Ada King, Countess of Lovelace (henchman boss: Luigi Menabrea) | Algorithms and loops (Note G), encoding and general-purpose computing, Lovelace's Objection |
+| 2 | **Poetical Science** ([doc](floors/02-poetical-science.md)) | Augusta Ada King, Countess of Lovelace (henchman bosses: Luigi Menabrea, Augustus De Morgan; host: Mary Somerville) | Algorithms and loops (Note G), encoding and general-purpose computing, Lovelace's Objection |
 | 3 | The Codebreakers' Hut | Alan Turing (Bletchley), answering her Objection | Logic, state machines, ciphers, computability, the imitation game |
 | 4 | The Compiler Deck | *an homage character* (Grace Hopper died 1992: too recent, see ADR-0010) | Compilers, debugging, the first "bug" |
 | 5 | The Shortest Path | *an homage character* (Dijkstra died 2002) | Graphs, shortest paths |

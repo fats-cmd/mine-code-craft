@@ -42,6 +42,8 @@ Use these words in code, issues, commits and docs. If you need a concept that is
 | **Counter** | The hit you take when a Task fails or times out: knockback and −1 Integrity. |
 | **Henchman boss** | A named figure ending a wing or section (e.g. Menabrea on Floor 2): two or three Tasks with Integrity checkpoints, but no phases. |
 | **Objection Journal** | The Climber's record of the Tower's question, *can a machine originate anything?*. Each floor's Examiner adds a page ([ADR-0013](docs/adr/0013-the-towers-story.md)). |
+| **Pioneer Codex** | The Climber's book of computing pioneers. Meeting one (as an Examiner, henchman boss or NPC) unlocks their page: who they were and what they built. |
+| **Songcloud** | A Climber's winning melody from Floor 2's Compose phase, left drifting over the islands for later Climbers to find and hear. |
 | **Ranked** | A Duel mode that changes Rank. **Perks are disabled.** Started only from the queue. |
 | **Casual** | A Duel mode with Perks enabled and no Rank change. Walk-up challenges default to Casual. |
 | **Task** | A Challenge placed in the world: what a Henchman is, and what each Boss phase is made of. |

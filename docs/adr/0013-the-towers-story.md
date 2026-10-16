@@ -15,15 +15,17 @@ Ada wrote the line that makes the best thread. In Note G (1843): *"The Analytica
   - Babbage alone is the boss, in three phases on his Engines.
   - When he falls she says *"You may yet understand what I saw in it"* and leaves through the Gate of Notes.
 - **Floor 2 is Ada's: "Poetical Science"**, a sky of islands built from her ideas.
-  - **Three wings:** Algorithm (Note G), Symbol (encoding, music, general-purpose computing) and Objection.
-  - **Luigi Menabrea** is the Algorithm wing's henchman boss.
+  - **Three wings:** Shuttlecrest (algorithms, Note G), Staveholm (encoding, music, general-purpose computing) and Mirrormere (the Objection). The first two can be done in either order.
+  - **Luigi Menabrea** and **Augustus De Morgan** are henchman bosses, and **Mary Somerville** hosts the Hall.
   - **Ada is the Examiner**, with three phases: Note G, the Science of Operations, and the Objection, which ends with the Climber's program composing music.
-  - **The Hall** is the Observatory.
+  - **The Hall** is the Starloom.
+  - Winning melodies from the last phase stay in the world as **Songclouds** for later Climbers to find.
 - **Alan Turing moves to Floor 3**, answering her Objection.
 - **Passing a Task lands a Move** (punch, kick, push); **failing takes a Counter**. This applies everywhere, including Duels, as presentation only. Moves on Examiners hit their guard, not their body.
 
 ## Consequences
-- Ada and Babbage each get a whole floor, and Ada stays an Examiner throughout: proud, fair and never a villain ([ADR-0010](0010-historical-figures-as-examiners.md)). Menabrea (died 1896) and Turing (died 1954) are within ADR-0010's 70-year rule.
+- Every boss is a hand-made MagicaVoxel model. Names of places and creatures are unique to the Tower, and each floor introduces several pioneers (the Pioneer Codex).
+- Ada and Babbage each get a whole floor, and Ada stays an Examiner throughout: proud, fair and never a villain ([ADR-0010](0010-historical-figures-as-examiners.md)). Menabrea (died 1896), De Morgan (1871), Somerville (1872) and Turing (1954) are within ADR-0010's 70-year rule.
 - Floor 1's code changes: the boss data, the HUD objective, the Guide lines, and a new Ada NPC and balcony. Babbage stays beaten after a Fall, like every boss.
 - Floor 2 needs a few things that don't exist yet:
   - a floor definition shared by both floors, generalising `testingFloor.ts`;

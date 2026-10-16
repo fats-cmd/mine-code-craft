@@ -57,5 +57,6 @@ The walk goes from **warm sandstone and wood** (Arrival, Abacus, Loom, Archive) 
 ## Making art
 
 - **In code** (what Floor 1 uses now): `VoxelBuilder` for architecture and `VoxelModel` for props. This is fast to iterate and needs no assets in git.
-- **[MagicaVoxel](https://ephtracy.github.io/)** for hand-made models (bosses, hero props, Climber cosmetics). Export to `.vox`. A `.vox` → `VoxelGrid` loader is the next tool to add when the first hand-made model arrives. It keeps the same mesher, AO and merge path, so imported models match the code-built ones.
+- **[MagicaVoxel](https://ephtracy.github.io/)** for hand-made models (bosses, hero props, Climber cosmetics). Save `.vox`; the game loads it through the same mesher, AO and merge path (`parseVox`), so imported models match the code-built ones.
+- **Bosses are always hand-made.** Every boss and henchman boss must look good and authentic, so they are sculpted in MagicaVoxel, from public-domain portraits for historical figures. Code-built figures are greybox placeholders only.
 - Blender stays for anything that isn't voxel (rare from here on).

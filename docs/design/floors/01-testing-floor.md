@@ -164,7 +164,7 @@ Build them in this order; earlier items unblock playtesting. All rooms and these
 |---|---|---|
 | P0 | **Engine Room shell** | Floor, walls, three alcoves. Simple, because the engines carry it. |
 | P0 | **Difference Engine** | Hero prop. Columns of number wheels; 3 columns need separate meshes so they can animate "jamming". |
-| P0 | **Babbage** | A voxel figure in Victorian clothing, with public-domain portraits as reference. Animated by parts in code, like Climbers (idle, talk, "attack" gestures, defeat bow). |
+| P0 | **Babbage** | **Hand-made in MagicaVoxel** (every boss must look good and authentic): Victorian clothing, from public-domain portraits. Animated by parts in code, like Climbers (idle, talk, "attack" gestures, defeat bow). The code-built figure in the greybox is a placeholder. |
 | P0 | **Ada** (NPC here, boss on Floor 2) | Same model as Floor 2. Here she needs only walk, look back and leave. |
 | P1 | **Analytical Engine** | Wireframe/teal hologram material, so it can be lighter geometry. |
 | P1 | **Ada's balcony** and her **Notes** (one per room) | A glass-fronted balcony; the Notes are glowing pages. |
