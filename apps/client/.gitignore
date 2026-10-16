@@ -25,3 +25,4 @@ dist-ssr
 
 what_is
 public/draco/
+public/pyodide/

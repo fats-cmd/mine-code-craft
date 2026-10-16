@@ -48,26 +48,13 @@ def fail(msg):
     errors.append(msg)
 
 
-# ---- typed JSON: Python floats are tagged so 1 and 1.0 stay apart (comparator.ts) ----
+# ---- typed JSON: the browser's own harness, so 1 and 1.0 stay apart (comparator.ts) ----
 
-def tag(v):
-    if v is None or isinstance(v, (bool, str)):
-        return v
-    if isinstance(v, int):
-        return v
-    if isinstance(v, float):
-        if math.isnan(v):
-            return {"$float": "nan"}
-        if math.isinf(v):
-            return {"$float": "inf" if v > 0 else "-inf"}
-        return {"$float": v}
-    if isinstance(v, list):
-        return [tag(x) for x in v]
-    if isinstance(v, dict):
-        if not all(isinstance(k, str) for k in v):
-            raise TypeError("dict keys must be strings")
-        return {k: tag(x) for k, x in v.items()}
-    raise TypeError(f"a {type(v).__name__} can't cross the wire (use a list or dict)")
+HARNESS = REPO / "packages" / "shared" / "src" / "challenge" / "harness.py"
+_spec = importlib.util.spec_from_file_location("harness", HARNESS)
+harness = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(harness)
+tag, untag = harness.tag, harness.untag
 
 
 def num(v):
@@ -115,11 +102,11 @@ def load_module(path, name):
 
 
 def run_python(fn, cases, where):
+    """cases are typed JSON args; each case gets fresh copies, so one can't mutate the next."""
     out = []
     for i, args in enumerate(cases):
         try:
-            # deep-copied args, so one case can't mutate the next; tag() rejects tuples and sets
-            out.append(tag(fn(*json.loads(json.dumps(args)))))
+            out.append(tag(fn(*untag(json.loads(json.dumps(args))))))  # tag() rejects tuples and sets
         except Exception as exc:  # noqa: BLE001 - report and keep building
             out.append({"error": f"{type(exc).__name__}: {exc}"})
             if where:
@@ -167,8 +154,14 @@ def build_code(path, fmt):
     params = params_of(mod.SIGNATURE)
     fn = {"python": mod.FUNCTION, "javascript": camel(mod.FUNCTION)}
 
-    public = [{"args": c, "expected": e} for c, e in zip(mod.PUBLIC_CASES, run_python(mod.solve, mod.PUBLIC_CASES, f"{fmt}/{slug} public"))]
-    hidden = [{"args": c, "expected": e} for c, e in zip(mod.HIDDEN_CASES, run_python(mod.solve, mod.HIDDEN_CASES, f"{fmt}/{slug} hidden"))]
+    try:
+        public_args = [tag(c) for c in mod.PUBLIC_CASES]
+        hidden_args = [tag(c) for c in mod.HIDDEN_CASES]
+    except TypeError as exc:
+        fail(f"{fmt}/{slug}: case args {exc}")
+        return None, None
+    public = [{"args": c, "expected": e} for c, e in zip(public_args, run_python(mod.solve, public_args, f"{fmt}/{slug} public"))]
+    hidden = [{"args": c, "expected": e} for c, e in zip(hidden_args, run_python(mod.solve, hidden_args, f"{fmt}/{slug} hidden"))]
     cases = public + hidden
 
     # The optional JS reference must agree on every case.
@@ -182,9 +175,11 @@ def build_code(path, fmt):
     if fmt == "fix":
         starter = {"python": mod.BUGGY_PY.strip("\n") + "\n", "javascript": mod.BUGGY_JS.strip("\n") + "\n"}
         # A Fix challenge whose "buggy" code already passes would be free.
-        ns = {}
-        exec(starter["python"], ns)  # noqa: S102 - our own content
-        got = run_python(ns[fn["python"]], [c["args"] for c in cases], None)
+        ran = json.loads(harness.run(starter["python"], fn["python"], json.dumps([c["args"] for c in cases])))
+        if "error" in ran:
+            fail(f"fix/{slug}: BUGGY_PY doesn't load: {ran['error']}")
+            return None, None
+        got = [r["value"] if r["ok"] else {"error": r["error"]} for r in ran["results"]]
         if all(agree(c["expected"], g, "python", unordered) for c, g in zip(cases, got)):
             fail(f"fix/{slug}: BUGGY_PY passes every case; it has to fail at least one")
         got = run_js(starter["javascript"], fn["javascript"], [c["args"] for c in cases])
