@@ -197,10 +197,10 @@ All in the content pipeline (M3), Python and JS for Code/Fix/Predict.
 | Holloquy | Predict | 3 | 1 |
 | Cogsnap Tick, Tock | Predict | 4 | 1–2 |
 | Firstbug | Fix | 2 | 1 |
-| Babbage, phase 1 | Predict/Quiz (difference tables) | 6 | 1–2 |
-| Babbage, phase 2 | Quiz (Store/Mill) + Predict (trace) | 6 + 3 | 2 |
+| Babbage, phase 1 | Quiz (difference tables) | 6, written (`quiz/babbage.yaml`) | 1–3 |
+| Babbage, phase 2 | Quiz (Store/Mill/cards/printer) + Predict (trace) | 4 + 3, written | 1–2 |
 | Ada's Notes (hints, one per room) | none: text only | 5 | – |
-| Phase 3 | Code: `next_value` | 1 (+1 alternate) | 2 |
+| Babbage, phase 3 | Code: `next_value` | 1 written (+1 alternate to write) | 2 |
 | Floor 1 Exam | Mixed | pool of 15 | 2 |
 
 **About 45 Challenges for Floor 1.** The existing 8 problems are general practice (Station) content.
@@ -211,7 +211,17 @@ All in the content pipeline (M3), Python and JS for Code/Fix/Predict.
 2. **Story rework ✅ (greybox):** Babbage alone in the arena, and Ada as an NPC who appears at Arrival, slips away ahead of you room by room, watches from a balcony, and leaves through the Gate after the fight.
 3. **Wire the Tasks:** henchmen and boss phases call the challenge engine (M3). Integrity, phase checkpoints, victory and the Gate.
    - **Henchmen ✅:** each fights with a real Challenge from its pool (`pool` in `testingFloor.ts`), graded by the server in a TrialRoom. A pass lands a Move (Quiz jab, Predict kick, Fix push); a fail takes a Counter and costs 1 Integrity. After a Quiz or Predict answer the next question comes from the pool. A Fix stays on screen so you can keep editing, until a knockout swaps in a different bug. The Moves and Counters are on-screen effects for now; avatar animations come with the art pass.
-   - **Babbage's phases:** still Pass/Fail. Next.
+   - **Babbage's phases ✅:** all three run real Tasks through the same fight code as the henchmen (`apps/client/src/floor/Fight.tsx`, phase data in `TESTING_FLOOR_BOSS`):
+     - **Phase 1, the Difference Engine:** three Quiz steps, one per column: constant first differences, then second, then third (a full difference table). Each has a **crank**: a draining bar of 45, 40, then 35 seconds, so it speeds up after each jam. If the crank comes round first, it lands a Counter (−1 Integrity) and a fresh question takes its place, never the answer.
+     - **Phase 2, the Mill and the Store:** three Quiz answers (Store, Mill, cards, printer), then one Predict trace of `v1`–`v4`.
+     - **Phase 3, the Analytical Engine:** Code `next_value`. The Guide explains the editor as the phase opens.
+     - **Checkpoints and knockouts:** a cleared phase is a checkpoint, so Integrity refills and leaving keeps it. A knockout sends you back to the start of the current phase, never the whole fight.
+     - **Victory:** Babbage says *"Hm. You'll do."*, Ada her balcony line, the Engine glows teal and the Gate of Notes opens.
+     - **Moves on an Examiner:** they "crack his guard" (ADR-0010).
+     - **Known gaps:**
+       - The crank runs in the browser, not on the server. Fine while progress is local; it needs a server clock before progress counts for anything shared.
+       - The Difference Engine's columns go dark one per *phase*, not one per jam.
+       - Babbage's attacks (the crank, the card storm) are named on screen, not animated.
 4. **Floor-scoped Hall:** `FloorRoom` for Floor 1 replaces the generic Base ([ADR-0009](../../adr/0009-floor-scoped-presence.md)).
 5. **Art pass:** the code-built voxel version is in. Next, hand-made MagicaVoxel models for the hero props and characters. Then sound.
 6. **Exam Gate → Floor 2** ([Poetical Science](02-poetical-science.md)).

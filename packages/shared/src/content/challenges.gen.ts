@@ -759,6 +759,38 @@ export const CHALLENGES: readonly PublicChallenge[] = [
     }
   },
   {
+    "slug": "store-and-mill-loop",
+    "format": "predict",
+    "title": "The Mill Repeats",
+    "difficulty": 2,
+    "topics": [
+      "variables",
+      "tracing",
+      "loops"
+    ],
+    "prompt": "The Store holds v1, v2 and v3; the cards loop three times. What's in each column at the end? Type the exact output.",
+    "snippet": {
+      "python": "v1 = 1\nv2 = 0\nfor _ in range(3):\n    v2 = v2 + v1\n    v1 = v1 * 2\nv3 = v1 + v2\nprint(v1, v2, v3)\n",
+      "javascript": "let v1 = 1\nlet v2 = 0\nfor (let n = 0; n < 3; n++) {\n  v2 = v2 + v1\n  v1 = v1 * 2\n}\nlet v3 = v1 + v2\nconsole.log(v1, v2, v3)\n"
+    }
+  },
+  {
+    "slug": "store-and-mill-swap",
+    "format": "predict",
+    "title": "The Swapping Cards",
+    "difficulty": 2,
+    "topics": [
+      "variables",
+      "tracing",
+      "loops"
+    ],
+    "prompt": "v4 is a spare Store column. The cards swap v1 and v2, twice. What's in each column at the end? Type the exact output.",
+    "snippet": {
+      "python": "v1 = 5\nv2 = 9\nv3 = 0\nfor _ in range(2):\n    v4 = v1\n    v1 = v2\n    v2 = v4\n    v3 = v3 + 1\nprint(v1, v2, v3, v4)\n",
+      "javascript": "let v1 = 5\nlet v2 = 9\nlet v3 = 0\nlet v4\nfor (let n = 0; n < 2; n++) {\n  v4 = v1\n  v1 = v2\n  v2 = v4\n  v3 = v3 + 1\n}\nconsole.log(v1, v2, v3, v4)\n"
+    }
+  },
+  {
     "slug": "store-and-mill",
     "format": "predict",
     "title": "The Mill and the Store",
@@ -772,6 +804,125 @@ export const CHALLENGES: readonly PublicChallenge[] = [
       "python": "v1 = 2\nv2 = 3\nv3 = v1 * v2\nv1 = v3 + v1\nv2 = v1 - v2\nprint(v1, v2, v3)\n",
       "javascript": "let v1 = 2\nlet v2 = 3\nlet v3 = v1 * v2\nv1 = v3 + v1\nv2 = v1 - v2\nconsole.log(v1, v2, v3)\n"
     }
+  },
+  {
+    "slug": "babbage-evens",
+    "format": "quiz",
+    "title": "The Difference Engine prints: `2, 4, 6, 8`. What comes next?",
+    "difficulty": 1,
+    "topics": [
+      "sequences",
+      "finite-differences"
+    ],
+    "question": "The Difference Engine prints: `2, 4, 6, 8`. What comes next?",
+    "options": [
+      "9",
+      "10",
+      "12",
+      "16"
+    ]
+  },
+  {
+    "slug": "babbage-threes",
+    "format": "quiz",
+    "title": "The Difference Engine prints: `5, 8, 11, 14`. What comes…",
+    "difficulty": 1,
+    "topics": [
+      "sequences",
+      "finite-differences"
+    ],
+    "question": "The Difference Engine prints: `5, 8, 11, 14`. What comes next?",
+    "options": [
+      "15",
+      "17",
+      "18",
+      "20"
+    ]
+  },
+  {
+    "slug": "babbage-squares",
+    "format": "quiz",
+    "title": "The Difference Engine prints: `1, 4, 9, 16`. What comes…",
+    "difficulty": 2,
+    "topics": [
+      "sequences",
+      "finite-differences"
+    ],
+    "question": "The Difference Engine prints: `1, 4, 9, 16`. What comes next?",
+    "options": [
+      "20",
+      "23",
+      "25",
+      "32"
+    ]
+  },
+  {
+    "slug": "babbage-squares-plus-one",
+    "format": "quiz",
+    "title": "The Difference Engine prints: `2, 5, 10, 17`. What comes…",
+    "difficulty": 2,
+    "topics": [
+      "sequences",
+      "finite-differences"
+    ],
+    "question": "The Difference Engine prints: `2, 5, 10, 17`. What comes next?",
+    "options": [
+      "24",
+      "26",
+      "27",
+      "34"
+    ]
+  },
+  {
+    "slug": "babbage-cubes",
+    "format": "quiz",
+    "title": "The Engine shows its whole table. The third differences are…",
+    "difficulty": 3,
+    "topics": [
+      "sequences",
+      "finite-differences"
+    ],
+    "question": "The Engine shows its whole table. The third differences are constant. What is the next value?\n\n```\nvalue   1    8    27   64   ?\n1st       7    19   37\n2nd          12   18\n3rd             6\n```",
+    "options": [
+      "100",
+      "117",
+      "125",
+      "128"
+    ]
+  },
+  {
+    "slug": "babbage-cubic-table",
+    "format": "quiz",
+    "title": "The Engine shows its whole table. The third differences are…",
+    "difficulty": 3,
+    "topics": [
+      "sequences",
+      "finite-differences"
+    ],
+    "question": "The Engine shows its whole table. The third differences are constant. What is the next value?\n\n```\nvalue   2    10   30   68   ?\n1st       8    20   38\n2nd         12   18\n3rd            6\n```",
+    "options": [
+      "106",
+      "124",
+      "130",
+      "136"
+    ]
+  },
+  {
+    "slug": "babbage-printer-is",
+    "format": "quiz",
+    "title": "Babbage gave the Analytical Engine a printer, so it could…",
+    "difficulty": 1,
+    "topics": [
+      "history",
+      "hardware"
+    ],
+    "question": "Babbage gave the Analytical Engine a printer, so it could set its own results in type. In a computer today, that part's job is…",
+    "options": [
+      "Input",
+      "Output",
+      "Memory",
+      "The program"
+    ]
   },
   {
     "slug": "floor-1-what-is-a-program",

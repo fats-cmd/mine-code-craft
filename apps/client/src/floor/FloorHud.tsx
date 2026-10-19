@@ -7,12 +7,11 @@ import {
     approachCleared,
     type FloorProgress,
     type RoomId,
-    type TaskFormat,
 } from "@mcc/shared"
 import { isTyping } from "../chat/typing"
 import { useFloor, type Interactable } from "./FloorContext"
 import { ADA_NOTES, GUIDE_LINES } from "./layout"
-import HenchmanFight from "./HenchmanFight"
+import { BossFight, HenchmanFight } from "./Fight"
 
 const GUIDE_MS = 9000
 const VICTORY_LINE = "“You may yet understand what I saw in it.”"
@@ -67,7 +66,8 @@ export default function FloorHud() {
             )}
             <GuideLine />
             {encounter?.kind === "henchman" && <HenchmanFight id={encounter.id} />}
-            {encounter && encounter.kind !== "henchman" && <EncounterPanel what={encounter} />}
+            {encounter?.kind === "boss" && <BossFight beaten={<EncounterPanel what={encounter} />} />}
+            {encounter?.kind === "exam" && <EncounterPanel what={encounter} />}
         </>
     )
 }
@@ -136,21 +136,9 @@ function GuideLine() {
     )
 }
 
-const FORMAT_LABEL: Record<TaskFormat, string> = {
-    quiz: "Quiz",
-    predict: "Predict",
-    fix: "Fix",
-    code: "Code",
-    movement: "Movement",
-}
-
-/**
- * The boss and the Exam Gate. Henchmen fight real Tasks (HenchmanFight); the
- * boss's phases still use Pass and Fail until they're wired the same way (M4b).
- */
+/** The Exam Gate, and Babbage once he's beaten. Fights themselves are in Fight.tsx. */
 function EncounterPanel({ what }: { what: Interactable }) {
-    const { progress, dispatch, closeEncounter } = useFloor()
-    const [note, setNote] = useState<string | null>(null)
+    const { progress, closeEncounter } = useFloor()
 
     useEffect(() => {
         const onKey = (e: KeyboardEvent) => {
@@ -160,78 +148,22 @@ function EncounterPanel({ what }: { what: Interactable }) {
         return () => window.removeEventListener("keydown", onKey)
     }, [closeEncounter])
 
-    let title: string
-    let subtitle: string
-    let format: TaskFormat | null = null
-    let task: string
-
-    if (what.kind === "boss") {
-        const phase = TESTING_FLOOR_BOSS.phases[Math.min(progress.bossPhase, TESTING_FLOOR_BOSS.phases.length - 1)]
-        title = progress.bossBeaten ? "Babbage is beaten" : phase.title
-        subtitle = progress.bossBeaten
-            ? TESTING_FLOOR_BOSS.name
-            : `Phase ${progress.bossPhase + 1} of ${TESTING_FLOOR_BOSS.phases.length} · ${phase.examiner}`
-        format = progress.bossBeaten ? null : phase.format
-        task = progress.bossBeaten ? "The Gate of Notes is open." : phase.task
-    } else {
-        title = "The Floor 1 Exam"
-        subtitle = "Exam Gate"
-        task = approachCleared(progress) && progress.bossBeaten
-            ? "Five mixed Tasks; pass four to climb to Floor 2. The Exam arrives with M7 (it needs sign-in to remember your floor)."
-            : "Beat Charles Babbage first."
-    }
-
-    const fightable = what.kind === "boss" && !progress.bossBeaten
-
-    const pass = () => {
-        if (what.kind === "boss") {
-            dispatch({ type: "phaseCleared" })
-            if (progress.bossPhase + 1 >= TESTING_FLOOR_BOSS.phases.length) closeEncounter()
-            else setNote("Phase cleared. Integrity restored.")
-        }
-    }
-    const fail = () => {
-        dispatch({ type: "hit" })
-        setNote(
-            progress.integrity <= 1
-                ? "Integrity depleted. You regroup at full strength; nothing is lost. Try again."
-                : "Wrong. That cost 1 Integrity. Try again.",
-        )
-    }
+    const boss = what.kind === "boss"
+    const title = boss ? "Babbage is beaten" : "The Floor 1 Exam"
+    const subtitle = boss ? TESTING_FLOOR_BOSS.name : "Exam Gate"
+    const task = boss
+        ? "\u201cHm. You'll do.\u201d The Gate of Notes is open."
+        : approachCleared(progress) && progress.bossBeaten
+          ? "Five mixed Tasks; pass four to climb to Floor 2. The Exam arrives with M7 (it needs sign-in to remember your floor)."
+          : "Beat Charles Babbage first."
 
     return (
         <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-4">
             <div role="dialog" aria-label={title} className="w-full max-w-lg rounded-xl bg-slate-950 p-6 text-slate-100 ring-1 ring-amber-300/40">
                 <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-amber-300/80">{subtitle}</div>
                 <h2 className="mt-1 text-2xl font-bold">{title}</h2>
-                <div className="mt-4 rounded-md bg-slate-900 p-3 text-sm">
-                    {format && (
-                        <span className="mr-2 rounded bg-teal-400/20 px-1.5 py-0.5 font-mono text-xs text-teal-200">{FORMAT_LABEL[format]}</span>
-                    )}
-                    {task}
-                </div>
-                {fightable && (
-                    <>
-                        <p className="mt-3 font-mono text-xs text-slate-500">
-                            Greybox: Babbage's phases get real Tasks next (M4b). Pass or fail by hand for now.
-                        </p>
-                        <div className="mt-3 flex items-center justify-between">
-                            <Integrity value={progress.integrity} />
-                            {note && <span className="text-xs text-amber-200">{note}</span>}
-                        </div>
-                    </>
-                )}
+                <div className="mt-4 rounded-md bg-slate-900 p-3 text-sm">{task}</div>
                 <div className="mt-5 flex gap-3">
-                    {fightable && (
-                        <>
-                            <button onClick={pass} className="flex-1 rounded-md bg-teal-400 px-4 py-2 font-bold text-slate-950 hover:bg-teal-300">
-                                Pass
-                            </button>
-                            <button onClick={fail} className="rounded-md px-4 py-2 font-semibold text-rose-300 ring-1 ring-rose-400/50 hover:bg-rose-950">
-                                Fail
-                            </button>
-                        </>
-                    )}
                     <button onClick={closeEncounter} className="rounded-md px-4 py-2 text-sm ring-1 ring-slate-700 hover:bg-slate-900">
                         Leave <span className="text-slate-500">(Esc)</span>
                     </button>
