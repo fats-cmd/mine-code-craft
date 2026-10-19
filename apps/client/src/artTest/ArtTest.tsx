@@ -10,8 +10,8 @@ import VoxelAvatar from "../avatar/VoxelAvatar"
 import { henchman } from "../floor/models"
 import { FOG_FAR, FOG_NEAR, SKY } from "../floor/Sun"
 
-// The art-direction test bench (/art-test): the same character as a Blender
-// .glb and as a MagicaVoxel .vox, side by side under the game's own light,
+// The art-direction test bench (/art-test): two versions of a character
+// (.glb or .vox, either side), side by side under the game's own light,
 // with a Climber for scale. Drop a file on either side, or put
 // firstbug.glb / firstbug.vox in apps/client/public/art-test/ to load them
 // on open. Dev only; nothing in the game depends on it.
@@ -85,11 +85,8 @@ export default function ArtTest() {
                 e.preventDefault()
                 const file = e.dataTransfer.files[0]
                 if (!file) return
-                // Drop on the left half for the .glb side, the right half for .vox, or let the extension decide.
-                const glb = /\.glb$/i.test(file.name)
-                const vox = /\.vox$/i.test(file.name)
-                const onLeft = e.clientX < window.innerWidth / 2
-                void load(file, glb || (!vox && onLeft) ? setLeft : setRight)
+                // The half you drop on is the side it goes to.
+                void load(file, e.clientX < window.innerWidth / 2 ? setLeft : setRight)
             }}
         >
             <Canvas shadows="percentage" camera={{ fov: 45 }} gl={{ toneMapping: NeutralToneMapping }}>
@@ -108,8 +105,8 @@ export default function ArtTest() {
             </Canvas>
 
             <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-between gap-4 p-4">
-                <Panel title="Blender (.glb)" source={left} stats={stats.left} accept=".glb" onFile={(f) => load(f, setLeft)} />
-                <Panel title="MagicaVoxel (.vox)" source={right} stats={stats.right} accept=".vox" onFile={(f) => load(f, setRight)} />
+                <Panel side="Left" source={left} stats={stats.left} onFile={(f) => load(f, setLeft)} />
+                <Panel side="Right" source={right} stats={stats.right} onFile={(f) => load(f, setRight)} />
             </div>
 
             <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-center justify-center gap-2 bg-black/50 p-3 text-sm">
@@ -127,7 +124,7 @@ export default function ArtTest() {
                         <span className="w-12 font-mono">{fitHeight.toFixed(1)} m</span>
                     </label>
                 )}
-                <span className="text-white/50">Drag to orbit · scroll to zoom · drop a .glb or .vox anywhere</span>
+                <span className="text-white/50">Drag to orbit · scroll to zoom · drop a .glb or .vox on either half</span>
             </div>
             {error && <div className="absolute left-1/2 top-1/2 -translate-x-1/2 rounded bg-red-600/90 px-4 py-2">{error}</div>}
         </div>
@@ -148,14 +145,25 @@ function Toggle({ on, set, children }: { on: boolean; set: (v: boolean) => void;
     )
 }
 
-function Panel({ title, source, stats, accept, onFile }: { title: string; source: Source; stats?: Stats; accept: string; onFile: (f: File) => void }) {
+/** Names what is actually loaded, whichever side it was dropped on. */
+const KIND_NAME: Record<Source["kind"], string> = {
+    glb: "Blender (.glb)",
+    vox: "MagicaVoxel (.vox)",
+    builtin: "Built in code",
+    empty: "Empty",
+}
+
+function Panel({ side, source, stats, onFile }: { side: string; source: Source; stats?: Stats; onFile: (f: File) => void }) {
     return (
         <div className="pointer-events-auto w-80 rounded-lg bg-black/60 p-3 text-sm">
             <div className="flex items-center justify-between">
-                <h2 className="font-semibold text-amber-300">{title}</h2>
+                <h2 className="font-semibold text-amber-300">
+                    <span className="mr-2 text-xs font-normal uppercase tracking-wide text-white/40">{side}</span>
+                    {KIND_NAME[source.kind]}
+                </h2>
                 <label className="cursor-pointer rounded bg-white/10 px-2 py-0.5 text-xs hover:bg-white/20">
                     Load…
-                    <input type="file" accept={accept} className="hidden" onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])} />
+                    <input type="file" accept=".glb,.vox" className="hidden" onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])} />
                 </label>
             </div>
             <div className="mt-1 truncate text-white/70">{source.kind === "empty" ? "Nothing loaded: drop a file here" : source.name}</div>

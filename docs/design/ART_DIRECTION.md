@@ -1,5 +1,7 @@
 # Art direction: clean voxel, low poly
 
+> **Under review for characters:** how henchmen and Examiners get made (by hand, AI-generated and cleaned up, or Blender) is being explored in [ART_EXPLORATION](./ART_EXPLORATION.md). This page stays in force until that's decided.
+
 The look of the Tower, set 2026-10-14 from the owner's four references:
 
 - a low-poly voxel city;
