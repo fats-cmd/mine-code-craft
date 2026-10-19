@@ -1,0 +1,27 @@
+# Floor 1, Babbage's phase 2 (a retry): swapping two Store columns needs a spare one.
+title: The Swapping Cards
+difficulty: 2
+topics: [variables, tracing, loops]
+prompt: v4 is a spare Store column. The cards swap v1 and v2, twice. What's in each column at the end? Type the exact output.
+python: |
+  v1 = 5
+  v2 = 9
+  v3 = 0
+  for _ in range(2):
+      v4 = v1
+      v1 = v2
+      v2 = v4
+      v3 = v3 + 1
+  print(v1, v2, v3, v4)
+javascript: |
+  let v1 = 5
+  let v2 = 9
+  let v3 = 0
+  let v4
+  for (let n = 0; n < 2; n++) {
+    v4 = v1
+    v1 = v2
+    v2 = v4
+    v3 = v3 + 1
+  }
+  console.log(v1, v2, v3, v4)

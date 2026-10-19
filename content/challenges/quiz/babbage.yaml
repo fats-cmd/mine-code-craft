@@ -1,0 +1,73 @@
+# Floor 1, Charles Babbage. Phase 1 (the Difference Engine) asks for the next
+# value of a table, one per column, against the crank: two questions per
+# column so a retry is a fresh one. Phase 2 adds the printer to the Store,
+# Mill and cards questions in floor-1.yaml.
+- id: evens
+  difficulty: 1
+  topics: [sequences, finite-differences]
+  question: "The Difference Engine prints: `2, 4, 6, 8`. What comes next?"
+  options: ["9", "10", "12", "16"]
+  answer: 1
+  explanation: The differences are all 2 (4-2, 6-4, 8-6). Add the difference to the last value, 8 + 2 = 10, with no multiplying needed.
+- id: threes
+  difficulty: 1
+  topics: [sequences, finite-differences]
+  question: "The Difference Engine prints: `5, 8, 11, 14`. What comes next?"
+  options: ["15", "17", "18", "20"]
+  answer: 1
+  explanation: The differences are all 3, so the next value is 14 + 3 = 17.
+- id: squares
+  difficulty: 2
+  topics: [sequences, finite-differences]
+  question: "The Difference Engine prints: `1, 4, 9, 16`. What comes next?"
+  options: ["20", "23", "25", "32"]
+  answer: 2
+  explanation: The differences are 3, 5, 7, and they grow by 2 each time (the second differences are constant). The next difference is 9, so 16 + 9 = 25.
+- id: squares-plus-one
+  difficulty: 2
+  topics: [sequences, finite-differences]
+  question: "The Difference Engine prints: `2, 5, 10, 17`. What comes next?"
+  options: ["24", "26", "27", "34"]
+  answer: 1
+  explanation: The differences are 3, 5, 7, so the second differences are all 2. The next difference is 9, and 17 + 9 = 26.
+- id: cubes
+  difficulty: 3
+  topics: [sequences, finite-differences]
+  question: |
+    The Engine shows its whole table. The third differences are constant. What is the next value?
+
+    ```
+    value   1    8    27   64   ?
+    1st       7    19   37
+    2nd          12   18
+    3rd             6
+    ```
+  options: ["100", "117", "125", "128"]
+  answer: 2
+  explanation: Work up from the bottom. The 3rd difference stays 6, so the next 2nd difference is 18 + 6 = 24. The next 1st difference is 37 + 24 = 61, and the next value is 64 + 61 = 125. That's 5 cubed, found with additions only.
+- id: cubic-table
+  difficulty: 3
+  topics: [sequences, finite-differences]
+  question: |
+    The Engine shows its whole table. The third differences are constant. What is the next value?
+
+    ```
+    value   2    10   30   68   ?
+    1st       8    20   38
+    2nd         12   18
+    3rd            6
+    ```
+  options: ["106", "124", "130", "136"]
+  answer: 2
+  explanation: The 3rd difference stays 6, so the next 2nd difference is 18 + 6 = 24. The next 1st difference is 38 + 24 = 62, and the next value is 68 + 62 = 130.
+- id: printer-is
+  difficulty: 1
+  topics: [history, hardware]
+  question: Babbage gave the Analytical Engine a printer, so it could set its own results in type. In a computer today, that part's job is…
+  options:
+    - Input
+    - Output
+    - Memory
+    - The program
+  answer: 1
+  explanation: The printer is how results leave the machine. That's output, just like a screen today.

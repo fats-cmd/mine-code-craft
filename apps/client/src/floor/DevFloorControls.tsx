@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { button, useControls } from "leva"
 import { TESTING_FLOOR_HENCHMEN, TESTING_FLOOR_ROOMS } from "@mcc/shared"
 import { useFloor } from "./FloorContext"
-import { HENCHMAN_POS, teleportTarget } from "./layout"
+import { BOSS_PAD, HENCHMAN_POS, teleportTarget } from "./layout"
 
 /**
  * ?debug only: jump to any room and fake progress, so a greybox room can
@@ -24,6 +24,7 @@ export default function DevFloorControls() {
                     return [`→ ${h.name}`, button(() => (teleportRef.current = [x, 2, z + 2]))]
                 }),
             ),
+            "→ Charles Babbage": button(() => (teleportRef.current = [BOSS_PAD[0], 2, BOSS_PAD[2] + 2])),
             "beat all henchmen": button(() => TESTING_FLOOR_HENCHMEN.forEach((h) => dispatch({ type: "defeat", id: h.id }))),
             "reset progress": button(() => dispatch({ type: "reset" })),
         }),

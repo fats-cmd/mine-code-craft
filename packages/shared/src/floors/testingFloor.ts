@@ -33,11 +33,31 @@ export interface HenchmanDef {
   wins: number
 }
 
+/**
+ * One stretch of a fight: pass `wins` Challenges drawn from `pool`, in
+ * order, wrapping round, so a retry is never the question just asked.
+ * `seconds` puts a clock on each question (Babbage's crank).
+ */
+export interface TaskStep {
+  pool: readonly string[]
+  wins: number
+  seconds?: number
+}
+
 export interface BossPhaseDef {
   title: string
   examiner: string
   format: TaskFormat
   task: string
+  /** The Examiner's line as the phase opens. */
+  intro: string
+  /** What the phase's progress pips stand for. */
+  progress: string
+  /** The Examiner's attack, named when a wrong answer lands it. */
+  attack: string
+  /** The Guide's advice, shown as the phase opens. */
+  guide?: string
+  steps: readonly TaskStep[]
 }
 
 export type RoomId = 'arrival' | 'abacus' | 'loom' | 'archive' | 'gears' | 'moth' | 'engine' | 'hall'
@@ -106,10 +126,16 @@ export const TESTING_FLOOR_HENCHMEN: readonly HenchmanDef[] = [
   },
 ]
 
-/** The Challenge for a henchman's nth question (0-based), wrapping round its pool. */
-export function henchmanChallenge(h: HenchmanDef, n: number): string {
-  return h.pool[((n % h.pool.length) + h.pool.length) % h.pool.length]
+/** The Challenge for a step's nth question (0-based), wrapping round its pool. */
+export function stepChallenge(step: Pick<TaskStep, 'pool'>, n: number): string {
+  return step.pool[((n % step.pool.length) + step.pool.length) % step.pool.length]
 }
+
+/** A henchman is a one-step fight. */
+export const henchmanSteps = (h: HenchmanDef): TaskStep[] => [{ pool: h.pool, wins: h.wins }]
+
+/** The Challenge for a henchman's nth question (0-based), wrapping round its pool. */
+export const henchmanChallenge = (h: HenchmanDef, n: number): string => stepChallenge(h, n)
 
 /** Floor 1's boss: Charles Babbage alone. Ada watches from her balcony (ADR-0013). */
 export const TESTING_FLOOR_BOSS = {
@@ -118,20 +144,42 @@ export const TESTING_FLOOR_BOSS = {
     {
       title: 'The Difference Engine',
       examiner: 'Charles Babbage',
-      format: 'predict',
-      task: 'Predict the next value of three difference tables before the crank completes.',
+      format: 'quiz',
+      task: 'Give the next value of three difference tables before the crank completes.',
+      intro: '"My Engine never multiplies. It adds, column by column. Give me the next value before the crank comes round."',
+      progress: 'columns jammed',
+      attack: 'The crank',
+      // The crank speeds up after each jam.
+      steps: [
+        { pool: ['babbage-evens', 'babbage-threes'], wins: 1, seconds: 45 },
+        { pool: ['babbage-squares', 'babbage-squares-plus-one'], wins: 1, seconds: 40 },
+        { pool: ['babbage-cubes', 'babbage-cubic-table'], wins: 1, seconds: 35 },
+      ],
     },
     {
       title: 'The Mill and the Store',
       examiner: 'Charles Babbage',
       format: 'predict',
-      task: 'Map the Store, Mill and cards to a modern computer, then trace what each Store column holds after the cards run.',
+      task: 'Map the Store, Mill, cards and printer to a modern computer, then trace what each Store column holds after the cards run.',
+      intro: '"Every engine that will ever be built has a Store and a Mill. Show me you know which is which, then run my cards by hand."',
+      progress: 'Store columns locked',
+      attack: 'The card storm',
+      steps: [
+        { pool: ['floor-1-store-is', 'floor-1-mill-is', 'floor-1-cards-are', 'babbage-printer-is'], wins: 3 },
+        { pool: ['store-and-mill', 'store-and-mill-loop', 'store-and-mill-swap'], wins: 1 },
+      ],
     },
     {
       title: 'The Analytical Engine',
       examiner: 'Charles Babbage',
       format: 'code',
       task: 'Code next_value(sequence): predict the next term using finite differences.',
+      intro: '"You have done it by hand. Now make the Engine do it. I never saw it built; you shall run it."',
+      progress: 'Engine running',
+      attack: 'The Engine stalls',
+      guide:
+        'Your first Code Task. Write the function in the editor, press Run to check the examples, then Submit: the hidden cases decide. Difference the sequence until a row is constant, then add back up.',
+      steps: [{ pool: ['next-value'], wins: 1 }],
     },
   ] satisfies BossPhaseDef[],
 } as const

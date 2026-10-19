@@ -47,3 +47,8 @@
 @media (prefers-reduced-motion: reduce) {
   [class*="animate-["] { animation: none !important; }
 }
+/* Babbage's crank: the bar drains as the question's time runs out. */
+@keyframes crank {
+  from { width: 100%; }
+  to { width: 0%; }
+}

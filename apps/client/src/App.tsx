@@ -20,11 +20,14 @@ import { FOG_FAR, FOG_NEAR, SKY } from "./floor/Sun"
 import FloorHud from "./floor/FloorHud"
 import DevFloorControls, { DevPosition } from "./floor/DevFloorControls"
 import TrialApp from "./trial/TrialApp"
+import ArtTest from "./artTest/ArtTest"
 
 export default function App() {
 	// No router yet: /trial is the challenge engine's dev route (ROADMAP M3).
 	const path = window.location.pathname
 	if (path === "/trial" || path.startsWith("/trial/")) return <TrialApp path={path} />
+	// The art-direction test bench: one character as .glb and as .vox, side by side.
+	if (path === "/art-test") return <ArtTest />
 	return <Game />
 }
 
